@@ -10,7 +10,7 @@ import { logger, ipc, serial } from './plugins'
 
 import { Serial } from './Serial'
 
-Logger.getLogger('DEFAULT').level = LogLevel.trace
+Logger.getLogger('DEFAULT').level = LogLevel.info
 
 new Serial().cleanup()
 

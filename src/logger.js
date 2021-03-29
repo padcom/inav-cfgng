@@ -26,7 +26,7 @@ export class Logger {
   }
 
   #name = 'DEFAULT'
-  #level = LogLevel.debug
+  #level = null
 
   constructor(name, level = null) {
     this.#name = name
@@ -46,27 +46,27 @@ export class Logger {
   }
 
   trace(...args) {
-    if (this.#level <= LogLevel.trace)
+    if (this.level <= LogLevel.trace)
       Logger.#events.emit('trace', { source: this.#name, args })
   }
 
   debug(...args) {
-    if (this.#level <= LogLevel.debug)
+    if (this.level <= LogLevel.debug)
       Logger.#events.emit('debug', { source: this.#name, args })
   }
 
   info(...args) {
-    if (this.#level <= LogLevel.info)
+    if (this.level <= LogLevel.info)
       Logger.#events.emit('info', { source: this.#name, args })
   }
 
   warn(...args) {
-    if (this.#level <= LogLevel.warn)
+    if (this.level <= LogLevel.warn)
       Logger.#events.emit('warn', { source: this.#name, args })
   }
 
   error(...args) {
-    if (this.#level <= LogLevel.error)
+    if (this.level <= LogLevel.error)
       Logger.#events.emit('error', { source: this.#name, args })
   }
 }

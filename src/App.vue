@@ -16,8 +16,15 @@ import Navigation from './components/Navigation'
 import Content from './components/Content'
 import Stats from './components/Stats'
 
+import { hex } from './utils'
+
 import { IdentRequest } from './command/v1/Ident'
 import { VersionRequest } from './command/v1/Version'
+import { FcVersionRequest } from './command/v1/FcVersion'
+import { FcVariantRequest } from './command/v1/FcVariant'
+import { BuildInfoRequest } from './command/v1/BuildInfo'
+import { BoardInfoRequest } from './command/v1/BoardInfo'
+import { UidRequest } from './command/v1/Uid'
 
 export default defineComponent({
   components: {
@@ -32,9 +39,19 @@ export default defineComponent({
       portExists: false
     }
   },
-  async onSerialOpen() {
-    console.log((await this.$serial.query(new IdentRequest())).toString())
-    console.log((await this.$serial.query(new VersionRequest())).toString())
+  async onSerialOpen(port) {
+    this.$log.info(`Serial port ${port} successfully opened`)
+    const version = await this.$serial.query(new VersionRequest())
+    this.$log.info(`MultiWii API version received - ${version.api}`)
+    const fcVersion = await this.$serial.query(new FcVersionRequest())
+    const fcVariant = await this.$serial.query(new FcVariantRequest())
+    this.$log.info(`Flight controller info, identifier: ${fcVariant.variant}, version: ${fcVersion.version}`)
+    const buildInfo = await this.$serial.query(new BuildInfoRequest())
+    this.$log.info(`Running firmware released on: ${buildInfo.date} ${buildInfo.time}`)
+    const boardInfo = await this.$serial.query(new BoardInfoRequest())
+    this.$log.info(`Board: ${boardInfo.identifier}, version: ${boardInfo.version}`)
+    const uid = await this.$serial.query(new UidRequest())
+    this.$log.info(`Unique device ID received - 0x${hex(uid.uid[0], 8, '')}${hex(uid.uid[1], 8, '')}${hex(uid.uid[2], 8, '')}`)
   }
 })
 </script>
