@@ -70,7 +70,7 @@ h1 {
 .container {
   height: 100vh;
   display: grid;
-  grid-template-areas: 
+  grid-template-areas:
     "header header"
     "logs logs"
     "navigation content"

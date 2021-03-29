@@ -21,21 +21,20 @@ export default defineComponent({
     }
   },
   created() {
-    Logger.events.on('trace', ({ source, args }) => {
-      this.logs.push({ timestamp: format(new Date(), 'HH:mm:ss'), level: 'TRACE', source, message: args.map(arg => arg.toString()).join(' ') })
-    })
-    Logger.events.on('debug', ({ source, args }) => {
-      this.logs.push({ timestamp: format(new Date(), 'HH:mm:ss'), level: 'DEBUG', source, message: args.map(arg => arg.toString()).join(' ') })
-    })
-    Logger.events.on('info', ({ source, args }) => {
-      this.logs.push({ timestamp: format(new Date(), 'HH:mm:ss'), level: 'INFO', source, message: args.map(arg => arg.toString()).join(' ') })
-    })
-    Logger.events.on('warn', ({ source, args }) => {
-      this.logs.push({ timestamp: format(new Date(), 'HH:mm:ss'), level: 'WARN', source, message: args.map(arg => arg.toString()).join(' ') })
-    })
-    Logger.events.on('error', ({ source, args }) => {
-      this.logs.push({ timestamp: format(new Date(), 'HH:mm:ss'), level: 'ERROR', source, message: args.map(arg => arg.toString()).join(' ') })
-    })
+    const log = level => ({ source, args }) => {
+      this.logs.push({
+        timestamp: format(new Date(), 'HH:mm:ss'),
+        level,
+        source,
+        message: args.map(arg => arg.toString()).join(' ')
+      })
+    }
+
+    Logger.events.on('trace', log('TRACE'))
+    Logger.events.on('debug', log('DEBUG'))
+    Logger.events.on('info', log('INFO'))
+    Logger.events.on('warn', log('WARN'))
+    Logger.events.on('error', log('ERROR'))
   },
   mounted() {
     Logger.events.on('*', () => {
