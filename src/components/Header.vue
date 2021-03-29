@@ -24,24 +24,15 @@ export default defineComponent({
     this.serialPorts = await this.$serial.list()
   },
   onSerialOpen() {
-    console.log('Connected')
     this.$nextTick(() => {
       this.isConnected = true
     })
   },
   onSerialClose() {
-    console.log('Disonnected')
     this.isConnected = false
   },
   methods: {
-    handlePortOpen() {
-      this.isConnected = true
-    },
-    handlePortClose() {
-      this.isConnected = false
-    },
     connect() {
-      console.log('Opening', this.path)
       this.$serial.open(this.path)
     },
     disconnect() {

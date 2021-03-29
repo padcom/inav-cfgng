@@ -38,11 +38,9 @@ export default defineComponent({
       portExists: false
     }
   },
-  mounted () {
-    this.$ipc.once('system.properties', (sennder, info) => {
-      this.$log.info(`Running OS: ${info.os.type} ${info.os.version}, Chrome: ${info.versions.chrome}, Electron: ${info.versions.electron}`)
-    })
-    this.$ipc.send('system.properties')
+  async mounted () {
+    const info = await this.$ipc.query('system.properties')
+    this.$log.info(`Running OS: ${info.os.type} ${info.os.version}, Chrome: ${info.versions.chrome}, Electron: ${info.versions.electron}`)
   },
   async onSerialOpen(port) {
     this.$log.info(`Serial port ${port} successfully opened`)

@@ -11,6 +11,7 @@ app.on('ready', async () => {
       preload: path.join(app.getAppPath(), './', 'preload.js'),
     }
   })
+  // window.setMenu(null)
   window.maximize()
   window.webContents.openDevTools()
   setTimeout(() => { window.loadURL('http://localhost:1234') }, 1000)
