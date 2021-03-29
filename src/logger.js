@@ -1,6 +1,7 @@
 import EventEmitter from 'eventemitter2'
 
 export const LogLevel = Object.freeze({
+  default: null,
   trace: 0,
   debug: 1,
   info : 2,
@@ -26,7 +27,7 @@ export class Logger {
   }
 
   #name = 'DEFAULT'
-  #level = null
+  #level = LogLevel.default
 
   constructor(name, level = null) {
     this.#name = name
