@@ -6,16 +6,19 @@ import App from './App'
 import router from './router'
 
 import { Logger, LogLevel } from './logger'
+import { logger, ipc, serial } from './plugins'
 
-Logger.events.on('trace', ({ source, args }) => { console.log(`[${source}]`, ...args) })
-Logger.events.on('debug', ({ source, args }) => { console.debug(`[${source}]`, ...args) })
-Logger.events.on('info', ({ source, args }) => { console.info(`[${source}]`, ...args) })
-Logger.events.on('warn', ({ source, args }) => { console.warn(`[${source}]`, ...args) })
-Logger.events.on('error', ({ source, args }) => { console.error(`[${source}]`, ...args) })
+import { Serial } from './Serial'
 
-Logger.getLogger('MSPv1').level = LogLevel.trace
-Logger.getLogger('MSPv2').level = LogLevel.trace
+Logger.getLogger('DEFAULT').level = LogLevel.trace
 
-const app = createApp(App).use(router)
+new Serial().cleanup()
+
+const app = createApp(App)
+  .use(logger)
+  .use(ipc)
+  .use(serial)
+  .use(router)
+
 
 router.isReady().then(() => app.mount('#app'))

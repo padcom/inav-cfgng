@@ -10,7 +10,7 @@ export const LogLevel = Object.freeze({
 
 export class Logger {
   static #loggers = new Map()
-  static #events = new EventEmitter()
+  static #events = new EventEmitter({ wildcard: true })
 
   static get events() {
     return Logger.#events
@@ -28,9 +28,17 @@ export class Logger {
   #name = 'DEFAULT'
   #level = LogLevel.debug
 
-  constructor(name, level = LogLevel.info) {
+  constructor(name, level = null) {
     this.#name = name
     this.#level = level
+  }
+
+  get level() {
+    if (this.#level) {
+      return this.#level
+    } else {
+      return Logger.getLogger('DEFAULT').level
+    }
   }
 
   set level(value) {
@@ -62,3 +70,6 @@ export class Logger {
       Logger.#events.emit('error', { source: this.#name, args })
   }
 }
+
+// initialize default logging level
+Logger.getLogger('DEFAULT').level = LogLevel.info

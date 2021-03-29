@@ -84,6 +84,8 @@ export async function waitForSingleEvent(emitter, event, timeout = 1000) {
   log.trace(`Waiting for event ${event} for ${timeout}ms`)
 
   return new Promise((resolve, reject) => {
+    let cleanup
+
     const timer = setTimeout(() => {
       cleanup()
       log.debug(`Timeout when for event ${event}`)
@@ -98,16 +100,16 @@ export async function waitForSingleEvent(emitter, event, timeout = 1000) {
       else resolve(args)
     }
 
+    cleanup = () => {
+      emitter.off(event, handler)
+      clearTimeout(timer)
+    }
+
     try {
       emitter.once(event, handler)
     } catch (e) {
       cleanup()
       reject(e)
-    }
-
-    const cleanup = () => {
-      emitter.off(event, handler)
-      clearTimeout(timer)
     }
   })
 }
