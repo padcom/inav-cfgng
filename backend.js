@@ -88,4 +88,15 @@ app.on('ready', async () => {
   ipcMain.on('serial.close-all', () => {
     Object.values(PORTS).forEach(port => { port.close() })
   })
+
+  ipcMain.on('system.properties', (event) => {
+    console.log('system.properties request')
+    event.sender.send('system.properties', {
+      os: {
+        type: require('os').type(),
+        version: process.getSystemVersion()
+      },
+      versions: process.versions
+    })
+  })
 })

@@ -44,7 +44,7 @@ export const serial = {
         serial.on('error', this.onSerialError)
         serial.on('data', this.onSerialData)
       },
-      beforeDestroy() {
+      beforeUnmount() {
         serial.off('open', this.onSerialOpen)
         serial.off('close', this.onSerialClose)
         serial.off('error', this.onSerialError)

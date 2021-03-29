@@ -18,7 +18,6 @@ import Stats from './components/Stats'
 
 import { hex } from './utils'
 
-import { IdentRequest } from './command/v1/Ident'
 import { VersionRequest } from './command/v1/Version'
 import { FcVersionRequest } from './command/v1/FcVersion'
 import { FcVariantRequest } from './command/v1/FcVariant'
@@ -39,6 +38,12 @@ export default defineComponent({
       portExists: false
     }
   },
+  mounted () {
+    this.$ipc.once('system.properties', (sennder, info) => {
+      this.$log.info(`Running OS: ${info.os.type} ${info.os.version}, Chrome: ${info.versions.chrome}, Electron: ${info.versions.electron}`)
+    })
+    this.$ipc.send('system.properties')
+  },
   async onSerialOpen(port) {
     this.$log.info(`Serial port ${port} successfully opened`)
     const version = await this.$serial.query(new VersionRequest())
@@ -52,6 +57,9 @@ export default defineComponent({
     this.$log.info(`Board: ${boardInfo.identifier}, version: ${boardInfo.version}`)
     const uid = await this.$serial.query(new UidRequest())
     this.$log.info(`Unique device ID received - 0x${hex(uid.uid[0], 8, '')}${hex(uid.uid[1], 8, '')}${hex(uid.uid[2], 8, '')}`)
+  },
+  async onSerialClose(port) {
+    this.$log.info(`Serial port ${port} successfully closed`)
   }
 })
 </script>
