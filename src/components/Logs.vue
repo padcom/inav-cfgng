@@ -4,7 +4,7 @@
       <div class="timestamp">{{ log.timestamp }}</div>
       <div class="level">{{ log.level }}</div>
       <div class="source">[<strong>{{ log.source }}</strong>]</div>
-      <div class="message">{{ log.message }}</div>
+      <div class="message" v-html="log.message"></div>
     </div>
   </div>
 </template>
@@ -50,8 +50,10 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .logs {
+  background-color: #232323;
   overflow-x: auto;
   overflow-y: scroll;
+  color: #989898;
 }
 .log {
   display: flex;
@@ -69,5 +71,9 @@ export default defineComponent({
 }
 .message {
   padding-left: 4px;
+
+  &::v-deep .success {
+    color: #37A8DB;
+  }
 }
 </style>

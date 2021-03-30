@@ -42,10 +42,10 @@ export default defineComponent({
   },
   async mounted () {
     const info = await this.$ipc.query('system.properties')
-    this.$log.info(`Running OS: ${info.os.type} ${info.os.version}, Chrome: ${info.versions.chrome}, Electron: ${info.versions.electron}`)
+    this.$log.info(`Running OS: <strong>${info.os.type} ${info.os.version}</strong>, Chrome: <strong>${info.versions.chrome}</strong>, Electron: <strong>${info.versions.electron}</strong>`)
   },
   async onSerialOpen(port) {
-    this.$log.info(`Serial port ${port} successfully opened`)
+    this.$log.info(`Serial port ${port} <span class="success">successfully</span> opened`)
     this.$serial.resetProtocolToMSPv1()
     await this.readMSPVersionInformation()
     await this.readFcInformation()
@@ -55,13 +55,13 @@ export default defineComponent({
     this.$serial.emit('ready', port)
   },
   async onSerialClose(port) {
-    this.$log.info(`Serial port ${port} successfully closed`)
+    this.$log.info(`Serial port ${port} <span class="success">successfully</span> closed`)
     this.$router.replace({ path: '/' })
   },
   methods: {
     async readMSPVersionInformation() {
       const version = await this.$serial.query(new VersionRequest())
-      this.$log.info(`MultiWii API version received - ${version.api}`)
+      this.$log.info(`MultiWii API version <span class="success">received</span> - ${version.api}`)
       if (semver.gte(version.api, '2.0.0')) {
         this.$log.info('MultiWii protocol >= 2.0.0 - switching to MSPv2')
         this.$serial.upgradeProtocolToMSPv2()
@@ -70,19 +70,19 @@ export default defineComponent({
     async readFcInformation() {
       const fcVersion = await this.$serial.query(new FcVersionRequest())
       const fcVariant = await this.$serial.query(new FcVariantRequest())
-      this.$log.info(`Flight controller info, identifier: ${fcVariant.variant}, version: ${fcVersion.version}`)
+      this.$log.info(`Flight controller info, identifier: <strong>${fcVariant.variant}</strong>, version: <strong>${fcVersion.version}</strong>`)
     },
     async readFirmwareBuildInformation() {
       const buildInfo = await this.$serial.query(new BuildInfoRequest())
-      this.$log.info(`Running firmware released on: ${buildInfo.date} ${buildInfo.time}`)
+      this.$log.info(`Running firmware released on: <strong>${buildInfo.date} ${buildInfo.time}</strong>`)
     },
     async readBoardInformation() {
       const boardInfo = await this.$serial.query(new BoardInfoRequest())
-      this.$log.info(`Board: ${boardInfo.identifier}, version: ${boardInfo.version}`)
+      this.$log.info(`Board: <strong>${boardInfo.identifier}</strong>, version: <strong>${boardInfo.version}</strong>`)
     },
     async readDeviceIdInformatin() {
       const uid = await this.$serial.query(new UidRequest())
-      this.$log.info(`Unique device ID received - 0x${hex(uid.uid[0], 8, '')}${hex(uid.uid[1], 8, '')}${hex(uid.uid[2], 8, '')}`)
+      this.$log.info(`Unique device ID <span class="success">received</span> - <strong>0x${hex(uid.uid[0], 8, '')}${hex(uid.uid[1], 8, '')}${hex(uid.uid[2], 8, '')}</strong>`)
     }
   }
 })
