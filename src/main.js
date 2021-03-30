@@ -2,6 +2,8 @@ import './main.scss'
 
 import { createApp } from 'vue'
 
+import './extensions'
+
 import App from './App'
 import router from './router'
 

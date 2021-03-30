@@ -10,12 +10,16 @@
 
 <script>
 import { defineComponent } from 'vue'
+import semver from 'semver'
+
 import Header from './components/Header'
 import Logs from './components/Logs'
 import Navigation from './components/Navigation'
 import Content from './components/Content'
 import Stats from './components/Stats'
 
+import { MSPv1 } from './protocol/MSPv1'
+import { MSPv2 } from './protocol/MSPv2'
 import { hex } from './utils'
 
 import { VersionRequest } from './command/v1/Version'
@@ -44,8 +48,13 @@ export default defineComponent({
   },
   async onSerialOpen(port) {
     this.$log.info(`Serial port ${port} successfully opened`)
+    this.$serial.protocol = new MSPv1()
     const version = await this.$serial.query(new VersionRequest())
     this.$log.info(`MultiWii API version received - ${version.api}`)
+    if (semver.gte(version.api, '2.0.0')) {
+      this.$log.info('MultiWii protocol >= 2.0.0 - switching to MSPv2')
+      this.$serial.protocol = new MSPv2()
+    }
     const fcVersion = await this.$serial.query(new FcVersionRequest())
     const fcVariant = await this.$serial.query(new FcVariantRequest())
     this.$log.info(`Flight controller info, identifier: ${fcVariant.variant}, version: ${fcVersion.version}`)

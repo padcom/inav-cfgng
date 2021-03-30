@@ -7,7 +7,9 @@ import { MSPv1 } from './protocol/MSPv1'
 import { MSPv2 } from './protocol/MSPv2'
 
 export class Serial extends EventEmitter {
-  protocol = new MSPv1()
+  static MSPv1 = new MSPv1()
+  static MSPv2 = new MSPv2()
+  protocol = Serial.MSPv1
   #path = null
   #isDestroyed = false
   #buffer = Buffer.from([])
@@ -105,16 +107,16 @@ export class Serial extends EventEmitter {
   }
 
   async send(request) {
-    const { code, response: ResponseClass } = await registry.getCommandByCode(request.command)
+    const { code } = await registry.getCommandByCode(request.command)
     const buffer = this.protocol.encode(MSP.DIRECTION_TO_MSC, code, request.payload)
     return this.write(buffer)
   }
 
-  async query(request) {
+  async query(request, timeout = 1000, retries = 10) {
     await this.send(request)
-    for (let i = 10; i >= 0; i--) {
+    for (let i = retries; i >= 0; i--) {
       try {
-        const [ , response ] = await waitForSingleEvent(this, 'data')
+        const [ , response ] = await waitForSingleEvent(this, 'data', timeout)
         return response
       } catch (e) {
         if (e.message !== 'Timeout' || i === 0) {
