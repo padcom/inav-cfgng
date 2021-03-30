@@ -1,20 +1,18 @@
 import './main.scss'
 
-import { createApp } from 'vue'
-
+import './plyfills'
 import './extensions'
 
-import App from './App'
-import router from './router'
-
 import { Logger, LogLevel } from './logger'
-import { logger, ipc, serial } from './plugins'
-
-import { Serial } from './Serial'
-
 Logger.getLogger('DEFAULT').level = LogLevel.info
 
+import { Serial } from './Serial'
 new Serial().cleanup()
+
+import { createApp } from 'vue'
+import App from './App.vue'
+import { logger, ipc, serial } from './plugins'
+import { router } from './router'
 
 const app = createApp(App)
   .use(logger)

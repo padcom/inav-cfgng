@@ -4,12 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently --kill-others \"npm run inav:dev\" \"npm run electron:dev\" ",
-    "inav:dev": "parcel index.html",
-    "electron:dev": "electron backend.js",
+    "start": "electron backend.js",
     "postinstall": "electron-rebuild"
   },
-  "author": "",
+  "author": "Matthias Hryniszak <padcom@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "date-fns": "^2.19.0",
@@ -21,13 +19,14 @@
     "vue-router": "^4.0.5"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.13.0",
-    "@babel/plugin-proposal-private-methods": "^7.13.0",
-    "@parcel/transformer-sass": "^2.0.0-beta.2",
-    "@parcel/transformer-vue": "^2.0.0-beta.2",
+    "@vitejs/plugin-vue": "^1.2.0",
+    "buffer": "^5.7.1",
     "concurrently": "^6.0.0",
     "eventemitter2": "^6.4.4",
-    "parcel": "^2.0.0-beta.2",
-    "sass": "^1.32.8"
-  }
+    "sass": "^1.32.8",
+    "vite": "^2.1.4"
+  },
+  "browserslist": [
+    "Chrome 89"
+  ]
 }

@@ -28,7 +28,6 @@ export class Serial extends EventEmitter {
   }
 
   upgradeProtocolToMSPv2() {
-    console.log('Serial.MSPv2', Serial.MSPv2)
     this.#protocol = Serial.MSPv2
   }
 

@@ -1,21 +1,11 @@
 const path = require('path')
-const { app, ipcMain, BrowserWindow } = require('electron')
 const SerialPort = require('serialport')
+const { createServer } = require('vite')
+const { app, ipcMain, BrowserWindow } = require('electron')
 
 const PORTS = {}
 
-app.on('ready', async () => {
-  const window = new BrowserWindow({
-    webPreferences: {
-      devTools: true,
-      preload: path.join(app.getAppPath(), './', 'preload.js'),
-    }
-  })
-  // window.setMenu(null)
-  window.maximize()
-  window.webContents.openDevTools()
-  setTimeout(() => { window.loadURL('http://localhost:1234') }, 1000)
-  
+async function initializeSerialPort() {
   ipcMain.on('serial.open', (event, path) => {
     if (!PORTS[path]) {
       console.log('Opening port', path)
@@ -100,4 +90,28 @@ app.on('ready', async () => {
       versions: process.versions
     })
   })
+}
+
+async function initializeBuildProcess() {
+  const server = await createServer({})
+  await server.listen()
+}
+
+async function initializeMainWindow() {
+  const window = new BrowserWindow({
+    webPreferences: {
+      devTools: true,
+      preload: path.join(app.getAppPath(), './', 'preload.js'),
+    }
+  })
+  // window.setMenu(null)
+  window.maximize()
+  window.webContents.openDevTools()
+  window.loadURL('http://localhost:3000')
+}
+
+app.on('ready', async () => {
+  await initializeSerialPort()
+  await initializeBuildProcess()
+  await initializeMainWindow()
 })

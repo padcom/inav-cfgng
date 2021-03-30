@@ -12,11 +12,11 @@
 import { defineComponent } from 'vue'
 import semver from 'semver'
 
-import Header from './components/Header'
-import Logs from './components/Logs'
-import Navigation from './components/Navigation'
-import Content from './components/Content'
-import Stats from './components/Stats'
+import Header from './components/Header.vue'
+import Logs from './components/Logs.vue'
+import Navigation from './components/Navigation.vue'
+import Content from './components/Content.vue'
+import Stats from './components/Stats.vue'
 
 import { hex } from './utils'
 
