@@ -92,7 +92,7 @@ async function initializeSerialPort() {
   })
 }
 
-async function initializeBuildProcess() {
+async function initializeFrontendBuildProcess() {
   const server = await createServer({})
   await server.listen()
 }
@@ -112,6 +112,6 @@ async function initializeMainWindow() {
 
 app.on('ready', async () => {
   await initializeSerialPort()
-  await initializeBuildProcess()
+  await initializeFrontendBuildProcess()
   await initializeMainWindow()
 })
