@@ -1,5 +1,5 @@
 <template>
-  <h1>Ports</h1>
+  <PageHeader>Ports</PageHeader>
 
   <Warning>
     <p>
@@ -99,6 +99,7 @@
 <script>
 import { defineComponent } from 'vue'
 
+import PageHeader from '../components/PageHeader.vue'
 import Warning from '../components/Warning.vue'
 import FlagCheckbox from '../components/editors/FlagCheckbox.vue'
 import Select from '../components/editors/Select.vue'
@@ -109,6 +110,7 @@ import { CommonSerialConfigRequest } from '../command/v2/CommonSerialConfig'
 
 export default defineComponent({
   components: {
+    PageHeader,
     Warning,
     FlagCheckbox,
     Select,
@@ -134,13 +136,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-h1 {
-  font-size: 20px;
-  font-weight: 100;
-  border-bottom: solid 1px #37A8DB;
-  padding-bottom: 8px;
-  margin-bottom: 24px;
-}
 
 .warning {
   margin-bottom: 24px;

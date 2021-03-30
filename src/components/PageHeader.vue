@@ -1,0 +1,14 @@
+<template>
+  <h2 class="page-header"><slot /></h2>
+</template>
+
+<style lang="scss" scoped>
+.page-header {
+  font-size: 20px;
+  font-weight: 100;
+  border-bottom: solid 1px #37A8DB;
+  padding-bottom: 8px;
+  margin-bottom: 24px;
+}
+</style>
+
