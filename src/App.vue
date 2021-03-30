@@ -47,24 +47,41 @@ export default defineComponent({
   async onSerialOpen(port) {
     this.$log.info(`Serial port ${port} successfully opened`)
     this.$serial.resetProtocolToMSPv1()
-    const version = await this.$serial.query(new VersionRequest())
-    this.$log.info(`MultiWii API version received - ${version.api}`)
-    if (semver.gte(version.api, '2.0.0')) {
-      this.$log.info('MultiWii protocol >= 2.0.0 - switching to MSPv2')
-      this.$serial.upgradeProtocolToMSPv2()
-    }
-    const fcVersion = await this.$serial.query(new FcVersionRequest())
-    const fcVariant = await this.$serial.query(new FcVariantRequest())
-    this.$log.info(`Flight controller info, identifier: ${fcVariant.variant}, version: ${fcVersion.version}`)
-    const buildInfo = await this.$serial.query(new BuildInfoRequest())
-    this.$log.info(`Running firmware released on: ${buildInfo.date} ${buildInfo.time}`)
-    const boardInfo = await this.$serial.query(new BoardInfoRequest())
-    this.$log.info(`Board: ${boardInfo.identifier}, version: ${boardInfo.version}`)
-    const uid = await this.$serial.query(new UidRequest())
-    this.$log.info(`Unique device ID received - 0x${hex(uid.uid[0], 8, '')}${hex(uid.uid[1], 8, '')}${hex(uid.uid[2], 8, '')}`)
+    await this.readMSPVersionInformation()
+    await this.readFcInformation()
+    await this.readFirmwareBuildInformation()
+    await this.readBoardInformation()
+    await this.readDeviceIdInformatin()
   },
   async onSerialClose(port) {
     this.$log.info(`Serial port ${port} successfully closed`)
+  },
+  methods: {
+    async readMSPVersionInformation() {
+      const version = await this.$serial.query(new VersionRequest())
+      this.$log.info(`MultiWii API version received - ${version.api}`)
+      if (semver.gte(version.api, '2.0.0')) {
+        this.$log.info('MultiWii protocol >= 2.0.0 - switching to MSPv2')
+        this.$serial.upgradeProtocolToMSPv2()
+      }
+    },
+    async readFcInformation() {
+      const fcVersion = await this.$serial.query(new FcVersionRequest())
+      const fcVariant = await this.$serial.query(new FcVariantRequest())
+      this.$log.info(`Flight controller info, identifier: ${fcVariant.variant}, version: ${fcVersion.version}`)
+    },
+    async readFirmwareBuildInformation() {
+      const buildInfo = await this.$serial.query(new BuildInfoRequest())
+      this.$log.info(`Running firmware released on: ${buildInfo.date} ${buildInfo.time}`)
+    },
+    async readBoardInformation() {
+      const boardInfo = await this.$serial.query(new BoardInfoRequest())
+      this.$log.info(`Board: ${boardInfo.identifier}, version: ${boardInfo.version}`)
+    },
+    async readDeviceIdInformatin() {
+      const uid = await this.$serial.query(new UidRequest())
+      this.$log.info(`Unique device ID received - 0x${hex(uid.uid[0], 8, '')}${hex(uid.uid[1], 8, '')}${hex(uid.uid[2], 8, '')}`)
+    }
   }
 })
 </script>
