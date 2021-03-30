@@ -9,7 +9,8 @@ import { MSPv2 } from './protocol/MSPv2'
 export class Serial extends EventEmitter {
   static MSPv1 = new MSPv1()
   static MSPv2 = new MSPv2()
-  protocol = Serial.MSPv1
+
+  #protocol = Serial.MSPv1
   #path = null
   #isDestroyed = false
   #buffer = Buffer.from([])
@@ -20,6 +21,14 @@ export class Serial extends EventEmitter {
     ipc.on('serial.close', this.#closeHandler)
     ipc.on('serial.error', this.#errorHandler)
     ipc.on('serial.data', this.#dataHandler)
+  }
+
+  resetProtocolToMSPv1() {
+    this.#protocol = Serial.MSPv1
+  }
+
+  upgradeProtocolToMSPv2() {
+    this.#protocol = Serial.MSPv2
   }
 
   destroy() {
@@ -47,7 +56,8 @@ export class Serial extends EventEmitter {
 
   #dataHandler = async (sender, path, buffer) => {
     this.#buffer = Buffer.concat([ this.#buffer, buffer ])
-    const ProtocolClass = this.#decodeProtocolClass(this.#buffer)
+    const protocol = this.#decodeProtocol(this.#buffer)
+    const ProtocolClass = protocol.constructor
     const expectedPacketLength = ProtocolClass.decodeExpectedPacketLength(this.#buffer)
     if (expectedPacketLength >= this.#buffer.byteLength) {
       const code = ProtocolClass.decodeCommandCode(this.#buffer)
@@ -58,11 +68,11 @@ export class Serial extends EventEmitter {
     }
   }
 
-  #decodeProtocolClass(buffer) {
+  #decodeProtocol(buffer) {
     if (MSP.decodeProtocolCode(buffer) === MSPv1.PROTOCOL_ID) {
-      return MSPv1
+      return Serial.MSPv1
     } else if (MSP.decodeProtocolCode(buffer) === MSPv2.PROTOCOL_ID) {
-      return MSPv2
+      return Serial.MSPv2
     } else {
       throw new Error('Unknown protocol')
     }
@@ -108,7 +118,7 @@ export class Serial extends EventEmitter {
 
   async send(request) {
     const { code } = await registry.getCommandByCode(request.command)
-    const buffer = this.protocol.encode(MSP.DIRECTION_TO_MSC, code, request.payload)
+    const buffer = this.#protocol.encode(MSP.DIRECTION_TO_MSC, code, request.payload)
     return this.write(buffer)
   }
 
