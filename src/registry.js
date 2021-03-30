@@ -9,10 +9,10 @@ import * as Uid from './command/v1/Uid'
 
 export const registry = new Registry()
 
-registry.register('MSP_API_VERSION', Version.MSP_API_VERSION, Version.VersionRequest, Version.VersionResponse)
-registry.register('MSP_IDENT', Ident.MSP_IDENT, Ident.IdentRequest, Ident.IdentResponse)
-registry.register('MSP_FC_VERSION', FcVersion.MSP_FC_VERSION, FcVersion.FcVersionRequest, FcVersion.FcVersionResponse)
-registry.register('MSP_FC_VARIANT', FcVariant.MSP_FC_VARIANT, FcVariant.FcVariantRequest, FcVariant.FcVariantResponse)
-registry.register('MSP_BUILD_INFO', BuildInfo.MSP_BUILD_INFO, BuildInfo.BuildInfoRequest, BuildInfo.BuildInfoResponse)
-registry.register('MSP_BOARD_INFO', BoardInfo.MSP_BOARD_INFO, BoardInfo.BoardInfoRequest, BoardInfo.BoardInfoResponse)
-registry.register('MSP_UID', Uid.MSP_UID, Uid.UidRequest, Uid.UidResponse)
+registry.registerMPSv1Command(Version)
+registry.registerMPSv1Command(Ident)
+registry.registerMPSv1Command(FcVersion)
+registry.registerMPSv1Command(FcVariant)
+registry.registerMPSv1Command(BuildInfo)
+registry.registerMPSv1Command(BoardInfo)
+registry.registerMPSv1Command(Uid)

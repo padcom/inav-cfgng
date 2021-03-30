@@ -35,10 +35,10 @@ export class Logger {
   }
 
   get level() {
-    if (this.#level) {
+    if (this.#level !== null) {
       return this.#level
     } else {
-      return Logger.getLogger('DEFAULT').level
+      return Logger.getLogger('DEFAULT').#level
     }
   }
 
@@ -68,7 +68,7 @@ export class Logger {
 
   error(...args) {
     if (this.level <= LogLevel.error)
-      Logger.#events.emit('error', { source: this.#name, args })
+      Logger.#events.emit('err', { source: this.#name, args })
   }
 }
 

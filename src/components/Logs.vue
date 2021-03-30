@@ -34,7 +34,7 @@ export default defineComponent({
     Logger.events.on('debug', log('DEBUG'))
     Logger.events.on('info', log('INFO'))
     Logger.events.on('warn', log('WARN'))
-    Logger.events.on('error', log('ERROR'))
+    Logger.events.on('err', log('ERROR'))
   },
   mounted() {
     Logger.events.on('*', () => {

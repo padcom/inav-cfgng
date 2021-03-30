@@ -6,6 +6,44 @@ export class Registry {
   #log = Logger.getLogger('REGISTRY')
   #commands = new Map()
 
+  async registerMPSv1Command(module) {
+    const command = Object.keys(module).find(key => key.startsWith('MSP_'))
+    if (!command) {
+      this.#log.warn('Skipping registration of', module, 'command not found')
+    } else {
+      this.#log.error('Registering v1 command', command)
+
+      const reqClassName = Object.keys(module).find(key => key.endsWith('Request'))
+      const resClassName = Object.keys(module).find(key => key.endsWith('Response'))
+
+      await this.register(
+        command,
+        module[command],
+        module[reqClassName],
+        module[resClassName] || UnknownResponse
+      )
+    }
+  }
+
+  async registerMSPv2Command(module) {
+    const command = Object.keys(module).find(key => key.startsWith('MSP2_') || key.startsWith('MSPV2_'))
+    if (!command) {
+      this.#log.warn('Skipping registration of', module, 'command not found')
+    } else {
+      this.#log.debug('Registering v2 command', module)
+
+      const reqClassName = Object.keys(module).find(key => key.endsWith('Request'))
+      const resClassName = Object.keys(module).find(key => key.endsWith('Response'))
+
+      await this.register(
+        command,
+        commandModule[command],
+        commandModule[reqClassName],
+        commandModule[resClassName] || UnknownResponse
+      )
+    }
+  }
+
   async register(command, code, request, response) {
     if (this.#commands.has(code)) {
       this.#log.error(`Command ${command} with code ${hex(code)}/${code} already registered!`)
