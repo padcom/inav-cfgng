@@ -1,8 +1,21 @@
 <template>
   <div class="navigation">
     <ul>
-      <li><router-link to="/">Home</router-link></li>
-      <li v-if="isSerialReady"><router-link to="/serial-configuration">Ports</router-link></li>
+      <li class="navitem">
+        <router-link to="/">
+          <img class="icon" src="./navigation/cf_icon_welcome_white.svg">
+          <div class="title">Welcome</div>
+        </router-link>
+      </li>
+
+      <div class="divider" />
+
+      <li v-if="isSerialReady" class="navitem">
+        <router-link to="/serial-configuration">
+          <img class="icon" src="./navigation/cf_icon_ports_white.svg">
+          <div class="title">Ports</div>
+        </router-link>
+      </li>
     </ul>
   </div>
 </template>
@@ -28,5 +41,44 @@ export default defineComponent({
 <style lang="scss" scoped>
 .navigation {
   overflow: auto;
+  background-color: #2E2E2E;
+}
+
+.navitem a {
+  display: flex;
+  color: white;
+  opacity: 50%;
+  text-decoration: none;
+  text-shadow: 1px 1px #222;
+  font-size: 14px;
+  padding: 8px;
+  border-top: solid 1px #444;
+
+  &:hover {
+    background-color: gray;
+    border-top: solid 1px gray;
+    opacity: 1;
+  }
+
+  &.router-link-active {
+    background-color: #37A8DB;
+    border-top: solid 1px #37A8DB;
+    opacity: 1;
+  }
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  margin-left: 2px;
+}
+
+.title {
+  margin-left: 8px;
+}
+
+.divider {
+  height: 1px;
+  border-top: solid 1px #181818;
 }
 </style>
