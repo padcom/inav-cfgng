@@ -7,7 +7,7 @@
       When the flight controller firmware detects this the serial port configuration will be reset.
     </p>
     <p>
-      <strong>Note:</strong> Do NOT disable MSP on the first serial port unless you know what you are doing.
+      <strong>Note:</strong> Do <span style="color: red">NOT</span> disable MSP on the first serial port unless you know what you are doing.
       You may have to reflash and erase your configuration if you do.
     </p>
   </Warning>
