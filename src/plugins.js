@@ -34,30 +34,25 @@ export const serial = {
       created() {
         readonly(this, '$serial', serial)
 
-        this.onSerialOpen = this.$options.onSerialOpen.bind(this)
-        this.onSerialReady = this.$options.onSerialReady.bind(this)
-        this.onSerialClose = this.$options.onSerialClose.bind(this)
-        this.onSerialError = this.$options.onSerialError.bind(this)
-        this.onSerialData = this.$options.onSerialData.bind(this)
+        this.onSerialOpen = this.$options.onSerialOpen && this.$options.onSerialOpen.bind(this)
+        this.onSerialReady = this.$options.onSerialReady && this.$options.onSerialReady.bind(this)
+        this.onSerialClose = this.$options.onSerialClose && this.$options.onSerialClose.bind(this)
+        this.onSerialError = this.$options.onSerialError && this.$options.onSerialError.bind(this)
+        this.onSerialData = this.$options.onSerialData && this.$options.onSerialData.bind(this)
 
-        serial.on('open', this.onSerialOpen)
-        serial.on('ready', this.onSerialReady)
-        serial.on('close', this.onSerialClose)
-        serial.on('error', this.onSerialError)
-        serial.on('data', this.onSerialData)
+        if (this.onSerialOpen) serial.on('open', this.onSerialOpen)
+        if (this.onSerialReady) serial.on('ready', this.onSerialReady)
+        if (this.onSerialClose) serial.on('close', this.onSerialClose)
+        if (this.onSerialError) serial.on('error', this.onSerialError)
+        if (this.onSerialData) serial.on('data', this.onSerialData)
       },
       beforeUnmount() {
-        serial.off('open', this.onSerialOpen)
-        serial.off('ready', this.onSerialReady)
-        serial.off('close', this.onSerialClose)
-        serial.off('error', this.onSerialError)
-        serial.off('data', this.onSerialData)
-      },
-      onSerialOpen(path) {},
-      onSerialReady(path) {},
-      onSerialClose(path) {},
-      onSerialError(path, error) {},
-      onSerialData(path, response) {},
+        if (this.onSerialOpen) serial.off('open', this.onSerialOpen)
+        if (this.onSerialReady) serial.off('ready', this.onSerialReady)
+        if (this.onSerialClose) serial.off('close', this.onSerialClose)
+        if (this.onSerialError) serial.off('error', this.onSerialError)
+        if (this.onSerialData) serial.off('data', this.onSerialData)
+      }
     })
   }
 }
