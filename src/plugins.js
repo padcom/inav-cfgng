@@ -6,11 +6,14 @@ export const logger = {
   install(app) {
     app.mixin({
       created() {
-        const parts = this.$options.__file.split('/')
-        const filename = parts[parts.length - 1]
-        const loggerName = filename.split('.')[0]
-        const logger = Logger.getLogger(loggerName)
-        readonly(this, '$log', logger)
+        const file = this.$options.__file
+        if (file) {
+          const parts = file.split('/')
+          const filename = parts[parts.length - 1]
+          const loggerName = filename.split('.')[0]
+          const logger = Logger.getLogger(loggerName)
+          readonly(this, '$log', logger)
+        }
       }
     })
   }

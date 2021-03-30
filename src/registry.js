@@ -7,14 +7,17 @@ import * as BuildInfo from './command/v1/BuildInfo'
 import * as BoardInfo from './command/v1/BoardInfo'
 import * as Uid from './command/v1/Uid'
 import * as StatusEx from './command/v1/StatusEx'
+import * as CommonSerialConfig from './command/v2/CommonSerialConfig'
 
 export const registry = new Registry()
 
-registry.registerMPSv1Command(Version)
-registry.registerMPSv1Command(Ident)
-registry.registerMPSv1Command(FcVersion)
-registry.registerMPSv1Command(FcVariant)
-registry.registerMPSv1Command(BuildInfo)
-registry.registerMPSv1Command(BoardInfo)
-registry.registerMPSv1Command(Uid)
-registry.registerMPSv1Command(StatusEx)
+registry.registerMSPv1Command(Version)
+registry.registerMSPv1Command(Ident)
+registry.registerMSPv1Command(FcVersion)
+registry.registerMSPv1Command(FcVariant)
+registry.registerMSPv1Command(BuildInfo)
+registry.registerMSPv1Command(BoardInfo)
+registry.registerMSPv1Command(Uid)
+registry.registerMSPv1Command(StatusEx)
+
+registry.registerMSPv2Command(CommonSerialConfig)

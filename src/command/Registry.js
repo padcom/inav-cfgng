@@ -6,7 +6,7 @@ export class Registry {
   #log = Logger.getLogger('REGISTRY')
   #commands = new Map()
 
-  async registerMPSv1Command(module) {
+  async registerMSPv1Command(module) {
     const command = Object.keys(module).find(key => key.startsWith('MSP_'))
     if (!command) {
       this.#log.warn('Skipping registration of', module, 'command not found')
@@ -37,9 +37,9 @@ export class Registry {
 
       await this.register(
         command,
-        commandModule[command],
-        commandModule[reqClassName],
-        commandModule[resClassName] || UnknownResponse
+        module[command],
+        module[reqClassName],
+        module[resClassName] || UnknownResponse
       )
     }
   }

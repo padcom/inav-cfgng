@@ -3,7 +3,9 @@
     <Header class="header" />
     <Logs class="logs" />
     <Navigation class="navigation" />
-    <Content class="content" />
+    <Content class="content">
+      <router-view />
+    </Content>
     <Stats class="stats" />
   </div>
 </template>
@@ -35,6 +37,9 @@ export default defineComponent({
     Content,
     Stats
   },
+  async created() {
+    this.$router.replace({ path: '/' })
+  },
   async mounted () {
     const info = await this.$ipc.query('system.properties')
     this.$log.info(`Running OS: ${info.os.type} ${info.os.version}, Chrome: ${info.versions.chrome}, Electron: ${info.versions.electron}`)
@@ -51,6 +56,7 @@ export default defineComponent({
   },
   async onSerialClose(port) {
     this.$log.info(`Serial port ${port} successfully closed`)
+    this.$router.replace({ path: '/' })
   },
   methods: {
     async readMSPVersionInformation() {
@@ -110,13 +116,13 @@ h1 {
 
 .navigation {
   grid-area: navigation;
-  background-color: blue;
 }
 
 .content {
   grid-area: content;
   height: 1fr;
-  background-color: white;
+  background-color: #f8f8f8;
+  padding: 16px 24px;
 }
 
 .stats {

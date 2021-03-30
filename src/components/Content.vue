@@ -1,7 +1,8 @@
 <template>
   <div class="content">
-    <slot />
-    <h1 v-for="index in 20">Content</h1>
+    <slot>
+      <h1 v-for="index in 20">Content</h1>
+    </slot>
   </div>
 </template>
 
