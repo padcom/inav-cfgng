@@ -35,22 +35,26 @@ export const serial = {
         readonly(this, '$serial', serial)
 
         this.onSerialOpen = this.$options.onSerialOpen.bind(this)
+        this.onSerialReady = this.$options.onSerialReady.bind(this)
         this.onSerialClose = this.$options.onSerialClose.bind(this)
         this.onSerialError = this.$options.onSerialError.bind(this)
         this.onSerialData = this.$options.onSerialData.bind(this)
 
         serial.on('open', this.onSerialOpen)
+        serial.on('ready', this.onSerialReady)
         serial.on('close', this.onSerialClose)
         serial.on('error', this.onSerialError)
         serial.on('data', this.onSerialData)
       },
       beforeUnmount() {
         serial.off('open', this.onSerialOpen)
+        serial.off('ready', this.onSerialReady)
         serial.off('close', this.onSerialClose)
         serial.off('error', this.onSerialError)
         serial.off('data', this.onSerialData)
       },
       onSerialOpen(path) {},
+      onSerialReady(path) {},
       onSerialClose(path) {},
       onSerialError(path, error) {},
       onSerialData(path, response) {},

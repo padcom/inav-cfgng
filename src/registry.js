@@ -6,6 +6,7 @@ import * as FcVariant from './command/v1/FcVariant'
 import * as BuildInfo from './command/v1/BuildInfo'
 import * as BoardInfo from './command/v1/BoardInfo'
 import * as Uid from './command/v1/Uid'
+import * as StatusEx from './command/v1/StatusEx'
 
 export const registry = new Registry()
 
@@ -16,3 +17,4 @@ registry.registerMPSv1Command(FcVariant)
 registry.registerMPSv1Command(BuildInfo)
 registry.registerMPSv1Command(BoardInfo)
 registry.registerMPSv1Command(Uid)
+registry.registerMPSv1Command(StatusEx)

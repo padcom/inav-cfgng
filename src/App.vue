@@ -47,6 +47,7 @@ export default defineComponent({
     await this.readFirmwareBuildInformation()
     await this.readBoardInformation()
     await this.readDeviceIdInformatin()
+    this.$serial.emit('ready', port)
   },
   async onSerialClose(port) {
     this.$log.info(`Serial port ${port} successfully closed`)
@@ -95,7 +96,7 @@ h1 {
     "navigation content"
     "stats stats";
   grid-template-columns: 280px 1fr;
-  grid-template-rows: 100px minmax(12px, 120px) 1fr 48px;
+  grid-template-rows: 100px minmax(12px, 120px) 1fr 24px;
 }
 
 .header {
@@ -120,6 +121,9 @@ h1 {
 
 .stats {
   grid-area: stats;
-  background-color: gray;
+  padding-top: 2px;
+  padding-left: 2px;
+  border-top: solid 1px black;
+  margin-bottom: 2px;
 }
 </style>
