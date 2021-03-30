@@ -1,8 +1,7 @@
 {
   "name": "inav-cfgng",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "INAV Configurator - new generation",
   "scripts": {
     "start": "electron backend.js",
     "postinstall": "electron-rebuild"

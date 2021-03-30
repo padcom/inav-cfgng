@@ -1,7 +1,5 @@
 import './main.scss'
-
 import './plyfills'
-import './extensions'
 
 import { Logger, LogLevel } from './logger'
 Logger.getLogger('DEFAULT').level = LogLevel.info
