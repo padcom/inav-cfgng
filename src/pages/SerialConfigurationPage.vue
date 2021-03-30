@@ -146,11 +146,6 @@ export default defineComponent({
   border-collapse: collapse;
   font-size: 12px;
 
-  input[type="checkbox"] {
-    margin-top: -3px;
-    vertical-align: middle;
-  }
-
   select {
     margin-right: 3px;
     padding: 1px;
@@ -200,6 +195,9 @@ td {
   }
   &.msp {
     width: 200px;
+    select {
+      margin-left: 4px;
+    }
   }
   &.telemetry {
     width: 300px;
