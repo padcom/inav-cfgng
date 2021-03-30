@@ -1,5 +1,5 @@
 <template>
-  <h1>Serial port configuration</h1>
+  <h1>Ports</h1>
 
   <Warning>
     <p>
@@ -12,7 +12,7 @@
     </p>
   </Warning>
 
-  <table>
+  <table class="serial-ports">
     <thead>
       <th class="id">Identifier</th>
       <th class="msp">Data</th>
@@ -135,26 +135,73 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 h1 {
-  font-size: 24px;
-  font-weight: normal;
+  font-size: 20px;
+  font-weight: 100;
   border-bottom: solid 1px #37A8DB;
   padding-bottom: 8px;
   margin-bottom: 24px;
 }
+
 .warning {
   margin-bottom: 24px;
 }
 
+.serial-ports {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+
+  input[type="checkbox"] {
+    margin-top: -3px;
+    vertical-align: middle;
+  }
+
+  select {
+    margin-right: 3px;
+    padding: 1px;
+  }
+
+  td, th {
+    border: solid 1px lightgray;
+    border-top: none;
+    padding: 6px 8px;
+  }
+
+  th:first-of-type {
+    border-top-left-radius: 8px;
+    border-left: none;
+  }
+
+  th:last-of-type {
+    border-top-right-radius: 8px;
+    border-right: none;
+  }
+
+  th {
+    background-color: gray;
+    font-size: 12px;
+    color: white;
+    font-weight: normal;
+  }
+
+  tr {
+    background-color: white;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f4f4f4;
+  }
+}
+
 th {
-  text-align: center;
+  text-align: left;
 }
 
 td {
-  text-align: center;
+  text-align: left;
 
   &.id {
     width: 00px;
-    text-align: left;
   }
   &.msp {
     width: 200px;
@@ -163,7 +210,7 @@ td {
     width: 300px;
   }
   &.rx {
-    width: 100px;
+    width: 150px;
   }
   &.sensor {
     width: 300px;

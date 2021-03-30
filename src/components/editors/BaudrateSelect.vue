@@ -35,8 +35,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-select, option {
-  font-weight: bold;
+select {
   text-align: right;
+  background-color: #e0e0e0;
+  border-radius: 3px;
+  border: solid 1px #bbb;
 }
 </style>
