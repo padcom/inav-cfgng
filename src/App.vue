@@ -35,11 +35,6 @@ export default defineComponent({
     Content,
     Stats
   },
-  data() {
-    return {
-      portExists: false
-    }
-  },
   async mounted () {
     const info = await this.$ipc.query('system.properties')
     this.$log.info(`Running OS: ${info.os.type} ${info.os.version}, Chrome: ${info.versions.chrome}, Electron: ${info.versions.electron}`)

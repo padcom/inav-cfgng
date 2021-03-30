@@ -24,9 +24,7 @@ export default defineComponent({
     this.serialPorts = await this.$serial.list()
   },
   onSerialOpen() {
-    this.$nextTick(() => {
-      this.isConnected = true
-    })
+    this.isConnected = true
   },
   onSerialClose() {
     this.isConnected = false
