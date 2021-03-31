@@ -1,6 +1,64 @@
+:root {
+  --input-border-radius: 3px;
+  --input-background-color: #e0e0e0;
+  --input-border: solid 1px #bbb;
+
+  --label-text-shadow-normal: 1px 1px #888;
+  --label-text-shadow-dark: 1px 1px #222;
+
+  --color-info: #37A8DB;
+  --color-error: rgb(255, 0, 0);
+
+  --blue-triangle-down: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+}
+
+@mixin text-shadow-normal {
+  text-shadow: var(--label-text-shadow-normal);
+}
+
+@mixin text-shadow-dark {
+  text-shadow: var(--label-text-shadow-dark);
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
   font-family: arial;
+}
+
+select {
+	font-size: 12px;
+
+  border-radius: var(--input-border-radius);
+  background-color: var(--input-background-color);
+  border: var(--input-border);
+
+	padding: 2px 24px 2px 6px;
+	appearance: none;
+	background-image: var(--blue-triangle-down);
+	background-repeat: no-repeat, repeat;
+	background-position: right 8px top 50%, 0 0;
+	background-size: 8px auto, 100%;
+
+  &:focus {
+    outline: none;
+  }
+
+  &.bigger {
+    padding: 4px 24px 4px 8px;
+  }
+
+  &.dark {
+    color: rgb(187, 187, 187);
+    text-shadow: 1px 1px #222;
+    border: 1px solid black;
+    background-image:
+      var(--blue-triangle-down),
+      linear-gradient(to bottom, #3c3e3d 0%,#262726 100%);
+
+    & option {
+      color: black;
+    }
+  }
 }

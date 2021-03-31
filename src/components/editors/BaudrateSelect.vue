@@ -1,24 +1,20 @@
 <template>
-  <select :value="modelValue" @input="update" v-bind="$attrs">
-    <option v-for="baudrate in baudrates" :key="baudrate.value" :value="baudrate.value">
-      {{ baudrate.label }}
-    </option>
-  </select>
+  <Select v-bind="$attrs" :options="baudrates" />
 </template>
 
 <script>
 import { defineComponent } from 'vue'
 
+import Select from './Select.vue'
 import { BAUDRATE } from '../../models/Serial'
 
 export default defineComponent({
+  components: {
+    Select
+  },
   props: {
-    modelValue: { type: Number, default: null },
     allowedValues: { type: Array, default: BAUDRATE }
   },
-  emits: [
-    'update:modelValue'
-  ],
   computed: {
     baudrates() {
       return BAUDRATE
@@ -33,12 +29,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="scss" scoped>
-select {
-  text-align: right;
-  background-color: #e0e0e0;
-  border-radius: 3px;
-  border: solid 1px #bbb;
-}
-</style>

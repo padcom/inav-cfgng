@@ -25,7 +25,7 @@
       <tr v-for="port in ports" :key="port.identifier">
         <td class="id">{{ port.name }}</td>
         <td class="msp">
-          <FlagCheckbox v-model="port.msp" :flag="PORT_FUNCTION_MASK.MSP" :disabled="port.identifier === 20" />
+          <FlagSwitch v-model="port.msp" :flag="PORT_FUNCTION_MASK.MSP" :disabled="port.identifier === 20" />
           MSP
           <BaudrateSelect
             v-model="port.mspBaudrate"
@@ -34,7 +34,7 @@
         </td>
         <td class="telemetry">
           <Select
-            v-model="port.telemetry"
+            v-model.number="port.telemetry"
             :options="[
               { value: 0, label: 'Disabled' },
               { value: TELEMETRY.FRSKY, label: 'FrSky' },
@@ -52,12 +52,12 @@
           />
         </td>
         <td class="rx">
-          <FlagCheckbox v-model="port.rxSerial" :flag="PORT_FUNCTION_MASK.RX_SERIAL" />
+          <FlagSwitch v-model="port.rxSerial" :flag="PORT_FUNCTION_MASK.RX_SERIAL" />
           Serial RX
         </td>
         <td class="sensor">
           <Select
-            v-model="port.sensor"
+            v-model.number="port.sensor"
             :options="[
               { value: 0, label: 'Disabled' },
               { value: SENSOR.GPS, label: 'GPS' },
@@ -72,7 +72,7 @@
         </td>
         <td class="peripherial">
           <Select
-            v-model="port.peripherial"
+            v-model.number="port.peripherial"
             :options="[
               { value: 0, label: 'Disabled' },
               { value: PERIPHERAL.BLACKBOX, label: 'Blackbox' },
@@ -99,9 +99,9 @@
 <script>
 import { defineComponent } from 'vue'
 
-import PageHeader from '../components/PageHeader.vue'
-import Warning from '../components/Warning.vue'
-import FlagCheckbox from '../components/editors/FlagCheckbox.vue'
+import PageHeader from '../components/common/PageHeader.vue'
+import Warning from '../components/common/Warning.vue'
+import FlagSwitch from '../components/editors/FlagSwitch.vue'
 import Select from '../components/editors/Select.vue'
 import BaudrateSelect from '../components/editors/BaudrateSelect.vue'
 
@@ -112,7 +112,7 @@ export default defineComponent({
   components: {
     PageHeader,
     Warning,
-    FlagCheckbox,
+    FlagSwitch,
     Select,
     BaudrateSelect
   },
@@ -148,7 +148,6 @@ export default defineComponent({
 
   select {
     margin-right: 3px;
-    padding: 1px;
   }
 
   td, th {
@@ -195,9 +194,6 @@ td {
   }
   &.msp {
     width: 200px;
-    select {
-      margin-left: 4px;
-    }
   }
   &.telemetry {
     width: 300px;

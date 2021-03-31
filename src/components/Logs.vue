@@ -73,7 +73,7 @@ export default defineComponent({
   padding-left: 4px;
 
   &::v-deep .success {
-    color: #37A8DB;
+    color: var(--color-info);
   }
 }
 </style>

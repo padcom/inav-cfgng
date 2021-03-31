@@ -107,7 +107,7 @@ h1 {
 
 .header {
   grid-area: header;
-  background-color: red;
+  background-color: #383A39;
 }
 
 .logs {

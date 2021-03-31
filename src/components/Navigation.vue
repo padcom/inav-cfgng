@@ -49,7 +49,7 @@ export default defineComponent({
   color: white;
   opacity: 50%;
   text-decoration: none;
-  text-shadow: 1px 1px #222;
+  text-shadow: var(--label-text-shadow-dark);
   font-size: 14px;
   padding: 8px;
   border-top: solid 1px #444;

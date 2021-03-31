@@ -11,7 +11,7 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: {
-    modelValue: { type: Number, default: null },
+    modelValue: { type: [ String, Number ], default: null },
     options: { type: Array, default: () => [] }
   },
   emits: [
@@ -19,17 +19,8 @@ export default defineComponent({
   ],
   methods: {
     update(e) {
-      this.$emit('update:modelValue', Number.parseInt(e.target.value))
+      this.$emit('update:modelValue', e.target.value)
     } 
   }
 })
 </script>
-
-<style lang="scss" scoped>
-select {
-  text-align: right;
-  background-color: #e0e0e0;
-  border-radius: 3px;
-  border: solid 1px #bbb;
-}
-</style>
