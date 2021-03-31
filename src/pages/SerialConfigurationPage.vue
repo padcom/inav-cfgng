@@ -144,7 +144,7 @@ export default defineComponent({
 .serial-ports {
   width: 100%;
   border-collapse: collapse;
-  font-size: 12px;
+  font-size: var(--default-font-size);
 
   select {
     margin-right: 3px;
@@ -168,7 +168,6 @@ export default defineComponent({
 
   th {
     background-color: gray;
-    font-size: 12px;
     color: white;
     font-weight: normal;
   }

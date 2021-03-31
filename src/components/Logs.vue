@@ -58,7 +58,7 @@ export default defineComponent({
 .log {
   display: flex;
   margin: 2px 0;
-  font-size: 12px;
+  font-size: var(--default-font-size);
 }
 .timestamp {
   width: 50px;

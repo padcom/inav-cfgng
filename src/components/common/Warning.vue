@@ -14,7 +14,7 @@
 .warning::v-deep p {
   -webkit-font-smoothing: antialiased;
   line-height: 18px;
-  font-size: 14px;
+  font-size: calc(var(--default-font-size) + 2px);
   font-weight: 300;
   color: #333;
 }

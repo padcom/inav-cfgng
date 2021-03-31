@@ -63,7 +63,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .stats {
   display: flex;
-  font-size: 12px;
+  font-size: var(--default-font-size);
 }
 .item {
   padding: 2px 4px;

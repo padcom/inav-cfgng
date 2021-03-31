@@ -50,7 +50,7 @@ export default defineComponent({
   opacity: 50%;
   text-decoration: none;
   text-shadow: var(--label-text-shadow-dark);
-  font-size: 14px;
+  font-size: calc(var(--default-font-size) + 2px);
   padding: 8px;
   border-top: solid 1px #444;
 
@@ -61,8 +61,8 @@ export default defineComponent({
   }
 
   &.router-link-active {
-    background-color: #37A8DB;
-    border-top: solid 1px #37A8DB;
+    background-color: var(--color-info);
+    border-top: solid 1px var(--color-info);
     opacity: 1;
   }
 }

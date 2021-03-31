@@ -116,7 +116,7 @@ h1 {
 
 .navigation {
   grid-area: navigation;
-  border-right: solid 4px #37A8DB;
+  border-right: solid 4px var(--color-info);
 }
 
 .content {

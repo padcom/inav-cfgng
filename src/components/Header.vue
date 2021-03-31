@@ -126,7 +126,6 @@ export default defineComponent({
   .wireless {
     color: white;
     text-shadow: var(--label-text-shadow);
-    font-size: 12px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -169,7 +168,6 @@ export default defineComponent({
 
   label {
     color: white;
-    font-size: 12px;
     margin-top: 6px;
   }
 }

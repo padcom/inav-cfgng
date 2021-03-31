@@ -19,6 +19,9 @@ export default defineComponent({
   props: {
     modelValue: { type: Boolean, default: false }
   },
+  emits: [
+    'update:modelValue'
+  ],
   computed: {
     id() {
       return uuid()
@@ -62,7 +65,7 @@ export default defineComponent({
 }
 
 input:checked + .slider {
-  background-color: #37A8DB;
+  background-color: var(--color-info);
 }
 
 input:checked + .slider:before {
