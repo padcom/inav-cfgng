@@ -33,6 +33,9 @@ export default defineComponent({
   async mounted () {
     const info = await this.$ipc.query('system.properties')
     this.$log.info(`Running OS: <strong>${info.os.type} ${info.os.version}</strong>, Chrome: <strong>${info.versions.chrome}</strong>, Electron: <strong>${info.versions.electron}</strong>`)
+  },
+  async onSerialClose() {
+    this.$router.push('/')
   }
 })
 </script>

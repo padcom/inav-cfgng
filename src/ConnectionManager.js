@@ -16,7 +16,6 @@ export class ConnectionManager {
 
   constructor(serial) {
     this.#serial = serial
-    this.#serial.on('open', path => { console.log('DEBUG: serial opened', path)})
   }
 
   async connect(path) {
