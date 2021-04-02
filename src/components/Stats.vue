@@ -1,60 +1,53 @@
 <template>
   <div class="stats">
-    <div v-if="isPortReady" class="item">Cycle time: {{ cycleTime }}us</div>
-    <div v-if="isPortReady" class="item">i2c errors: {{ i2cError }}</div>
-    <div v-if="isPortReady" class="item">Active sensors: {{ activeSensors }}</div>
-    <div v-if="isPortReady" class="item">Profile: {{ profile }}</div>
-    <div v-if="isPortReady" class="item">CPU Load: {{ cpuLoad }}</div>
-    <div v-if="isPortReady" class="item">Arming flags: {{ armingFlags }}</div>
+    <div v-if="status.isPortOpen" class="item">Port: {{ status.serialPortPath }}</div>
+    <div v-if="status.isPortReady" class="item">Cycle time: {{ status.cycleTime }}us</div>
+    <div v-if="status.isPortReady" class="item">i2c errors: {{ status.i2cError }}</div>
+    <div v-if="status.isPortReady" class="item">
+      <span v-for="sensor in sensors" :class="{ error: !sensor.status }">
+        {{ sensor.sensor }}
+        &nbsp;
+      </span>
+    </div>
+    <div v-if="status.isPortReady" class="item">Profile: {{ status.profile }}</div>
+    <div v-if="status.isPortReady" class="item">CPU Load: {{ status.cpuLoad }}</div>
+    <div v-if="status.isPortReady" class="item">Arming flags: {{ status.armingFlags }}</div>
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
-import { StatusExRequest } from '../command/v1/StatusEx'
+import { useStatus } from '../composables/Status'
 
 export default defineComponent({
-  data() {
-    return {
-      isPortReady: false,
-      isStatusUpdating: false,
-      cycleTime: null,
-      i2cError: null,
-      activeSensors: null,
-      profile: null,
-      cpuLoad: null,
-      armingFlags: null
-    }
+  setup() {
+    return { status: useStatus() }
   },
-  onSerialReady(port) {
-    console.log('SerialPort', port, 'is ready to be used')
-    this.isPortReady = true
-    this.timer = setInterval(() => { this.updateStats() }, 200)
-    this.updateStats()
-  },
-  onSerialClose() {
-    clearInterval(this.timer)
-    this.isPortReady = false
-    this.cycleTime = null
-    this.i2cError = null
-    this.activeSensors = null
-    this.profile = null
-    this.cpuLoad = null
-    this.armingFlags = null
-  },
-  methods: {
-    async updateStats() {
-      if (this.isStatusUpdating) return
-      this.isStatusUpdating = true
-      const status = await this.$serial.query(new StatusExRequest())
-      this.isStatusUpdating = false
+  computed: {
+    sensors() {
+      if (!this.status) return ''
 
-      this.cycleTime = status.cycleTime
-      this.i2cError = status.i2cError
-      this.activeSensors = status.activeSensors
-      this.profile = status.profile
-      this.cpuLoad = status.cpuLoad
-      this.armingFlags = status.armingFlags
+      const SENSORS = [
+        'Accelerometer',
+        'Barometer',
+        'Magnetometer',
+        'Gps',
+        'Range Finder',
+        'Optical Flow',
+        'Pitot Tube',
+        'Temperature Sensor',
+      ]
+
+      const sensorNameToFieldName = sensor => {
+        sensor = sensor.replace(' ', '')
+        sensor = sensor[0].toLowerCase() + sensor.substring(1)
+        return sensor
+      }
+
+      return SENSORS.map(sensor => ({
+        sensor,
+        status: this.status.activeSensors[sensorNameToFieldName(sensor)]
+      }))
     }
   }
 })
@@ -69,5 +62,8 @@ export default defineComponent({
   padding: 2px 4px;
   margin-right: 2px;
   border: solid 1px gray;
+}
+.error {
+  color: red;
 }
 </style>

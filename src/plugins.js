@@ -1,6 +1,6 @@
 import { readonly } from './utils'
 import { Logger } from './logger'
-import { Serial } from './Serial'
+import { useSerialPort } from './composables/SerialPort'
 
 export const logger = {
   install(app) {
@@ -31,11 +31,11 @@ export const ipc = {
 
 export const serial = {
   install(app) {
-    const serial = new Serial()
 
     app.mixin({
-      created() {
-        readonly(this, '$serial', serial)
+      beforeCreate() {
+        const serialPort = useSerialPort()
+        readonly(this, '$serial', serialPort)
 
         this.onSerialOpen = this.$options.onSerialOpen && this.$options.onSerialOpen.bind(this)
         this.onSerialReady = this.$options.onSerialReady && this.$options.onSerialReady.bind(this)
@@ -43,18 +43,18 @@ export const serial = {
         this.onSerialError = this.$options.onSerialError && this.$options.onSerialError.bind(this)
         this.onSerialData = this.$options.onSerialData && this.$options.onSerialData.bind(this)
 
-        if (this.onSerialOpen) serial.on('open', this.onSerialOpen)
-        if (this.onSerialReady) serial.on('ready', this.onSerialReady)
-        if (this.onSerialClose) serial.on('close', this.onSerialClose)
-        if (this.onSerialError) serial.on('error', this.onSerialError)
-        if (this.onSerialData) serial.on('data', this.onSerialData)
+        if (this.onSerialOpen) serialPort.on('open', this.onSerialOpen)
+        if (this.onSerialReady) serialPort.on('ready', this.onSerialReady)
+        if (this.onSerialClose) serialPort.on('close', this.onSerialClose)
+        if (this.onSerialError) serialPort.on('error', this.onSerialError)
+        if (this.onSerialData) serialPort.on('data', this.onSerialData)
       },
       beforeUnmount() {
-        if (this.onSerialOpen) serial.off('open', this.onSerialOpen)
-        if (this.onSerialReady) serial.off('ready', this.onSerialReady)
-        if (this.onSerialClose) serial.off('close', this.onSerialClose)
-        if (this.onSerialError) serial.off('error', this.onSerialError)
-        if (this.onSerialData) serial.off('data', this.onSerialData)
+        if (this.onSerialOpen) serialPort.off('open', this.onSerialOpen)
+        if (this.onSerialReady) serialPort.off('ready', this.onSerialReady)
+        if (this.onSerialClose) serialPort.off('close', this.onSerialClose)
+        if (this.onSerialError) serialPort.off('error', this.onSerialError)
+        if (this.onSerialData) serialPort.off('data', this.onSerialData)
       }
     })
   }

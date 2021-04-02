@@ -14,6 +14,8 @@ async function initializeSerialPort() {
       })
       PORTS[path].on('close', () => {
         event.sender.send('serial.close', path)
+        PORTS[path].removeAllListeners()
+        PORTS[path].destroy()
         delete PORTS[path]
       })
       PORTS[path].on('error', error => {
@@ -61,7 +63,9 @@ async function initializeSerialPort() {
   })
 
   ipcMain.on('serial.close-all', () => {
-    Object.values(PORTS).forEach(port => { port.close() })
+    Object.values(PORTS).forEach(port => {
+      port.close()
+    })
   })
 }
 
