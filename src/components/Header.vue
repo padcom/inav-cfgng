@@ -16,8 +16,8 @@
           />
         </div>
         <div class="wireless">
-          <label class="text-shadow-dark">Wireless mode</label>
-          <Switch v-model="wirelessMode" />
+          <label class="text">Wireless mode</label>
+          <Switch v-model="wirelessMode" small />
         </div>
       </div>
     </div>
@@ -143,8 +143,8 @@ export default defineComponent({
     margin-top: 8px;
     margin-right: 0px;
 
-    label {
-      margin-right: 4px;
+    .text {
+      margin-right: 8px;
     }
   }
 }
