@@ -28,7 +28,7 @@
           <FlagSwitch v-model="port.msp" :flag="PORT_FUNCTION_MASK.MSP" :disabled="port.identifier === 20" />
           MSP
           <BaudrateSelect
-            v-model="port.mspBaudrate"
+            v-model.number="port.mspBaudrate"
             :allowedValues="[ '9600', '19200', '38400', '57600', '115200' ]"
           />
         </td>
@@ -47,7 +47,7 @@
             ]"
           />
           <BaudrateSelect
-            v-model="port.telemetryBaudrate"
+            v-model.number="port.telemetryBaudrate"
             :allowedValues="[ 'AUTO', '1200', '2400', '4800', '9600', '19200', '38400', '57600', '115200' ]"
           />
         </td>
@@ -66,13 +66,13 @@
             ]"
           />
           <BaudrateSelect
-            v-model="port.sensorBaudrate"
+            v-model.number="port.sensorBaudrate"
             :allowedValues="[ '9600', '19200', '38400', '57600', '115200' ]"
           />
         </td>
-        <td class="peripherial">
+        <td class="peripheral">
           <Select
-            v-model.number="port.peripherial"
+            v-model.number="port.peripheral"
             :options="[
               { value: 0, label: 'Disabled' },
               { value: PERIPHERAL.BLACKBOX, label: 'Blackbox' },
@@ -87,7 +87,7 @@
             ]"
           />
           <BaudrateSelect
-            v-model="port.peripherialBaudrate"
+            v-model.number="port.peripheralBaudrate"
             :allowedValues="[ '19200', '38400', '57600', '115200', '230400', '250000' ]"
           />
         </td>
@@ -96,12 +96,14 @@
   </table>
 
   <Actions>
-    <button @click="reboot" class="action">Save and Reboot</button>
+    <button @click="saveAndReboot" class="action">Save and Reboot</button>
   </Actions>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
+
+import { sleep } from '../utils'
 
 import PageHeader from '../components/common/PageHeader.vue'
 import Warning from '../components/common/Warning.vue'
@@ -112,8 +114,10 @@ import Actions from '../components/Actions.vue'
 
 import { useConnectionManager } from '../composables/connection-manager'
 
-import { PORT_NAME, PORT_FUNCTION_MASK, TELEMETRY, SENSOR, PERIPHERAL } from '../models/Serial'
+import { PORT_NAME, PORT_FUNCTION_MASK, TELEMETRY, TELEMETRY_MASK, SENSOR, SENSOR_MASK, PERIPHERAL, PERIPHERAL_MASK } from '../models/Serial'
 import { CommonSerialConfigRequest } from '../command/v2/CommonSerialConfig'
+import { CommonSetSerialConfigRequest } from '../command/v2/CommonSetSerialConfig'
+import { EepromWriteRequest } from '../command/v1/EepromWrite'
 
 export default defineComponent({
   components: {
@@ -145,14 +149,37 @@ export default defineComponent({
       this.ports = config.ports.map(port => ({
         ...port,
         name: PORT_NAME[port.identifier],
+        msp: port.functionMask & PORT_FUNCTION_MASK.MSP,
+        rxSerial: port.functionMask & PORT_FUNCTION_MASK.RX_SERIAL,
+        sensor: port.functionMask & SENSOR_MASK,
+        telemetry: port.functionMask & TELEMETRY_MASK,
+        peripheral: port.functionMask & PERIPHERAL_MASK,
       }))
+      console.log(this.ports)
     } finally {
       await this.$scheduler.resume()
     }
   },
   methods: {
-    reboot() {
-      this.connectionManager.reboot()
+    async saveAndReboot() {
+      const request = new CommonSetSerialConfigRequest(this.ports.map(port => ({
+        identifier: port.identifier,
+        functionMask: port.msp | port.telemetry | port.rxSerial | port.sensor | port.peripheral,
+        mspBaudrate: port.mspBaudrate,
+        sensorBaudrate: port.sensorBaudrate,
+        telemetryBaudrate: port.telemetryBaudrate,
+        peripheralBaudrate: port.peripheralBaudrate
+      })))
+
+      await this.$scheduler.pause()
+      try {
+        await this.$serial.query(request)
+        await this.$serial.query(new EepromWriteRequest())
+        await sleep(500)
+        await this.connectionManager.reboot()
+      } finally {
+        await this.$scheduler.resume()
+      }
     }
   }
 })

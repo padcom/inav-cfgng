@@ -30,17 +30,10 @@ export class CommonSerialConfigResponse extends Response {
         mspBaudrate: this.getUint8(i * 9 + 5),
         sensorBaudrate: this.getUint8(i * 9 + 6),
         telemetryBaudrate: this.getUint8(i * 9 + 7),
-        peripherialBaudrate: this.getUint8(i * 9 + 8)
+        peripheralBaudrate: this.getUint8(i * 9 + 8)
       })
     }
 
-    return result.map(port => ({
-      ...port,
-      msp: port.functionMask & PORT_FUNCTION_MASK.MSP,
-      rxSerial: port.functionMask & PORT_FUNCTION_MASK.RX_SERIAL,
-      sensor: port.functionMask & SENSOR_MASK,
-      telemetry: port.functionMask & TELEMETRY_MASK,
-      peripherial: port.functionMask & PERIPHERAL_MASK,
-    }))
+    return result
   }
 }

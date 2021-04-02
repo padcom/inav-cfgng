@@ -33,10 +33,6 @@ scheduler.enqueue(1, new StatusExRequest(), async response => {
   status.arming = response.arming
 })
 
-scheduler.enqueue(100, new UidRequest(), async response => {
-  console.log(response.toString())
-})
-
 serial.on('open', path => {
   status.serialPortPath = path
   status.isPortOpen = true
