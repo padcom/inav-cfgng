@@ -90,3 +90,39 @@ button {
     }
   }
 }
+
+table.data {
+  border-collapse: collapse;
+  font-size: var(--default-font-size);
+
+  td, th {
+    border: solid 1px lightgray;
+    border-top: none;
+    padding: 6px 8px;
+    text-align: left;
+  }
+
+  th:first-of-type {
+    border-top-left-radius: 8px;
+    border-left: none;
+  }
+
+  th:last-of-type {
+    border-top-right-radius: 8px;
+    border-right: none;
+  }
+
+  th {
+    background-color: gray;
+    color: white;
+    font-weight: normal;
+  }
+
+  tr {
+    background-color: white;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f4f4f4;
+  }
+}

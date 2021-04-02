@@ -1,5 +1,5 @@
 <template>
-  <table class="serial-ports">
+  <table class="serial-ports data">
     <thead>
       <th class="id">Identifier</th>
       <th class="msp">Data</th>
@@ -126,12 +126,31 @@ export default defineComponent({
 <style lang="scss" scoped>
 .serial-ports {
   width: 100%;
-  border-collapse: collapse;
-  font-size: var(--default-font-size);
+
+  td {
+    &.id {
+      width: 150px;
+    }
+    &.msp {
+      width: 200px;
+    }
+    &.telemetry {
+      width: 300px;
+    }
+    &.rx {
+      width: 150px;
+    }
+    &.sensor {
+      width: 300px;
+    }
+    &.peripheral {
+      width: 300px;
+    }
+  }
 
   &:deep(.slider) {
-    top: 3px;
-    bottom: -3px;
+    margin-top: 4px;
+    margin-bottom: -4px;
   }
 
   label.item-name {
@@ -140,63 +159,6 @@ export default defineComponent({
 
   select {
     margin-right: 3px;
-  }
-
-  td, th {
-    border: solid 1px lightgray;
-    border-top: none;
-    padding: 6px 8px;
-  }
-
-  th:first-of-type {
-    border-top-left-radius: 8px;
-    border-left: none;
-  }
-
-  th:last-of-type {
-    border-top-right-radius: 8px;
-    border-right: none;
-  }
-
-  th {
-    background-color: gray;
-    color: white;
-    font-weight: normal;
-  }
-
-  tr {
-    background-color: white;
-  }
-
-  tr:nth-child(even) {
-    background-color: #f4f4f4;
-  }
-}
-
-th {
-  text-align: left;
-}
-
-td {
-  text-align: left;
-
-  &.id {
-    width: 150px;
-  }
-  &.msp {
-    width: 200px;
-  }
-  &.telemetry {
-    width: 300px;
-  }
-  &.rx {
-    width: 150px;
-  }
-  &.sensor {
-    width: 300px;
-  }
-  &.peripheral {
-    width: 300px;
   }
 }
 </style>
