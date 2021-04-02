@@ -88,7 +88,8 @@ export class TaskScheduler {
       for (let [ id, { priority, request, handler } ] of this.#tasks) {
         if (this.#index % priority === 0) {
           try {
-            const response = await this.#serial.query(request)
+            const data = typeof request === 'function' ? request() : request
+            const response = await this.#serial.query(data)
             handler(response)
           } catch (e) {
             this.#log.warn('Unable to perform scheduled task', request, ':', e, '- skipping')
