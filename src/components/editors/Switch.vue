@@ -44,12 +44,12 @@ export default defineComponent({
 
 .slider {
   background-color: #ccc;
-  bottom: 1px;
+  bottom: 0px;
   cursor: pointer;
   left: 0;
   position: absolute;
   right: 0;
-  top: -1px;
+  top: 0px;
   transition: .1s;
 }
 

@@ -25,7 +25,7 @@
       <tr v-for="port in ports" :key="port.identifier">
         <td class="id">{{ port.name }}</td>
         <td class="msp">
-          <FlagSwitch v-model="port.msp" :flag="PORT_FUNCTION_MASK.MSP" :disabled="port.identifier === 20" />
+          <FlagSwitch v-model="port.msp" :flag="PORT_FUNCTION_MASK.MSP" />
           MSP
           <BaudrateSelect
             v-model.number="port.mspBaudrate"
@@ -101,7 +101,7 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 
 import PageHeader from '../components/common/PageHeader.vue'
 import Warning from '../components/common/Warning.vue'
@@ -110,9 +110,19 @@ import Select from '../components/editors/Select.vue'
 import BaudrateSelect from '../components/editors/BaudrateSelect.vue'
 import Actions from '../components/Actions.vue'
 
+import {
+  PORT_NAME,
+  PORT_FUNCTION_MASK,
+  TELEMETRY,
+  TELEMETRY_MASK,
+  SENSOR,
+  SENSOR_MASK,
+  PERIPHERAL,
+  PERIPHERAL_MASK
+} from '../models/Serial'
+
 import { useConnectionManager } from '../composables/connection-manager'
 
-import { PORT_NAME, PORT_FUNCTION_MASK, TELEMETRY, TELEMETRY_MASK, SENSOR, SENSOR_MASK, PERIPHERAL, PERIPHERAL_MASK } from '../models/Serial'
 import { CommonSerialConfigRequest } from '../command/v2/CommonSerialConfig'
 import { CommonSetSerialConfigRequest } from '../command/v2/CommonSetSerialConfig'
 import { EepromWriteRequest } from '../command/v1/EepromWrite'
@@ -126,39 +136,46 @@ export default defineComponent({
     BaudrateSelect,
     Actions
   },
-  setup() {
-    return {
-      connectionManager: useConnectionManager()
-    }
-  },
   data() {
     return {
-      ports: [],
-      PORT_FUNCTION_MASK,
-      TELEMETRY,
-      SENSOR,
-      PERIPHERAL,
+      ports: []
     }
   },
-  async mounted() {
-    await this.$scheduler.pause()
-    try {
-      const config = await this.$serial.query(new CommonSerialConfigRequest())
-      this.ports = config.ports.map(port => ({
-        ...port,
-        name: PORT_NAME[port.identifier],
-        msp: port.functionMask & PORT_FUNCTION_MASK.MSP,
-        rxSerial: port.functionMask & PORT_FUNCTION_MASK.RX_SERIAL,
-        sensor: port.functionMask & SENSOR_MASK,
-        telemetry: port.functionMask & TELEMETRY_MASK,
-        peripheral: port.functionMask & PERIPHERAL_MASK,
-      }))
-      console.log(this.ports)
-    } finally {
-      await this.$scheduler.resume()
+  computed: {
+    PORT_FUNCTION_MASK() {
+      return PORT_FUNCTION_MASK
+    },
+    TELEMETRY() {
+      return TELEMETRY
+    },
+    SENSOR() {
+      return SENSOR
+    },
+    PERIPHERAL() {
+      return PERIPHERAL
     }
+  },
+  mounted() {
+    this.readPortSettings()
   },
   methods: {
+    async readPortSettings() {
+      await this.$scheduler.pause()
+      try {
+        const response = await this.$serial.query(new CommonSerialConfigRequest())
+        this.ports = response.ports.map(port => ({
+          ...port,
+          name: PORT_NAME[port.identifier],
+          msp: port.functionMask & PORT_FUNCTION_MASK.MSP,
+          rxSerial: port.functionMask & PORT_FUNCTION_MASK.RX_SERIAL,
+          sensor: port.functionMask & SENSOR_MASK,
+          telemetry: port.functionMask & TELEMETRY_MASK,
+          peripheral: port.functionMask & PERIPHERAL_MASK,
+        }))
+      } finally {
+        await this.$scheduler.resume()
+      }
+    },
     async saveAndReboot() {
       const ports = this.ports.map(port => ({
         identifier: port.identifier,
@@ -175,7 +192,7 @@ export default defineComponent({
       try {
         await this.$serial.query(request)
         await this.$serial.query(new EepromWriteRequest())
-        await this.connectionManager.reboot()
+        await useConnectionManager().reboot()
       } finally {
         await this.$scheduler.resume()
       }
@@ -185,7 +202,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-
 .warning {
   margin-bottom: 24px;
 }
@@ -194,6 +210,11 @@ export default defineComponent({
   width: 100%;
   border-collapse: collapse;
   font-size: var(--default-font-size);
+
+  &:deep(.slider) {
+    top: 3px;
+    bottom: -3px;
+  }
 
   select {
     margin-right: 3px;
