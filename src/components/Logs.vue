@@ -72,7 +72,7 @@ export default defineComponent({
 .message {
   padding-left: 4px;
 
-  &::v-deep .success {
+  &:deep(.success) {
     color: var(--color-info);
   }
 }

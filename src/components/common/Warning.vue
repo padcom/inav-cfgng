@@ -11,7 +11,7 @@
   border: solid 1px #ffe55f;
   border-radius: 4px;
 }
-.warning::v-deep p {
+.warning:deep(p) {
   -webkit-font-smoothing: antialiased;
   line-height: 18px;
   font-size: calc(var(--default-font-size) + 2px);
