@@ -103,8 +103,6 @@
 <script>
 import { defineComponent } from 'vue'
 
-import { sleep } from '../utils'
-
 import PageHeader from '../components/common/PageHeader.vue'
 import Warning from '../components/common/Warning.vue'
 import FlagSwitch from '../components/editors/FlagSwitch.vue'
@@ -162,20 +160,21 @@ export default defineComponent({
   },
   methods: {
     async saveAndReboot() {
-      const request = new CommonSetSerialConfigRequest(this.ports.map(port => ({
+      const ports = this.ports.map(port => ({
         identifier: port.identifier,
         functionMask: port.msp | port.telemetry | port.rxSerial | port.sensor | port.peripheral,
         mspBaudrate: port.mspBaudrate,
         sensorBaudrate: port.sensorBaudrate,
         telemetryBaudrate: port.telemetryBaudrate,
         peripheralBaudrate: port.peripheralBaudrate
-      })))
+      }))
+
+      const request = new CommonSetSerialConfigRequest(ports)
 
       await this.$scheduler.pause()
       try {
         await this.$serial.query(request)
         await this.$serial.query(new EepromWriteRequest())
-        await sleep(500)
         await this.connectionManager.reboot()
       } finally {
         await this.$scheduler.resume()
