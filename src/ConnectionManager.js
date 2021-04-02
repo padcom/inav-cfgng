@@ -16,6 +16,12 @@ export class ConnectionManager {
 
   constructor(serial) {
     this.#serial = serial
+    this.#serial.on('close', () => {
+      this.#log.info('Serial port disconnected')
+    })
+    this.#serial.on('ready', () => {
+      this.#log.info('Serial port connected and ready')
+    })
   }
 
   async connect(path) {

@@ -36,7 +36,7 @@ export default defineComponent({
   },
   async onSerialClose() {
     this.$router.push('/')
-  }
+  },
 })
 </script>
 
