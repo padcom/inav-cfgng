@@ -8,52 +8,36 @@ const PORTS = {}
 async function initializeSerialPort() {
   ipcMain.on('serial.open', (event, path) => {
     if (!PORTS[path]) {
-      console.log('Opening port', path)
       PORTS[path] = new SerialPort(path)
       PORTS[path].on('open', () => {
-        console.log('serial.open', path)
         event.sender.send('serial.open', path)
       })
       PORTS[path].on('close', () => {
-        console.log('serial.close', path)
         event.sender.send('serial.close', path)
         delete PORTS[path]
       })
       PORTS[path].on('error', error => {
-        console.log('serial.error', path, error)
         event.sender.send('serial.error', path, error)
       })
       PORTS[path].on('data', buffer => {
-        console.log('serial.data', path, buffer)
         event.sender.send('serial.data', path, buffer)
       })
-    } else {
-      console.log('Port', path, 'already open')
     }
   })
 
   ipcMain.on('serial.close', (event, path) => {
     if (PORTS[path]) {
-      console.log('Closing port', path)
       PORTS[path].close()
-    } else {
-      console.log('Port', path, 'not opened')
     }
   })
 
   ipcMain.on('serial.write', (event, path, buffer) => {
-    console.log('path', path)
     if (PORTS[path]) {
-      console.log('Writting to port', path, 'content', buffer)
-      console.log('result:', PORTS[path].write(buffer, (err, ...args) => {
+      PORTS[path].write(buffer, (err, ...args) => {
         if (err) {
           console.error('Error writing to serial port', err)
-        } else {
-          console.log('Written', ...args)
         }
-      }))
-    } else {
-      console.log('Port', path, 'is closed')
+      })
     }
   })
 
@@ -79,9 +63,10 @@ async function initializeSerialPort() {
   ipcMain.on('serial.close-all', () => {
     Object.values(PORTS).forEach(port => { port.close() })
   })
+}
 
+async function initializeSystemRequests() {
   ipcMain.on('system.properties', (event) => {
-    console.log('system.properties request')
     event.sender.send('system.properties', {
       os: {
         type: require('os').type(),
@@ -112,6 +97,7 @@ async function initializeMainWindow() {
 
 app.on('ready', async () => {
   await initializeSerialPort()
+  await initializeSystemRequests()
   await initializeFrontendBuildProcess()
   await initializeMainWindow()
 })
