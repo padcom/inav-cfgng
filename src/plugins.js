@@ -32,10 +32,10 @@ export const ipc = {
 
 export const serial = {
   install(app) {
+    const serialPort = useSerialPort()
 
     app.mixin({
       beforeCreate() {
-        const serialPort = useSerialPort()
         readonly(this, '$serial', serialPort)
 
         this.onSerialOpen = this.$options.onSerialOpen && this.$options.onSerialOpen.bind(this)

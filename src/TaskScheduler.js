@@ -92,7 +92,10 @@ export class TaskScheduler {
             const response = await this.#serial.query(data)
             handler(response)
           } catch (e) {
-            this.#log.warn('Unable to perform scheduled task', request, ':', e, '- skipping')
+            const isSerialPortOpen = await this.#serial.isOpen()
+            if (isSerialPortOpen) {
+              this.#log.warn('Unable to perform scheduled task', request, ':', e, '- skipping')
+            }
           }
         }
       }

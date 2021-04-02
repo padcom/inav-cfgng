@@ -36,11 +36,11 @@ export class ConnectionManager {
   }
 
   async disconnect() {
-    if (this.#serial.isOpen) {
+    const isPortOpen = await this.#serial.isOpen(this.#path)
+    if (isPortOpen) {
       this.#serial.close()
+      await waitForSingleEvent(this.#serial, 'close')
     }
-
-    await waitForSingleEvent(this.#serial, 'close')
   }
 
   async reconnect() {
@@ -50,6 +50,8 @@ export class ConnectionManager {
 
   async reboot() {
     this.#serial.send(new SetRebootRequest())
+    this.#serial.close()
+    // wait a little bit for the controller to start rebooting
     await sleep(1000)
     this.reconnect()
   }
