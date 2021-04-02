@@ -6,6 +6,16 @@
   </div>
 </template>
 
+<script>
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  props: {
+    showActions: { type: Boolean, default: false }
+  }
+})
+</script>
+
 <style lang="scss" scoped>
 .content {
   overflow: auto;

@@ -73,9 +73,18 @@ h1 {
 
 .content {
   grid-area: content;
-  height: 1fr;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
   background-color: #f8f8f8;
-  padding: 16px 24px;
+  padding: 16px 24px 0 24px;
+
+  div:last-of-type() {
+    margin-top: auto;
+    background-color: blue;
+  }
 }
 
 .stats {

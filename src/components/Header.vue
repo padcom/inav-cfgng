@@ -1,8 +1,6 @@
 <template>
   <div class="header">
-    <div class="logo">
-      <button @click="reboot">Reboot</button>
-    </div>
+    <div class="logo"></div>
     <div v-if="!isConnected" class="connection-controls">
       <div class="port-selector">
         <div class="port-properties">
@@ -99,9 +97,6 @@ export default defineComponent({
     },
     disconnect() {
       this.connectionManager.disconnect()
-    },
-    async reboot() {
-      await this.connectionManager.reboot()
     }
   }
 })

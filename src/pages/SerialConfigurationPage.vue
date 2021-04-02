@@ -94,6 +94,10 @@
       </tr>
     </tbody>
   </table>
+
+  <Actions>
+    <button @click="reboot" class="action">Save and Reboot</button>
+  </Actions>
 </template>
 
 <script>
@@ -104,6 +108,9 @@ import Warning from '../components/common/Warning.vue'
 import FlagSwitch from '../components/editors/FlagSwitch.vue'
 import Select from '../components/editors/Select.vue'
 import BaudrateSelect from '../components/editors/BaudrateSelect.vue'
+import Actions from '../components/Actions.vue'
+
+import { useConnectionManager } from '../composables/connection-manager'
 
 import { PORT_NAME, PORT_FUNCTION_MASK, TELEMETRY, SENSOR, PERIPHERAL } from '../models/Serial'
 import { CommonSerialConfigRequest } from '../command/v2/CommonSerialConfig'
@@ -114,7 +121,13 @@ export default defineComponent({
     Warning,
     FlagSwitch,
     Select,
-    BaudrateSelect
+    BaudrateSelect,
+    Actions
+  },
+  setup() {
+    return {
+      connectionManager: useConnectionManager()
+    }
   },
   data() {
     return {
@@ -135,6 +148,11 @@ export default defineComponent({
       }))
     } finally {
       await this.$scheduler.resume()
+    }
+  },
+  methods: {
+    reboot() {
+      this.connectionManager.reboot()
     }
   }
 })

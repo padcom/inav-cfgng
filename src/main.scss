@@ -69,3 +69,24 @@ select {
     }
   }
 }
+
+button {
+  &.action {
+    font-weight: bold;
+    border: none;
+    color: white;
+    background-color: var(--color-info);
+    padding: 8px 16px;
+    border-radius: 3px;
+    border: solid 1px #3394B5;
+    text-shadow: 0px 1px #3394B5;
+    outline: none;
+    &:hover {
+      cursor: pointer;
+      box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+    }
+    &:active {
+      box-shadow: inset 1px 1px 2px 1px rgba(0,0,0,0.2);
+    }
+  }
+}
