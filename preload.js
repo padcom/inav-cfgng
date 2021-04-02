@@ -1,5 +1,7 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
+ipcRenderer.removeAllListeners()
+
 contextBridge.exposeInMainWorld('ipc', {
   send: (channel, ...data) => {
     ipcRenderer.send(channel, ...data);

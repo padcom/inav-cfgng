@@ -45,17 +45,19 @@ export class Serial extends EventEmitter {
 
   #openHandler = (sender, path) => {
     this.#path = path
+    this.isOpen = true
     this.emit('open', path)
   }
 
   #closeHandler = (sender, path) => {
+    this.isOpen = false
     this.#path = null
     this.#buffer = Buffer.from([])
     this.emit('close', path)
   }
 
   #errorHandler = (sender, path, error) => {
-    this.emit('error', path, error)
+    this.emit('err', path, error)
   }
 
   #dataHandler = async (sender, path, buffer) => {
@@ -110,13 +112,13 @@ export class Serial extends EventEmitter {
 
   async exists (path) {
     ipc.send('serial.exists', path)
-    const [ , exists ] = await waitForSingleEvent('serial.exists')
+    const [ , , exists ] = await waitForSingleEvent(ipc, 'serial.exists')
     return exists
   }
 
   async isOpen (path) {
     ipc.send('serial.is-open', path)
-    const [ , isOpen ] = await waitForSingleEvent('serial.is-open')
+    const [ , , isOpen ] = await waitForSingleEvent(ipc, 'serial.is-open')
     return isOpen
   }
 

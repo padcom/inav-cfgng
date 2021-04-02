@@ -1,6 +1,8 @@
 <template>
   <div class="header">
-    <div class="logo"></div>
+    <div class="logo">
+      <button @click="reboot">Reboot</button>
+    </div>
     <div v-if="!isConnected" class="connection-controls">
       <div class="port-selector">
         <div class="port-properties">
@@ -22,7 +24,7 @@
       </div>
     </div>
     <div class="connection-manager">
-      <button v-if="!isConnected" :disabled="serialPort === '' || isConnecting" class="round-button connect" @click="connect">
+      <button v-if="!isConnected" class="round-button connect" @click="connect">
         <img src="./header/cf_icon_usb2_white.svg" width="32" height="32" />
       </button>
       <button v-if="isConnected" class="round-button disconnect" @click="disconnect">
@@ -38,10 +40,17 @@ import { defineComponent } from 'vue'
 import Select from '../components/editors/Select.vue'
 import Switch from '../components/editors/Switch.vue'
 
+import { useConnectionManager } from '../composables/connection-manager'
+
 export default defineComponent({
   components: {
     Select,
     Switch
+  },
+  setup() {
+    return {
+      connectionManager: useConnectionManager()
+    }
   },
   data() {
     return {
@@ -81,11 +90,18 @@ export default defineComponent({
   },
   methods: {
     connect() {
-      this.$serial.open(this.serialPort)
-      this.isConnecting = true
+      if (this.isConnecting) {
+        this.connectionManager.disconnect()
+      } else {
+        this.connectionManager.connect(this.serialPort)
+        this.isConnecting = true
+      }
     },
     disconnect() {
-      this.$serial.close()
+      this.connectionManager.disconnect()
+    },
+    async reboot() {
+      await this.connectionManager.reboot()
     }
   }
 })

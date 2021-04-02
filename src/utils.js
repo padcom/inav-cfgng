@@ -124,6 +124,7 @@ export class Timer extends EventEmitter {
     this.#timeout = ms
     this.#timer = setTimeout(this.#handler, this.#timeout)
     this.#log.trace(`Timer ${this.#timer} started`)
+    return this
   }
 
   stop() {
@@ -133,6 +134,7 @@ export class Timer extends EventEmitter {
       this.#timer = null
       this.#timeout = null
     }
+    return this
   }
 
   reset() {
@@ -142,6 +144,7 @@ export class Timer extends EventEmitter {
       this.#timer = setTimeout(this.#handler, this.#timeout)
       this.#log.trace(`Timer ${this.#timer} started`)
     }
+    return this
   }
 
   #handler = () => {
