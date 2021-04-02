@@ -1,8 +1,11 @@
 import { reactive } from 'vue'
-import { useSerialPort } from './SerialPort'
+import { useSerialPort } from './serial-port'
+import { useTaskScheduler } from './task-scheduler'
 import { StatusExRequest } from '../command/v1/StatusEx'
+import { UidRequest } from '../command/v1/Uid'
 
 const serial = useSerialPort()
+const scheduler = useTaskScheduler(serial)
 
 const status = reactive({
   serialPortPath: null,
@@ -19,26 +22,20 @@ const status = reactive({
   arming: {},
 })
 
-async function statusPollingHandler() {
-  if (status.isPortReady && !status.isStatusUpdating) {
-    status.isStatusUpdating = true
-    try {
-      const result = await serial.query(new StatusExRequest())
-      status.cycleTime = result.cycleTime
-      status.i2cError = result.i2cError
-      status.activeSensorsFlag = result.activeSensorsFlag
-      status.activeSensors = result.activeSensors
-      status.profile = result.profile
-      status.cpuLoad = result.cpuLoad
-      status.armingFlags = result.armingFlags
-      status.arming = result.arming
-    } finally {
-      status.isStatusUpdating = false
-    }
-  }
-}
+scheduler.enqueue(1, new StatusExRequest(), async response => {
+  status.cycleTime = response.cycleTime
+  status.i2cError = response.i2cError
+  status.activeSensorsFlag = response.activeSensorsFlag
+  status.activeSensors = response.activeSensors
+  status.profile = response.profile
+  status.cpuLoad = response.cpuLoad
+  status.armingFlags = response.armingFlags
+  status.arming = response.arming
+})
 
-setInterval(statusPollingHandler, 200)
+scheduler.enqueue(100, new UidRequest(), async response => {
+  console.log(response.toString())
+})
 
 serial.on('open', path => {
   status.serialPortPath = path

@@ -126,11 +126,16 @@ export default defineComponent({
     }
   },
   async mounted() {
-    const config = await this.$serial.query(new CommonSerialConfigRequest())
-    this.ports = config.ports.map(port => ({
-      ...port,
-      name: PORT_NAME[port.identifier],
-    }))
+    await this.$scheduler.pause()
+    try {
+      const config = await this.$serial.query(new CommonSerialConfigRequest())
+      this.ports = config.ports.map(port => ({
+        ...port,
+        name: PORT_NAME[port.identifier],
+      }))
+    } finally {
+      await this.$scheduler.resume()
+    }
   }
 })
 </script>

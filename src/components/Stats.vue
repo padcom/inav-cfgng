@@ -1,6 +1,7 @@
 <template>
   <div class="stats">
     <div v-if="status.isPortOpen" class="item">Port: {{ status.serialPortPath }}</div>
+    <div v-if="status.isPortOpen" class="item">Buffer size: {{ bufferSize }}</div>
     <div v-if="status.isPortReady" class="item">Cycle time: {{ status.cycleTime }}us</div>
     <div v-if="status.isPortReady" class="item">i2c errors: {{ status.i2cError }}</div>
     <div v-if="status.isPortReady" class="item">
@@ -17,11 +18,16 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { useStatus } from '../composables/Status'
+import { useStatus } from '../composables/status'
 
 export default defineComponent({
   setup() {
     return { status: useStatus() }
+  },
+  data() {
+    return {
+      queueSize: 0, bufferSize: 0
+    }
   },
   computed: {
     sensors() {
@@ -49,6 +55,9 @@ export default defineComponent({
         status: this.status.activeSensors[sensorNameToFieldName(sensor)]
       }))
     }
+  },
+  onSerialBuffer(buffer) {
+    this.bufferSize = buffer.byteLength
   }
 })
 </script>

@@ -35,10 +35,11 @@ async function initializeSerialPort() {
 
   ipcMain.on('serial.write', (event, path, buffer) => {
     if (PORTS[path]) {
-      PORTS[path].write(buffer, (err, ...args) => {
+      PORTS[path].write(buffer, err => {
         if (err) {
           console.error('Error writing to serial port', err)
         }
+        event.sender.send('serial.write-completed', { error: err || false })
       })
     }
   })

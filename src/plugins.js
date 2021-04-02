@@ -1,6 +1,7 @@
 import { readonly } from './utils'
 import { Logger } from './logger'
-import { useSerialPort } from './composables/SerialPort'
+import { useSerialPort } from './composables/serial-port'
+import { useTaskScheduler } from './composables/task-scheduler'
 
 export const logger = {
   install(app) {
@@ -41,20 +42,36 @@ export const serial = {
         this.onSerialReady = this.$options.onSerialReady && this.$options.onSerialReady.bind(this)
         this.onSerialClose = this.$options.onSerialClose && this.$options.onSerialClose.bind(this)
         this.onSerialError = this.$options.onSerialError && this.$options.onSerialError.bind(this)
-        this.onSerialData = this.$options.onSerialData && this.$options.onSerialData.bind(this)
+        this.onSerialPacketEnqueued = this.$options.onSerialPacketEnqueued && this.$options.onSerialPacketEnqueued.bind(this)
+        this.onSerialPacketDequeued = this.$options.onSerialPacketDequeued && this.$options.onSerialPacketDequeued.bind(this)
+        this.onSerialPacketReceived = this.$options.onSerialPacketReceived && this.$options.onSerialPacketReceived.bind(this)
+        this.onSerialBuffer = this.$options.onSerialBuffer && this.$options.onSerialBuffer.bind(this)
 
         if (this.onSerialOpen) serialPort.on('open', this.onSerialOpen)
         if (this.onSerialReady) serialPort.on('ready', this.onSerialReady)
         if (this.onSerialClose) serialPort.on('close', this.onSerialClose)
         if (this.onSerialError) serialPort.on('error', this.onSerialError)
-        if (this.onSerialData) serialPort.on('data', this.onSerialData)
+        if (this.onSerialPacketEnqueued) serialPort.on('enqueued', this.onSerialPacketEnqueued)
+        if (this.onSerialPacketDequeued) serialPort.on('dequeued', this.onSerialPacketDequeued)
+        if (this.onSerialPacketReceived) serialPort.on('packet', this.onSerialPacketReceived)
+        if (this.onSerialBuffer) serialPort.on('buffer', this.onSerialBuffer)
       },
       beforeUnmount() {
         if (this.onSerialOpen) serialPort.off('open', this.onSerialOpen)
         if (this.onSerialReady) serialPort.off('ready', this.onSerialReady)
         if (this.onSerialClose) serialPort.off('close', this.onSerialClose)
         if (this.onSerialError) serialPort.off('error', this.onSerialError)
-        if (this.onSerialData) serialPort.off('data', this.onSerialData)
+        if (this.onSerialPacket) serialPort.off('packet', this.onSerialPacket)
+      }
+    })
+  }
+}
+
+export const taskScheduler = {
+  install(app) {
+    app.mixin({
+      beforeCreate() {
+        readonly(this, '$scheduler', useTaskScheduler())
       }
     })
   }
