@@ -48,6 +48,7 @@ export class ConnectionManager {
   }
 
   async reboot() {
+    this.#log.info('Rebooting')
     this.#serial.send(new SetRebootRequest())
     this.#serial.close()
     // wait a little bit for the controller to start rebooting
