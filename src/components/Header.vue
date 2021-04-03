@@ -41,6 +41,7 @@ import Switch from '../components/editors/Switch.vue'
 import { useConnectionManager } from '../composables/connection-manager'
 
 export default defineComponent({
+  name: 'Header',
   components: {
     Dropdown,
     Switch

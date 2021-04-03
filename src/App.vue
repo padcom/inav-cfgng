@@ -20,6 +20,7 @@ import Content from './components/Content.vue'
 import Stats from './components/Stats.vue'
 
 export default defineComponent({
+  name: 'App',
   components: {
     Header,
     Logs,

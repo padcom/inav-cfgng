@@ -1,31 +1,54 @@
 {
   "name": "inav-cfgng",
-  "version": "1.0.0",
+  "version": "2.6.1-ng.prealpha-3",
   "description": "INAV Configurator - new generation",
+  "main": "backend.js",
   "scripts": {
     "start": "electron backend.js",
     "build": "vite build",
-    "postinstall": "electron-rebuild"
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "build": {
+    "files": [
+      "./backend.js",
+      "node_modules/**/*",
+      "build/icons/128x128.png",
+      "./preload.js",
+      {
+        "from": "dist/app",
+        "to": "./",
+        "filter": "**/*"
+      }
+    ],
+    "linux": {
+      "target": [
+        "AppImage"
+      ]
+    }
   },
   "author": "Matthias Hryniszak <padcom@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "date-fns": "^2.19.0",
-    "electron": "^12.0.2",
-    "electron-rebuild": "^2.3.5",
-    "semver": "^6.3.0",
-    "serialport": "^9.0.7",
-    "vue": "^3.0.9",
-    "vue-router": "^4.0.5"
+    "electron-is-dev": "^2.0.0",
+    "serialport": "^9.0.7"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.2.0",
     "acorn-private-methods": "^1.0.0",
     "buffer": "^5.7.1",
     "concurrently": "^6.0.0",
+    "date-fns": "^2.19.0",
+    "electron": "^12.0.2",
+    "electron-builder": "^22.10.5",
+    "electron-rebuild": "^2.3.5",
     "eventemitter2": "^6.4.4",
     "sass": "^1.32.8",
-    "vite": "^2.1.4"
+    "semver": "^6.3.0",
+    "vite": "^2.1.4",
+    "vue": "^3.0.9",
+    "vue-router": "^4.0.5"
   },
   "browserslist": [
     "Chrome 89"

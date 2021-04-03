@@ -24,6 +24,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
+  name: 'Navigation',
   data() {
     return {
       isSerialReady: false

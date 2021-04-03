@@ -10,6 +10,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
+  name: 'Content',
   props: {
     showActions: { type: Boolean, default: false }
   }

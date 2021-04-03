@@ -46,6 +46,7 @@ import { CommonSetSerialConfigRequest } from '../command/v2/CommonSetSerialConfi
 import { EepromWriteRequest } from '../command/v1/EepromWrite'
 
 export default defineComponent({
+  name: 'PortsPage',
   components: {
     Page,
     PageHeader,

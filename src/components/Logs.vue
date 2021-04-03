@@ -15,6 +15,7 @@ import { defineComponent } from 'vue'
 import { Logger } from '../logger'
 
 export default defineComponent({
+  name: 'Logs',
   data() {
     return {
       logs: []

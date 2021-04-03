@@ -98,6 +98,7 @@ import {
 } from '../../models/serial-port'
 
 export default defineComponent({
+  name: 'SerialPortsEditor',
   components: {
     FlagSwitch,
     Dropdown,
