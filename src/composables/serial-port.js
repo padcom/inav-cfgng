@@ -1,4 +1,4 @@
-import { Serial } from '../Serial'
+import { Serial } from '../SerialPort'
 
 const serialPort = new Serial()
 

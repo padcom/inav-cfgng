@@ -9,7 +9,7 @@ Logger.getLogger('DEFAULT').level = LogLevel.info
 Logger.events.on('warn', ({ source, args }) => { console.warn(`[${source}]`, ...args) })
 Logger.events.on('err', ({ source, args }) => { console.error(`[${source}]`, ...args) })
 
-import { Serial } from './Serial'
+import { Serial } from './SerialPort'
 new Serial().cleanup()
 
 import { createApp } from 'vue'

@@ -131,34 +131,6 @@ export class Serial extends EventEmitter {
     ipc.send('serial.close', this.#path)
   }
 
-  #isWaitingForResponse = false
-
-  async #beginQuery() {
-    this.#log.trace('Begin query')
-    await this.#waitForReadyToSend()
-    this.#isWaitingForResponse = true
-  }
-
-  async #endQuery() {
-    this.#log.trace('End query')
-    this.#isWaitingForResponse = false
-  }
-
-  async #waitForReadyToSend() {
-    if (!this.#isWaitingForResponse) {
-      return true
-    } else {
-      return new Promise(resolve => {
-        const timer = setInterval(() => {
-          if (!this.#isWaitingForResponse) {
-            clearInterval(timer)
-            resolve(true)
-          }
-        }, 10)
-      })
-    }
-  }
-
   async send(request) {
     const buffer = this.#protocol.encode(MSP.DIRECTION_TO_MSC, request.command, request.payload)
     ipc.send('serial.write', this.#path, buffer)
@@ -193,6 +165,34 @@ export class Serial extends EventEmitter {
       }
     } finally {
       this.#endQuery()
+    }
+  }
+
+  #isWaitingForResponse = false
+
+  async #beginQuery() {
+    this.#log.trace('Begin query')
+    await this.#waitForReadyToSend()
+    this.#isWaitingForResponse = true
+  }
+
+  async #endQuery() {
+    this.#log.trace('End query')
+    this.#isWaitingForResponse = false
+  }
+
+  async #waitForReadyToSend() {
+    if (!this.#isWaitingForResponse) {
+      return true
+    } else {
+      return new Promise(resolve => {
+        const timer = setInterval(() => {
+          if (!this.#isWaitingForResponse) {
+            clearInterval(timer)
+            resolve(true)
+          }
+        }, 10)
+      })
     }
   }
 }
