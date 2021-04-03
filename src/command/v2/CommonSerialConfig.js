@@ -6,7 +6,7 @@ import {
   PERIPHERAL_MASK,
   TELEMETRY_MASK,
   SENSOR_MASK
-} from '../../models/Serial'
+} from '../../models/serial-port'
 
 export const MSP2_COMMON_SERIAL_CONFIG = 0x1009
 

@@ -37,7 +37,7 @@ import {
   TELEMETRY_MASK,
   SENSOR_MASK,
   PERIPHERAL_MASK
-} from '../models/Serial'
+} from '../models/serial-port'
 
 import { useConnectionManager } from '../composables/connection-manager'
 

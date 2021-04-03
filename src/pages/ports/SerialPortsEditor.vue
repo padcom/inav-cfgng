@@ -95,7 +95,7 @@ import {
   TELEMETRY,
   SENSOR,
   PERIPHERAL,
-} from '../../models/Serial'
+} from '../../models/serial-port'
 
 export default defineComponent({
   components: {

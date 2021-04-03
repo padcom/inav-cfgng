@@ -6,7 +6,7 @@
 import { defineComponent } from 'vue'
 
 import Select from './Select.vue'
-import { BAUDRATE } from '../../models/Serial'
+import { BAUDRATE } from '../../models/serial-port'
 
 export default defineComponent({
   components: {
