@@ -2,10 +2,9 @@ import { reactive } from 'vue'
 import { useSerialPort } from './serial-port'
 import { useTaskScheduler } from './task-scheduler'
 import { StatusExRequest } from '../command/v1/StatusEx'
-import { UidRequest } from '../command/v1/Uid'
 
 const serial = useSerialPort()
-const scheduler = useTaskScheduler(serial)
+const scheduler = useTaskScheduler()
 
 const status = reactive({
   serialPortPath: null,
