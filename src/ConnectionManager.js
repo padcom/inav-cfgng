@@ -59,7 +59,7 @@ export class ConnectionManager {
     this.#serial.close()
     // wait a little bit for the controller to start rebooting
     await sleep(1000)
-    this.reconnect()
+    await this.reconnect()
   }
 
   async #waitForPortToExist(path) {

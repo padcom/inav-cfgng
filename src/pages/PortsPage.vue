@@ -96,6 +96,7 @@ export default defineComponent({
         await this.$serial.query(request)
         await this.$serial.query(new EepromWriteRequest())
         await useConnectionManager().reboot()
+        this.$router.push('/ports')
       } finally {
         await this.$scheduler.resume()
       }
