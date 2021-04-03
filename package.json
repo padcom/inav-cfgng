@@ -4,6 +4,7 @@
   "description": "INAV Configurator - new generation",
   "scripts": {
     "start": "electron backend.js",
+    "build": "vite build",
     "postinstall": "electron-rebuild"
   },
   "author": "Matthias Hryniszak <padcom@gmail.com>",
