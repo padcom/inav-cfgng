@@ -11,7 +11,7 @@
       <div class="divider" />
 
       <li v-if="isSerialReady" class="navitem">
-        <router-link to="/serial-configuration">
+        <router-link to="/ports">
           <img class="icon" src="./navigation/cf_icon_ports_white.svg">
           <div class="title">Ports</div>
         </router-link>
