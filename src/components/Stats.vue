@@ -13,6 +13,7 @@
     <div v-if="status.isPortReady" class="item">Profile: {{ status.profile }}</div>
     <div v-if="status.isPortReady" class="item">CPU Load: {{ status.cpuLoad }}</div>
     <div v-if="status.isPortReady" class="item">Arming flags: {{ status.armingFlags }}</div>
+    <div class="configurator-version">2.6.1-ng-alpha.0</div>
   </div>
 </template>
 
@@ -74,5 +75,10 @@ export default defineComponent({
 }
 .error {
   color: red;
+}
+.configurator-version {
+  align-self: center;
+  margin-left: auto;
+  margin-right: 8px;
 }
 </style>
