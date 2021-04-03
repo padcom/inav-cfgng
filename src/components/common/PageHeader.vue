@@ -6,6 +6,8 @@
 
 <style lang="scss" scoped>
 .page-header {
+  display: block;
+  flex-basis: 100%;
   font-size: 20px;
   font-weight: 100;
   border-bottom: solid 1px var(--color-info);

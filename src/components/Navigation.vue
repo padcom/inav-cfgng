@@ -16,6 +16,15 @@
           <div class="title">Ports</div>
         </router-link>
       </li>
+
+      <div class="divider" />
+
+      <li class="navitem">
+        <router-link to="/configuration">
+          <img class="icon" src="./navigation/cf_icon_config_white.svg">
+          <div class="title">Configuration</div>
+        </router-link>
+      </li>
     </ul>
   </div>
 </template>
