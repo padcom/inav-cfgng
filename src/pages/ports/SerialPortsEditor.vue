@@ -14,13 +14,13 @@
         <td class="msp">
           <FlagSwitch v-model="port.msp" :flag="PORT_FUNCTION_MASK.MSP" />
           <label class="item-name">MSP</label>
-          <BaudrateSelect
+          <BaudrateDropdown
             v-model.number="port.mspBaudrate"
             :allowedValues="[ '9600', '19200', '38400', '57600', '115200' ]"
           />
         </td>
         <td class="telemetry">
-          <Select
+          <Dropdown
             v-model.number="port.telemetry"
             :options="[
               { value: 0, label: 'Disabled' },
@@ -33,7 +33,7 @@
               { value: TELEMETRY.GSM_SMS, label: 'GSM_SMS' },
             ]"
           />
-          <BaudrateSelect
+          <BaudrateDropdown
             v-model.number="port.telemetryBaudrate"
             :allowedValues="[ 'AUTO', '1200', '2400', '4800', '9600', '19200', '38400', '57600', '115200' ]"
           />
@@ -43,7 +43,7 @@
           <label class="item-name">Serial RX</label>
         </td>
         <td class="sensor">
-          <Select
+          <Dropdown
             v-model.number="port.sensor"
             :options="[
               { value: 0, label: 'Disabled' },
@@ -52,13 +52,13 @@
               { value: SENSOR.OPFLOW, label: 'Optic flow' },
             ]"
           />
-          <BaudrateSelect
+          <BaudrateDropdown
             v-model.number="port.sensorBaudrate"
             :allowedValues="[ '9600', '19200', '38400', '57600', '115200' ]"
           />
         </td>
         <td class="peripheral">
-          <Select
+          <Dropdown
             v-model.number="port.peripheral"
             :options="[
               { value: 0, label: 'Disabled' },
@@ -73,7 +73,7 @@
               { value: PERIPHERAL.SMARTPORT_MASTER, label: 'SmartPort Master' },
             ]"
           />
-          <BaudrateSelect
+          <BaudrateDropdown
             v-model.number="port.peripheralBaudrate"
             :allowedValues="[ '19200', '38400', '57600', '115200', '230400', '250000' ]"
           />
@@ -87,8 +87,8 @@
 import { defineComponent } from 'vue'
 
 import FlagSwitch from '../../components/editors/FlagSwitch.vue'
-import Select from '../../components/editors/Select.vue'
-import BaudrateSelect from '../../components/editors/BaudrateSelect.vue'
+import Dropdown from '../../components/editors/Dropdown.vue'
+import BaudrateDropdown from '../../components/editors/BaudrateDropdown.vue'
 
 import {
   PORT_FUNCTION_MASK,
@@ -100,8 +100,8 @@ import {
 export default defineComponent({
   components: {
     FlagSwitch,
-    Select,
-    BaudrateSelect
+    Dropdown,
+    BaudrateDropdown
   },
   props: {
     ports: { type: Array, default: () => [] }

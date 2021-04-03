@@ -1,5 +1,7 @@
 <template>
-  <h2 class="page-header"><slot /></h2>
+  <h2 class="page-header">
+    <slot />
+  </h2>
 </template>
 
 <style lang="scss" scoped>
@@ -11,4 +13,3 @@
   margin-bottom: 24px;
 }
 </style>
-

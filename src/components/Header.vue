@@ -4,12 +4,12 @@
     <div v-if="!isConnected" class="connection-controls">
       <div class="port-selector">
         <div class="port-properties">
-          <Select
+          <Dropdown
             class="serial-ports bigger dark"
             v-model="serialPort"
             :options="serialPorts.map(port => ({ value: port.path, label: port.path }))"
           />
-          <Select
+          <Dropdown
             class="baudrate bigger dark"
             v-model="baudrate"
             :options="baudrates.map(baudrate => ({ value: baudrate, label: baudrate }))"
@@ -35,14 +35,14 @@
 
 <script>
 import { defineComponent } from 'vue'
-import Select from '../components/editors/Select.vue'
+import Dropdown from '../components/editors/Dropdown.vue'
 import Switch from '../components/editors/Switch.vue'
 
 import { useConnectionManager } from '../composables/connection-manager'
 
 export default defineComponent({
   components: {
-    Select,
+    Dropdown,
     Switch
   },
   setup() {

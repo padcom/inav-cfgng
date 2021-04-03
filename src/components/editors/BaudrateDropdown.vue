@@ -1,16 +1,16 @@
 <template>
-  <Select v-bind="$attrs" :options="baudrates" />
+  <Dropdown v-bind="$attrs" :options="baudrates" />
 </template>
 
 <script>
 import { defineComponent } from 'vue'
 
-import Select from './Select.vue'
+import Dropdown from './Dropdown.vue'
 import { BAUDRATE } from '../../models/serial-port'
 
 export default defineComponent({
   components: {
-    Select
+    Dropdown
   },
   props: {
     allowedValues: { type: Array, default: BAUDRATE }
