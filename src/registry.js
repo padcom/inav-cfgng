@@ -11,6 +11,9 @@ import * as EepromWrite from './command/v1/EepromWrite'
 
 import * as CommonSerialConfig from './command/v2/CommonSerialConfig'
 import * as CommonSetSerialConfig from './command/v2/CommonSetSerialConfig'
+import * as CommonSetting from './command/v2/CommonSetting'
+import * as CommonSettingInfo from './command/v2/CommonSettingInfo'
+import * as CommonSetSetting from './command/v2/CommonSetSetting'
 
 
 export const registry = new Registry()
@@ -27,3 +30,6 @@ registry.registerMSPv1Command(EepromWrite)
 
 registry.registerMSPv2Command(CommonSerialConfig)
 registry.registerMSPv2Command(CommonSetSerialConfig)
+registry.registerMSPv2Command(CommonSetting)
+registry.registerMSPv2Command(CommonSettingInfo)
+registry.registerMSPv2Command(CommonSetSetting)
