@@ -14,8 +14,6 @@
     </Warning>
 
     <SerialPortsEditor :ports="ports" />
-
-    <p v-for="i in 0">HEllo</p>
   </Page>
 
   <Actions>
