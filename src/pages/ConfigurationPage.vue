@@ -142,11 +142,35 @@
         </p>
       </Panel>
       <Panel class="reversible-motors" title="Reversible motors">
-        <p>Reversible motors</p>
+        <p>
+          <input type="number"
+            v-model.number="settings['3d_deadband_low'].value"
+            :min="settings['3d_deadband_low'].min"
+            :max="settings['3d_deadband_low'].max"
+          />
+          <label>Reversible Motors Deadband Low</label>
+        </p>
+        <p>
+          <input type="number"
+            v-model.number="settings['3d_deadband_high'].value"
+            :min="settings['3d_deadband_high'].min"
+            :max="settings['3d_deadband_high'].max"
+          />
+          <label>Reversible Motors Deadband High</label>
+        </p>
+        <p>
+          <input type="number"
+            v-model.number="settings['3d_neutral'].value"
+            :min="settings['3d_neutral'].min"
+            :max="settings['3d_neutral'].max"
+          />
+          <label>Reversible Motors Neutral</label>
+        </p>
       </Panel>
       <Panel class="personalization" title="Personalzation">
         <p>
           <input type="text" v-model="settings['name'].value" />
+          <label>Craft name</label>
         </p>
       </Panel>
       <Panel class="vtx" title="VTX">
@@ -223,7 +247,8 @@ export default defineComponent({
       'gyro_hardware_lpf', 'looptime', 'i2c_speed', 'name',
       'acc_hardware', 'mag_hardware', 'baro_hardware', 'pitot_hardware', 'rangefinder_hardware', 'opflow_hardware',
       'align_board_roll', 'align_board_pitch', 'align_board_yaw', 'align_mag',
-      'gps_provider', 'gps_sbas_mode', 'gps_ublox_use_galileo', 'tz_offset', 'tz_automatic_dst'
+      'gps_provider', 'gps_sbas_mode', 'gps_ublox_use_galileo', 'tz_offset', 'tz_automatic_dst',
+      '3d_deadband_low', '3d_deadband_high', '3d_neutral'
     )
   }
 })
