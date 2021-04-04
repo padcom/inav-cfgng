@@ -2,12 +2,12 @@
   <Page>
     <PageHeader>Configuration</PageHeader>
     <Column>
-      <Panel class="system-configuration" title="Sysem configuration">
+      <Panel title="Sysem configuration">
         <DropdownSetting item="gyro_hardware_lpf" label="Gyroscope LPF cutoff frequency" />
         <DropdownSetting item="looptime" label="Flight Controller Loop Time" />
         <DropdownSetting item="i2c_speed" label="I2C Speed" />
       </Panel>
-      <Panel class="sensors" title="Sensors">
+      <Panel title="Sensors">
         <DropdownSetting item="acc_hardware" label="Accelerometer" />
         <DropdownSetting item="mag_hardware" label="Magnetometer" />
         <DropdownSetting item="baro_hardware" label="Barometer" />
@@ -15,13 +15,13 @@
         <DropdownSetting item="rangefinder_hardware" label="Rangefinder" />
         <DropdownSetting item="opflow_hardware" label="Optical flow" />
       </Panel>
-      <Panel class="board-and-sensor-alignment" title="Board and Sensor Alignment">
+      <Panel title="Board and Sensor Alignment">
         <NumericSetting item="align_board_roll" label="Roll degrees" :scale="10" />
         <NumericSetting item="align_board_pitch" label="Pitch degrees" :scale="10" />
         <NumericSetting item="align_board_yaw" label="Yaw degrees" :scale="10" />
         <DropdownSetting item="align_mag" label="Magnetometer alignment" />
       </Panel>
-      <Panel class="gps" title="GPS">
+      <Panel title="GPS">
         <FeatureSetting :flag="FEATURE_FLAG.GPS" label="GPS for navigation and telemetry" />
         <DropdownSetting item="gps_provider" label="Protocol" />
         <DropdownSetting item="gps_sbas_mode" label="Ground Assistance Type" />
@@ -29,15 +29,15 @@
         <NumericSetting item="tz_offset" label="Timezone Offset [Mins]" />
         <DropdownSetting item="tz_automatic_dst" label="Automatic Daylight Savings Time" />
       </Panel>
-      <Panel class="reversible-motors" title="Reversible motors">
+      <Panel title="Reversible motors">
         <NumericSetting item="3d_deadband_low" label="Reversible Motors Deadband Low" />
         <NumericSetting item="3d_deadband_high" label="Reversible Motors Deadband High" />
         <NumericSetting item="3d_neutral" label="Reversible Motors Neutral" />
       </Panel>
-      <Panel class="personalization" title="Personalzation">
+      <Panel title="Personalzation">
         <StringSetting item="name" label="Craft name" />
       </Panel>
-      <Panel class="vtx" title="VTX">
+      <Panel title="VTX">
         <DropdownSetting item="vtx_band" label="Band" />
         <DropdownSetting item="vtx_channel" label="Channel" />
         <DropdownSetting item="vtx_power" label="Power Level" />
@@ -45,7 +45,7 @@
       </Panel>
     </Column>
     <Column>
-      <Panel class="battery-voltage" title="Battery voltage">
+      <Panel title="Battery voltage">
         <FeatureSetting :flag="FEATURE_FLAG.VBAT" label="Battery voltage monitoring" />
         <DropdownSetting item="vbat_meter_type" label="Voltage Meter Type" />
         <DropdownSetting item="bat_voltage_src" label="Voltage source to use for alarms and telemetry" />
@@ -57,20 +57,20 @@
         <NumericSetting item="vbat_scale" label="Voltage Scale" />
         <ReadonlySetting :value="voltage" label="Voltage" />
       </Panel>
-      <Panel class="current-sensor" title="Current Sensor">
+      <Panel title="Current Sensor">
         <FeatureSetting :flag="FEATURE_FLAG.CURRENT_METER" label="Battery current monitoring" />
         <DropdownSetting item="current_meter_type" label="Current Meter Type" />
         <NumericSetting item="current_meter_scale" label="Scale the output voltage to milliamps [1/10th mV/A]" />
         <NumericSetting item="current_meter_offset" label="Offset in millivolt steps" />
         <ReadonlySetting :value="current" label="Battery Current" />
       </Panel>
-      <Panel class="battery-capacity" title="Battery Capacity">
+      <Panel title="Battery Capacity">
         <DropdownSetting item="battery_capacity_unit" label="Unit" />
         <NumericSetting item="battery_capacity" label="Capacity" />
         <NumericSetting item="battery_capacity_warning" :scale="10" label="Warning Capacity (remaining %)" />
         <NumericSetting item="battery_capacity_critical" :scale="10" label="Critical Capacity (remaining %)" />
       </Panel>
-      <Panel class="other-features" title="Other features">
+      <Panel title="Other features">
         <FeatureSetting :flag="FEATURE_FLAG.MOTOR_STOP" label="Stop motors on low throttle" />
         <FeatureSetting :flag="FEATURE_FLAG.SOFTSERIAL" label="Enable CPU based serial ports" />
         <FeatureSetting :flag="FEATURE_FLAG.TELEMETRY" label="Telemetry output" />
@@ -176,38 +176,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="scss" scoped>
-// .system-configuration {
-// }
-
-// .sensors {
-// }
-
-// .board-and-sensor-alignment {
-// }
-
-// .gps {
-// }
-
-// .reversible-motors {
-// }
-
-// .personalization {
-// }
-
-// .vtx {
-// }
-
-// .battery-voltage {
-// }
-
-// .current-sensor {
-// }
-
-// .battery-capacity {
-// }
-
-// .other-features {
-// }
-</style>

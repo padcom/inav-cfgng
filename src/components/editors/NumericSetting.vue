@@ -35,7 +35,6 @@ export default defineComponent({
 .field {
   display: flex;
   align-items: center;
-  // margin: 0px 0;
 }
 
 .input {
