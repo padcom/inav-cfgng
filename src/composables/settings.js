@@ -5,6 +5,7 @@ import { useSerialPort } from './serial-port'
 import { useTaskScheduler } from './task-scheduler'
 import { DATA_TYPE } from '../models/data-type'
 import { CommonSettingRequest } from '../command/v2/CommonSetting'
+import { CommonSetSettingRequest } from '../command/v2/CommonSetSetting'
 
 const log = Logger.getLogger('SETTINGS')
 const container = ref(settings)
@@ -49,9 +50,15 @@ async function loadSettings(...items) {
 async function saveSettings(...items) {
   log.info('Saving settings', items.join(', '))
   const scheduler = useTaskScheduler()
+  const serial = useSerialPort()
+  const settings = container.value
+
   try {
     await scheduler.pause()
-
+    for (let i = 0; i < items.length; i++) {
+      const setting = settings[items[i]]
+      await serial.query(new CommonSetSettingRequest(setting.name, setting.type, setting.value))
+    }
     log.info('Settings saved.')
   } catch (e) {
     log.error('Error while saving settings', e)

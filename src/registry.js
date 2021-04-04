@@ -9,12 +9,13 @@ import * as Uid from './command/v1/Uid'
 import * as StatusEx from './command/v1/StatusEx'
 import * as EepromWrite from './command/v1/EepromWrite'
 import * as Feature from './command/v1/Feature'
+import * as FeatureSet from './command/v1/SetFeature'
 import * as Analog from './command/v1/Analog'
 
 import * as CommonSerialConfig from './command/v2/CommonSerialConfig'
 import * as CommonSetSerialConfig from './command/v2/CommonSetSerialConfig'
-import * as CommonSetting from './command/v2/CommonSetting'
 import * as CommonSettingInfo from './command/v2/CommonSettingInfo'
+import * as CommonSetting from './command/v2/CommonSetting'
 import * as CommonSetSetting from './command/v2/CommonSetSetting'
 
 
@@ -30,10 +31,11 @@ registry.registerMSPv1Command(Uid)
 registry.registerMSPv1Command(StatusEx)
 registry.registerMSPv1Command(EepromWrite)
 registry.registerMSPv1Command(Feature)
+registry.registerMSPv1Command(FeatureSet)
 registry.registerMSPv1Command(Analog)
 
 registry.registerMSPv2Command(CommonSerialConfig)
 registry.registerMSPv2Command(CommonSetSerialConfig)
-registry.registerMSPv2Command(CommonSetting)
 registry.registerMSPv2Command(CommonSettingInfo)
+registry.registerMSPv2Command(CommonSetting)
 registry.registerMSPv2Command(CommonSetSetting)

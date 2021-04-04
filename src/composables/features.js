@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { Logger } from '../logger'
 import { FeatureRequest } from '../command/v1/Feature'
+import { SetFeatureRequest } from '../command/v1/SetFeature'
 import { useSerialPort } from './serial-port'
 import { useTaskScheduler } from './task-scheduler'
 
@@ -25,12 +26,13 @@ async function load() {
 }
 
 async function save() {
-  log.info('Saving features', items.join(', '))
+  log.info('Saving features')
   const scheduler = useTaskScheduler()
-  // const port = useSerialPort()
+  const port = useSerialPort()
+
   try {
     await scheduler.pause()
-    // await port.query(new FeatureSetRequest(features.value))
+    await port.query(new SetFeatureRequest(features.value))
     log.info('Features saved.')
   } catch (e) {
     log.error('Error while saving settings', e)
