@@ -105,7 +105,7 @@ async function initializeMainWindow() {
     window.loadURL('http://localhost:3000')
   } else {
     // window.setMenu(null)
-    window.webContents.openDevTools()
+    // window.webContents.openDevTools()
     window.loadURL(
       url.format({
         pathname: path.join(__dirname, 'index.html'),

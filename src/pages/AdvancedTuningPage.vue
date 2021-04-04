@@ -88,7 +88,6 @@
 
   <Actions>
     <button @click="saveAndReboot" class="action">Save and Reboot</button>
-    <button @click="test">Testme</button>
   </Actions>
 </template>
 
