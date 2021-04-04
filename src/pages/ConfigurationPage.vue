@@ -206,10 +206,78 @@
     </Column>
     <Column>
       <Panel class="battery-voltage" title="Battery voltage">
-        <p>Battery voltage</p>
+        <p>
+          <FlagSwitch v-model.number="features" :flag="FEATURE_FLAG.VBAT" />
+          <label>Battery voltage monitoring</label>
+        </p>
+        <p>
+          <Dropdown
+            v-model.number="settings['vbat_meter_type'].value"
+            :options="settings['vbat_meter_type'].values"
+          />
+          <label>Voltage Meter Type</label>
+        </p>
+        <p>
+          <Dropdown
+            v-model.number="settings['bat_voltage_src'].value"
+            :options="settings['bat_voltage_src'].values"
+          />
+          <label>Voltage source to use for alarms and telemetry</label>
+        </p>
+        <p>
+          <input type="number"
+            v-model.number="settings['bat_cells'].value"
+            :min="settings['bat_cells'].min"
+            :max="settings['bat_cells'].max"
+          />
+          <label>Number of cells (0 = auto)</label>
+        </p>
+        <p>
+          <input type="number"
+            v-model.number="settings['vbat_cell_detect_voltage'].value"
+            :min="settings['vbat_cell_detect_voltage'].min"
+            :max="settings['vbat_cell_detect_voltage'].max"
+          />
+          <label>Maximum cell voltage for cell count detection</label>
+        </p>
+        <p>
+          <input type="number"
+            v-model.number="settings['vbat_min_cell_voltage'].value"
+            :min="settings['vbat_min_cell_voltage'].min"
+            :max="settings['vbat_min_cell_voltage'].max"
+          />
+          <label>Minimum Cell Voltage</label>
+        </p>
+        <p>
+          <input type="number"
+            v-model.number="settings['vbat_max_cell_voltage'].value"
+            :min="settings['vbat_max_cell_voltage'].min"
+            :max="settings['vbat_max_cell_voltage'].max"
+          />
+          <label>Maximum Cell Voltage</label>
+        </p>
+        <p>
+          <input type="number"
+            v-model.number="settings['vbat_warning_cell_voltage'].value"
+            :min="settings['vbat_warning_cell_voltage'].min"
+            :max="settings['vbat_warning_cell_voltage'].max"
+          />
+          <label>Warning Cell Voltage</label>
+        </p>
+        <p>
+          <input type="number"
+            v-model.number="settings['vbat_scale'].value"
+            :min="settings['vbat_scale'].min"
+            :max="settings['vbat_scale'].max"
+          />
+          <label>Voltage Scale</label>
+        </p>
+        <p>
+          <input type="string" readonly v-model="voltage" />
+          <label>Voltage</label>
+        </p>
       </Panel>
       <Panel class="current-sensor" title="Current Sensor">
-        <p>Current Sensor</p>
       </Panel>
       <Panel class="battery-capacity" title="Battery Capacity">
         <p>Battery capacity</p>
@@ -226,7 +294,7 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { ref, defineComponent } from 'vue'
 
 import Page from '../components/common/Page.vue'
 import PageHeader from '../components/common/PageHeader.vue'
@@ -241,6 +309,8 @@ import { useSettings } from '../composables/settings'
 import { useFeatures } from '../composables/features'
 
 import { FEATURE_FLAG } from '../models/feature'
+
+import { AnalogRequest } from '../command/v1/Analog'
 
 export default defineComponent({
   name: 'ConfigurationPage',
@@ -257,10 +327,12 @@ export default defineComponent({
   setup() {
     const { settings, load: loadSettings, save: saveSettings } = useSettings()
     const { features, load: loadFeatures, save: saveFeatures } = useFeatures()
+    const voltage = ref(0)
 
     return {
       settings, loadSettings, saveSettings,
       features, loadFeatures, saveFeatures,
+      voltage
     }
   },
   computed: {
@@ -269,6 +341,9 @@ export default defineComponent({
     }
   },
   async mounted() {
+    this.analogRefreshTask = this.$scheduler.enqueue(50, new AnalogRequest(), response => {
+      this.voltage = response.voltage
+    })
     await this.loadFeatures()
     await this.loadSettings(
       'gyro_hardware_lpf', 'looptime', 'i2c_speed', 'name',
@@ -277,7 +352,13 @@ export default defineComponent({
       'gps_provider', 'gps_sbas_mode', 'gps_ublox_use_galileo', 'tz_offset', 'tz_automatic_dst',
       '3d_deadband_low', '3d_deadband_high', '3d_neutral',
       'vtx_band', 'vtx_channel', 'vtx_power', 'vtx_low_power_disarm',
+      'vbat_meter_type', 'bat_voltage_src', 'bat_cells', 'vbat_cell_detect_voltage',
+      'vbat_min_cell_voltage', 'vbat_max_cell_voltage', 'vbat_warning_cell_voltage',
+      'vbat_scale',
     )
+  },
+  beforeUnmount() {
+    this.$scheduler.dequeue(this.analogRefreshTask)
   }
 })
 </script>

@@ -127,6 +127,26 @@ table.data {
   }
 }
 
+input[type="text"],
+input[type="number"] {
+	font-size: var(--default-font-size);
+  border: var(--input-border);
+}
+
+input[readonly] {
+  border: var(--input-border);
+  background-color: var(--input-background-color);
+  padding: 2px 24px 2px 6px;
+}
+
+input[type="text"] {
+  padding: 2px 24px 2px 6px;
+}
+
+input[type="number"] {
+  padding: 2px 0px 2px 6px;
+}
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
    opacity: 1;

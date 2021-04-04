@@ -9,6 +9,7 @@ import * as Uid from './command/v1/Uid'
 import * as StatusEx from './command/v1/StatusEx'
 import * as EepromWrite from './command/v1/EepromWrite'
 import * as Feature from './command/v1/Feature'
+import * as Analog from './command/v1/Analog'
 
 import * as CommonSerialConfig from './command/v2/CommonSerialConfig'
 import * as CommonSetSerialConfig from './command/v2/CommonSetSerialConfig'
@@ -29,6 +30,7 @@ registry.registerMSPv1Command(Uid)
 registry.registerMSPv1Command(StatusEx)
 registry.registerMSPv1Command(EepromWrite)
 registry.registerMSPv1Command(Feature)
+registry.registerMSPv1Command(Analog)
 
 registry.registerMSPv2Command(CommonSerialConfig)
 registry.registerMSPv2Command(CommonSetSerialConfig)
