@@ -25,7 +25,7 @@ export default defineComponent({
   },
   methods: {
     update(e) {
-      this.settings[item].value = e.target.value
+      this.settings[this.item].value = e.target.value
     }
   }
 })
