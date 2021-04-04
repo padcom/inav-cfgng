@@ -162,3 +162,36 @@ settings['looptime'].values = [
   { label: '334Hz', value: 3000 },
   { label: '250Hz', value: 4000 },
 ]
+
+settings['vtx_band'].values = [
+  { label: 'Boscam A', value: 1 },
+  { label: 'Boscam B', value: 2 },
+  { label: 'Boscam E', value: 3 },
+  { label: 'Fatshark', value: 4 },
+  { label: 'Raceband', value: 5 },
+]
+
+settings['vtx_channel'].values = [
+  { label: '1', value: 1 },
+  { label: '2', value: 2 },
+  { label: '3', value: 3 },
+  { label: '4', value: 4 },
+  { label: '5', value: 5 },
+  { label: '6', value: 6 },
+  { label: '7', value: 7 },
+  { label: '8', value: 8 },
+]
+
+settings['vtx_power'].values = [
+  { label: '1', value: 1 },
+  { label: '2', value: 2 },
+  { label: '3', value: 3 },
+  { label: '4', value: 4 },
+  { label: '5', value: 5 },
+]
+
+settings['vtx_low_power_disarm'].values = [
+  { label: 'Disabled', value: 0 },
+  { label: 'Always', value: 1 },
+  { label: 'Until first arm', value: 2 },
+]

@@ -174,7 +174,34 @@
         </p>
       </Panel>
       <Panel class="vtx" title="VTX">
-        <p>VTX</p>
+        <p>
+          <Dropdown
+            v-model.number="settings['vtx_band'].value"
+            :options="settings['vtx_band'].values"
+          />
+          <label>Band</label>
+        </p>
+        <p>
+          <Dropdown
+            v-model.number="settings['vtx_channel'].value"
+            :options="settings['vtx_channel'].values"
+          />
+          <label>Channel</label>
+        </p>
+        <p>
+          <Dropdown
+            v-model.number="settings['vtx_power'].value"
+            :options="settings['vtx_power'].values"
+          />
+          <label>Power Level</label>
+        </p>
+        <p>
+          <Dropdown
+            v-model.number="settings['vtx_low_power_disarm'].value"
+            :options="settings['vtx_low_power_disarm'].values"
+          />
+          <label>Use low power while the craft is disarmed</label>
+        </p>
       </Panel>
     </Column>
     <Column>
@@ -248,7 +275,8 @@ export default defineComponent({
       'acc_hardware', 'mag_hardware', 'baro_hardware', 'pitot_hardware', 'rangefinder_hardware', 'opflow_hardware',
       'align_board_roll', 'align_board_pitch', 'align_board_yaw', 'align_mag',
       'gps_provider', 'gps_sbas_mode', 'gps_ublox_use_galileo', 'tz_offset', 'tz_automatic_dst',
-      '3d_deadband_low', '3d_deadband_high', '3d_neutral'
+      '3d_deadband_low', '3d_deadband_high', '3d_neutral',
+      'vtx_band', 'vtx_channel', 'vtx_power', 'vtx_low_power_disarm',
     )
   }
 })
