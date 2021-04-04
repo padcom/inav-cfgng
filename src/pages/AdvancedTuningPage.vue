@@ -4,6 +4,13 @@
     <Column>
       <Panel title="Multirotor navigation settings">
         <DropdownSetting item="nav_user_control_mode" label="User Control Mode" />
+        <NumericSetting item="nav_auto_speed" label="Max. navigation speed [cm/s]" />
+        <NumericSetting item="nav_manual_speed" label="Max. CRUISE speed [cm/s]" />
+        <NumericSetting item="nav_auto_climb_rate" label="Max. navigation climb rate [cm/s]" />
+        <NumericSetting item="nav_manual_climb_rate" label="Max. ALTHOLD climb rate [cm/s]" />
+        <NumericSetting item="nav_mc_bank_angle" label="Multirotor max. banking angle [degrees]" />
+        <BoolSetting item="nav_use_midthr_for_althold" label="Use mid. throttle for ALTHOLD" />
+        <NumericSetting item="nav_mc_hover_thr" label="Hover throttle" />
       </Panel>
     </Column>
     <Column>
@@ -72,6 +79,13 @@ export default defineComponent({
     await this.loadSettings(
       'nav_user_control_mode',
       'inav_w_z_baro_p',
+      'nav_auto_speed',
+      'nav_manual_speed',
+      'nav_auto_climb_rate',
+      'nav_manual_climb_rate',
+      'nav_mc_bank_angle',
+      'nav_use_midthr_for_althold',
+      'nav_mc_hover_thr',
     )
   },
   methods: {
@@ -80,6 +94,13 @@ export default defineComponent({
       await this.saveSettings(
         'nav_user_control_mode',
         'inav_w_z_baro_p',
+        'nav_auto_speed',
+        'nav_manual_speed',
+        'nav_auto_climb_rate',
+        'nav_manual_climb_rate',
+        'nav_mc_bank_angle',
+        'nav_use_midthr_for_althold',
+        'nav_mc_hover_thr',
       )
       await this.saveSettingsToEeprom()
       await this.reboot()
