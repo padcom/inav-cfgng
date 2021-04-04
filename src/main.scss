@@ -151,3 +151,16 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
    opacity: 1;
 }
+
+.field {
+  margin-top: 8px;
+  padding-bottom: 8px;
+  border-bottom: solid 1px var(--input-background-color);
+  &:first-of-type {
+    margin-top: 0px;
+  }
+  &:last-of-type {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+}

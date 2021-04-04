@@ -13,11 +13,12 @@
     <div v-if="status.isPortReady" class="item">Profile: {{ status.profile }}</div>
     <div v-if="status.isPortReady" class="item">CPU Load: {{ status.cpuLoad }}</div>
     <div v-if="status.isPortReady" class="item">Arming flags: {{ status.armingFlags }}</div>
-    <div class="configurator-version">2.6.1-ng.prealpha-3</div>
+    <div class="configurator-version">{{ version }}</div>
   </div>
 </template>
 
 <script>
+import { version } from '../../package.json'
 import { defineComponent } from 'vue'
 import { useStatus } from '../composables/status'
 
@@ -56,6 +57,9 @@ export default defineComponent({
         sensor,
         status: this.status.activeSensors[sensorNameToFieldName(sensor)]
       }))
+    },
+    version() {
+      return version
     }
   },
   onSerialBuffer(buffer) {
