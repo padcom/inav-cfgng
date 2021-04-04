@@ -74,6 +74,10 @@ const MINMAX = {
 const SETTING_TYPES = {
   'name': { type: DATA_TYPE.STRING },
   'inav_w_z_baro_p': { type: DATA_TYPE.FLOAT },
+  'inav_w_z_gps_p': { type: DATA_TYPE.FLOAT },
+  'inav_w_z_gps_v': { type: DATA_TYPE.FLOAT },
+  'inav_w_xy_gps_p': { type: DATA_TYPE.FLOAT },
+  'inav_w_xy_gps_v': { type: DATA_TYPE.FLOAT },
 }
 
 yaml.groups.forEach(group => {

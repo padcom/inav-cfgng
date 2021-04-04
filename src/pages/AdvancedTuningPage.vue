@@ -46,6 +46,11 @@
     <Column>
       <Panel title="Position Estimator">
         <NumericSetting item="inav_w_z_baro_p" label="Vertical position barometer weight" />
+        <NumericSetting item="inav_w_z_gps_p" label="Vertical position GPS weight" />
+        <NumericSetting item="inav_w_z_gps_v" label="Vertical speed GPS weight" />
+        <NumericSetting item="inav_w_xy_gps_p" label="Horizontal position GPS weight" />
+        <NumericSetting item="inav_w_xy_gps_v" label="Horizontal speed GPS weight" />
+        <NumericSetting item="gps_min_sats" label="Min. GPS satellites for a valid fix" />
       </Panel>
     </Column>
   </Page>
@@ -142,6 +147,12 @@ export default defineComponent({
       'nav_fw_launch_timeout',
       'nav_fw_launch_max_altitude',
       'nav_fw_launch_end_time',
+      'inav_w_z_baro_p',
+      'inav_w_z_gps_p',
+      'inav_w_z_gps_v',
+      'inav_w_xy_gps_p',
+      'inav_w_xy_gps_v',
+      'gps_min_sats',
     )
   },
   methods: {
@@ -183,6 +194,12 @@ export default defineComponent({
         'nav_fw_launch_timeout',
         'nav_fw_launch_max_altitude',
         'nav_fw_launch_end_time',
+        'inav_w_z_baro_p',
+        'inav_w_z_gps_p',
+        'inav_w_z_gps_v',
+        'inav_w_xy_gps_p',
+        'inav_w_xy_gps_v',
+        'gps_min_sats',
       )
       await this.saveSettingsToEeprom()
       await this.reboot()
