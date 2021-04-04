@@ -104,6 +104,7 @@
       </Panel>
       <Panel class="gps" title="GPS">
         <p>
+          <FlagSwitch v-model.number="features" :flag="FEATURE_FLAG.GPS" />
           <label>GPS for navigation and telemetry</label>
         </p>
       </Panel>
@@ -149,8 +150,12 @@ import Column from '../components/common/Column.vue'
 import Panel from '../components/common/Panel.vue'
 import Actions from '../components/Actions.vue'
 import Dropdown from '../components/editors/Dropdown.vue'
+import FlagSwitch from '../components/editors/FlagSwitch.vue'
 
 import { useSettings } from '../composables/settings'
+import { useFeatures } from '../composables/features'
+
+import { FEATURE_FLAG } from '../models/feature'
 
 export default defineComponent({
   name: 'ConfigurationPage',
@@ -161,14 +166,25 @@ export default defineComponent({
     Panel,
     Actions,
     Dropdown,
+    FlagSwitch,
   },
   setup() {
+    const { settings, load: loadSettings, save: saveSettings } = useSettings()
+    const { features, load: loadFeatures, save: saveFeatures } = useFeatures()
+
     return {
-      ...useSettings()
+      settings, loadSettings, saveSettings,
+      features, loadFeatures, saveFeatures,
+    }
+  },
+  computed: {
+    FEATURE_FLAG() {
+      return FEATURE_FLAG
     }
   },
   async mounted() {
-    await this.load(
+    await this.loadFeatures()
+    await this.loadSettings(
       'gyro_hardware_lpf', 'looptime', 'i2c_speed', 'name',
       'acc_hardware', 'mag_hardware', 'baro_hardware', 'pitot_hardware', 'rangefinder_hardware', 'opflow_hardware',
       'align_board_roll', 'align_board_pitch', 'align_board_yaw', 'align_mag',
