@@ -7,6 +7,7 @@ export const DATA_TYPE = {
   FLOAT  : 5,
   STRING : 6,
 
+  BOOL   : 253,
   LOOKUP : 254,
   UNKNOWN: 255
 }
