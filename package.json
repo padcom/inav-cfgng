@@ -36,6 +36,7 @@
     "serialport": "^9.0.7"
   },
   "devDependencies": {
+    "@rollup/plugin-yaml": "^3.0.0",
     "@vitejs/plugin-vue": "^1.2.0",
     "acorn-private-methods": "^1.0.0",
     "buffer": "^5.7.1",

@@ -6,4 +6,7 @@ export const DATA_TYPE = {
   UINT32 : 4,
   FLOAT  : 5,
   STRING : 6,
+
+  LOOKUP : 254,
+  UNKNOWN: 255
 }
