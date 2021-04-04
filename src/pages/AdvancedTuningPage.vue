@@ -52,6 +52,20 @@
         <NumericSetting item="inav_w_xy_gps_v" label="Horizontal speed GPS weight" />
         <NumericSetting item="gps_min_sats" label="Min. GPS satellites for a valid fix" />
       </Panel>
+      <Panel title="Fixed Wing Navigation Settings">
+        <NumericSetting item="nav_fw_cruise_thr" label="Cruise throttle" />
+        <NumericSetting item="nav_fw_cruise_yaw_rate" label="Cruise Yaw Rate" />
+        <BoolSetting item="nav_fw_allow_manual_thr_increase" label="Allow manual throttle increase" />
+        <NumericSetting item="nav_fw_min_thr" label="Min. throttle" />
+        <NumericSetting item="nav_fw_max_thr" label="Max. throttle" />
+        <NumericSetting item="nav_fw_bank_angle" label="Max. bank angle [degrees]" />
+        <NumericSetting item="nav_fw_climb_angle" label="Max. climb angle [degrees]" />
+        <NumericSetting item="nav_fw_dive_angle" label="Max. dive angle [degrees]" />
+        <NumericSetting item="nav_fw_pitch2thr" label="Pitch to throttle ratio" />
+        <NumericSetting item="nav_fw_loiter_radius" label="Loiter radius [cm]" />
+        <DropdownSetting item="fw_loiter_direction" label="Loiter direction" />
+        <NumericSetting item="nav_fw_control_smoothness" label="Control Smoothness" />
+      </Panel>
     </Column>
   </Page>
 
@@ -153,6 +167,18 @@ export default defineComponent({
       'inav_w_xy_gps_p',
       'inav_w_xy_gps_v',
       'gps_min_sats',
+      'nav_fw_cruise_thr',
+      'nav_fw_cruise_yaw_rate',
+      'nav_fw_allow_manual_thr_increase',
+      'nav_fw_min_thr',
+      'nav_fw_max_thr',
+      'nav_fw_bank_angle',
+      'nav_fw_climb_angle',
+      'nav_fw_dive_angle',
+      'nav_fw_pitch2thr',
+      'nav_fw_loiter_radius',
+      'fw_loiter_direction',
+      'nav_fw_control_smoothness',
     )
   },
   methods: {
@@ -200,6 +226,18 @@ export default defineComponent({
         'inav_w_xy_gps_p',
         'inav_w_xy_gps_v',
         'gps_min_sats',
+        'nav_fw_cruise_thr',
+        'nav_fw_cruise_yaw_rate',
+        'nav_fw_allow_manual_thr_increase',
+        'nav_fw_min_thr',
+        'nav_fw_max_thr',
+        'nav_fw_bank_angle',
+        'nav_fw_climb_angle',
+        'nav_fw_dive_angle',
+        'nav_fw_pitch2thr',
+        'nav_fw_loiter_radius',
+        'fw_loiter_direction',
+        'nav_fw_control_smoothness',
       )
       await this.saveSettingsToEeprom()
       await this.reboot()
