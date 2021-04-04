@@ -311,7 +311,37 @@
         </p>
       </Panel>
       <Panel class="battery-capacity" title="Battery Capacity">
-        <p>Battery capacity</p>
+        <p>
+          <Dropdown
+            v-model.number="settings['battery_capacity_unit'].value"
+            :options="settings['battery_capacity_unit'].values"
+          />
+          <label></label>
+        </p>
+        <p>
+          <input type="number"
+            v-model.number="settings['battery_capacity'].value"
+            :min="settings['battery_capacity'].min"
+            :max="settings['battery_capacity'].max"
+          />
+          <label>Capacity</label>
+        </p>
+        <p>
+          <input type="number"
+            v-model.number="settings['battery_capacity_warning'].value"
+            :min="settings['battery_capacity_warning'].min"
+            :max="settings['battery_capacity_warning'].max"
+          />
+          <label>Warning Capacity (remaining %)</label>
+        </p>
+        <p>
+          <input type="number"
+            v-model.number="settings['battery_capacity_critical'].value"
+            :min="settings['battery_capacity_critical'].min"
+            :max="settings['battery_capacity_critical'].max"
+          />
+          <label>Critical Capacity (remaining %)</label>
+        </p>
       </Panel>
       <Panel class="other-features" title="Other features">
         <p>Other features</p>
@@ -388,7 +418,8 @@ export default defineComponent({
       'vbat_meter_type', 'bat_voltage_src', 'bat_cells', 'vbat_cell_detect_voltage',
       'vbat_min_cell_voltage', 'vbat_max_cell_voltage', 'vbat_warning_cell_voltage',
       'vbat_scale',
-      'current_meter_type', 'current_meter_scale', 'current_meter_offset'
+      'current_meter_type', 'current_meter_scale', 'current_meter_offset',
+      'battery_capacity_unit', 'battery_capacity', 'battery_capacity_warning', 'battery_capacity_critical',
     )
   },
   beforeUnmount() {

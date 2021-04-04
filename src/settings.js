@@ -195,3 +195,8 @@ settings['vtx_low_power_disarm'].values = [
   { label: 'Always', value: 1 },
   { label: 'Until first arm', value: 2 },
 ]
+
+settings['battery_capacity_unit'].values = [
+  { label: 'mAh', value: 0 },
+  { label: 'mWh', value: 1 },
+]
