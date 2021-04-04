@@ -70,6 +70,16 @@
         <NumericSetting item="nav_wp_radius" label="Waypoint radius [cm]" />
         <NumericSetting item="nav_wp_safe_distance" label="Waypoint safe distance [cm]" />
       </Panel>
+      <Panel title="Multirotor braking mode configuration">
+        <NumericSetting item="nav_mc_braking_speed_threshold" label="Min. speed threshold [cm/s]" />
+        <NumericSetting item="nav_mc_braking_disengage_speed" label="Braking disengage speed [cm/s]" />
+        <NumericSetting item="nav_mc_braking_timeout" label="Max. braking duration [ms]" />
+        <NumericSetting item="nav_mc_braking_boost_factor" label="Boost factor [%]" />
+        <NumericSetting item="nav_mc_braking_boost_timeout" label="Max. braking boost duration [ms]" />
+        <NumericSetting item="nav_mc_braking_boost_speed_threshold" label="Boost min. speed threshold [cm/s]" />
+        <NumericSetting item="nav_mc_braking_boost_disengage_speed" label="Braking boost disengage speed [cm/s]" />
+        <NumericSetting item="nav_mc_braking_bank_angle" label="Max. bank angle [degrees]" />
+      </Panel>
     </Column>
   </Page>
 
@@ -185,6 +195,14 @@ export default defineComponent({
       'nav_fw_control_smoothness',
       'nav_wp_radius',
       'nav_wp_safe_distance',
+      'nav_mc_braking_speed_threshold',
+      'nav_mc_braking_disengage_speed',
+      'nav_mc_braking_timeout',
+      'nav_mc_braking_boost_factor',
+      'nav_mc_braking_boost_timeout',
+      'nav_mc_braking_boost_speed_threshold',
+      'nav_mc_braking_boost_disengage_speed',
+      'nav_mc_braking_bank_angle',
     )
   },
   methods: {
@@ -246,6 +264,14 @@ export default defineComponent({
         'nav_fw_control_smoothness',
         'nav_wp_radius',
         'nav_wp_safe_distance',
+        'nav_mc_braking_speed_threshold',
+        'nav_mc_braking_disengage_speed',
+        'nav_mc_braking_timeout',
+        'nav_mc_braking_boost_factor',
+        'nav_mc_braking_boost_timeout',
+        'nav_mc_braking_boost_speed_threshold',
+        'nav_mc_braking_boost_disengage_speed',
+        'nav_mc_braking_bank_angle',
       )
       await this.saveSettingsToEeprom()
       await this.reboot()
