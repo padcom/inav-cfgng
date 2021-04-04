@@ -12,8 +12,8 @@ export const FEATURE_FLAG = {
   TELEMETRY              : 1 << 10,
   CURRENT_METER          : 1 << 11,
   REVERSIBLE_MOTORS      : 1 << 12,
-  UNUSED_5               : 1 << 13, // RX_PARALLEL_PWM
-  UNUSED_6               : 1 << 14, // RX_MSP
+  RX_PARALLEL_PWM        : 1 << 13,
+  RX_MSP                 : 1 << 14,
   RSSI_ADC               : 1 << 15,
   LED_STRIP              : 1 << 16,
   DASHBOARD              : 1 << 17,
@@ -24,9 +24,9 @@ export const FEATURE_FLAG = {
   AIRMODE                : 1 << 22,
   SUPEREXPO_RATES        : 1 << 23,
   VTX                    : 1 << 24,
-  UNUSED_8               : 1 << 25, // RX_SPI
-  UNUSED_9               : 1 << 26, // SOFTSPI
-  UNUSED_11              : 1 << 27, // FEATURE_PWM_SERVO_DRIVER
+  RX_SPI                 : 1 << 25,
+  SOFTSPI                : 1 << 26,
+  PWM_SERVO_DRIVER       : 1 << 27,
   PWM_OUTPUT_ENABLE      : 1 << 28,
   OSD                    : 1 << 29,
   FW_LAUNCH              : 1 << 30,

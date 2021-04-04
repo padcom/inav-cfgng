@@ -344,7 +344,74 @@
         </p>
       </Panel>
       <Panel class="other-features" title="Other features">
-        <p>Other features</p>
+        <p>
+          <FlagSwitch v-model.number="features" :flag="FEATURE_FLAG.MOTOR_STOP" />
+          <label>Stop motors on low throttle</label>
+        </p>
+        <p>
+          <FlagSwitch v-model.number="features" :flag="FEATURE_FLAG.SOFTSERIAL" />
+          <label>Enable CPU based serial ports</label>
+        </p>
+        <p>
+          <FlagSwitch v-model.number="features" :flag="FEATURE_FLAG.TELEMETRY" />
+          <label>Telemetry output</label>
+        </p>
+        <p>
+          <FlagSwitch v-model.number="features" :flag="FEATURE_FLAG.REVERSIBLE_MOTORS" />
+          <label>Reversible motors mode (for use with reversible ESCs)</label>
+        </p>
+        <p>
+          <FlagSwitch v-model.number="features" :flag="FEATURE_FLAG.RSSI_ADC" />
+          <label>Analog RSSI input</label>
+        </p>
+        <p>
+          <FlagSwitch v-model.number="features" :flag="FEATURE_FLAG.LED_STRIP" />
+          <label>Multi-color RGB LED strip support</label>
+        </p>
+        <p>
+          <FlagSwitch v-model.number="features" :flag="FEATURE_FLAG.DASHBOARD" />
+          <label>OLED Screen Display</label>
+        </p>
+        <p>
+          <FlagSwitch v-model.number="features" :flag="FEATURE_FLAG.BLACKBOX" />
+          <label>Blackbox flight data recorder</label>
+        </p>
+        <p>
+          <FlagSwitch v-model.number="features" :flag="FEATURE_FLAG.PWM_OUTPUT_ENABLE" />
+          <label>Enable motor and servo output</label>
+        </p>
+        <p>
+          <FlagSwitch v-model.number="features" :flag="FEATURE_FLAG.SOFTSPI" />
+          <label>CPU based SPI</label>
+        </p>
+        <p>
+          <FlagSwitch v-model.number="features" :flag="FEATURE_FLAG.PWM_SERVO_DRIVER" />
+          <label>External PWM servo driver</label>
+        </p>
+        <p>
+          <FlagSwitch v-model.number="features" :flag="FEATURE_FLAG.OSD" />
+          <label>OSD</label>
+        </p>
+        <p>
+          <FlagSwitch v-model.number="features" :flag="FEATURE_FLAG.AIRMODE" />
+          <label>Permanently enable AIRMODE</label>
+        </p>
+        <p>
+          <FlagSwitch v-model.number="features" :flag="FEATURE_FLAG.FW_LAUNCH" />
+          <label>Permanently enable Launch Mode for Fixed Wing</label>
+        </p>
+        <p>
+          <FlagSwitch v-model.number="features" :flag="FEATURE_FLAG.TX_PROF_SEL" />
+          <label>Profile selection with TX stick command</label>
+        </p>
+        <p>
+          <FlagSwitch v-model.number="features" :flag="FEATURE_FLAG.THR_VBAT_COMP" />
+          <label>Throttle voltage compensation</label>
+        </p>
+        <p>
+          <FlagSwitch v-model.number="features" :flag="FEATURE_FLAG.BAT_PROFILE_AUTOSWITCH" />
+          <label>Automatic battery profile selection</label>
+        </p>
       </Panel>
     </Column>
   </Page>
