@@ -27,6 +27,21 @@
         <NumericSetting item="nav_rth_abort_threshold" label="RTH abort threshold [cm]" />
         <NumericSetting item="nav_emerg_landing_speed" label="Emergency landing speed [cm/s]" />
       </Panel>
+      <Panel title="Fixed Wing Auto Launch Settings">
+        <NumericSetting item="nav_fw_launch_idle_thr" label="Idle Throttle [uS]" />
+        <NumericSetting item="nav_fw_launch_max_angle" label="Max Throw Angle [°]" />
+        <NumericSetting item="nav_fw_launch_velocity" label="Threshold Velocity [cm/s]" />
+        <NumericSetting item="nav_fw_launch_accel" label="Threshold Acceleration [cm/s/s]" />
+        <NumericSetting item="nav_fw_launch_detect_time" label="Detect Time [ms]" />
+        <NumericSetting item="nav_fw_launch_motor_delay" label="Motor Delay [ms]" />
+        <NumericSetting item="nav_fw_launch_min_time" label="Minimum Launch Time [ms]" />
+        <NumericSetting item="nav_fw_launch_spinup_time" label="Motor Spinup Time [ms]" />
+        <NumericSetting item="nav_fw_launch_thr" label="Launch Throttle [uS]" />
+        <NumericSetting item="nav_fw_launch_climb_angle" label="Climb Angle [°]" />
+        <NumericSetting item="nav_fw_launch_timeout" label="Launch Timeout [ms]" />
+        <NumericSetting item="nav_fw_launch_max_altitude" label="Maximum Altitude [cm]" />
+        <NumericSetting item="nav_fw_launch_end_time" label="End Transition Time [ms]" />
+      </Panel>
     </Column>
     <Column>
       <Panel title="Position Estimator">
@@ -114,6 +129,19 @@ export default defineComponent({
       'nav_min_rth_distance',
       'nav_rth_abort_threshold',
       'nav_emerg_landing_speed',
+      'nav_fw_launch_idle_thr',
+      'nav_fw_launch_max_angle',
+      'nav_fw_launch_velocity',
+      'nav_fw_launch_accel',
+      'nav_fw_launch_detect_time',
+      'nav_fw_launch_motor_delay',
+      'nav_fw_launch_min_time',
+      'nav_fw_launch_spinup_time',
+      'nav_fw_launch_thr',
+      'nav_fw_launch_climb_angle',
+      'nav_fw_launch_timeout',
+      'nav_fw_launch_max_altitude',
+      'nav_fw_launch_end_time',
     )
   },
   methods: {
@@ -142,6 +170,19 @@ export default defineComponent({
         'nav_min_rth_distance',
         'nav_rth_abort_threshold',
         'nav_emerg_landing_speed',
+        'nav_fw_launch_idle_thr',
+        'nav_fw_launch_max_angle',
+        'nav_fw_launch_velocity',
+        'nav_fw_launch_accel',
+        'nav_fw_launch_detect_time',
+        'nav_fw_launch_motor_delay',
+        'nav_fw_launch_min_time',
+        'nav_fw_launch_spinup_time',
+        'nav_fw_launch_thr',
+        'nav_fw_launch_climb_angle',
+        'nav_fw_launch_timeout',
+        'nav_fw_launch_max_altitude',
+        'nav_fw_launch_end_time',
       )
       await this.saveSettingsToEeprom()
       await this.reboot()
