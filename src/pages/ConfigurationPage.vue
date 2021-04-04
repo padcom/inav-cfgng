@@ -107,6 +107,39 @@
           <FlagSwitch v-model.number="features" :flag="FEATURE_FLAG.GPS" />
           <label>GPS for navigation and telemetry</label>
         </p>
+        <p>
+          <Dropdown
+            v-model.number="settings['gps_provider'].value"
+            :options="settings['gps_provider'].values"
+          />
+          <label>Protocol</label>
+        </p>
+        <p>
+          <Dropdown
+            v-model.number="settings['gps_sbas_mode'].value"
+            :options="settings['gps_sbas_mode'].values"
+          />
+          <label>Ground Assistance Type</label>
+        </p>
+        <p>
+          <BoolSwitch v-model.number="settings['gps_ublox_use_galileo'].value" />
+          <label>Gps use Galileo Satellites</label>
+        </p>
+        <p>
+          <input type="number"
+            v-model.number="settings['tz_offset'].value"
+            :min="settings['tz_offset'].min"
+            :max="settings['tz_offset'].max"
+          />
+          <label>Timezone Offset [Mins]</label>
+        </p>
+        <p>
+          <Dropdown
+            v-model.number="settings['tz_automatic_dst'].value"
+            :options="settings['tz_automatic_dst'].values"
+          />
+          <label>Automatic Daylight Savings Time</label>
+        </p>
       </Panel>
       <Panel class="reversible-motors" title="Reversible motors">
         <p>Reversible motors</p>
@@ -151,6 +184,7 @@ import Panel from '../components/common/Panel.vue'
 import Actions from '../components/Actions.vue'
 import Dropdown from '../components/editors/Dropdown.vue'
 import FlagSwitch from '../components/editors/FlagSwitch.vue'
+import BoolSwitch from '../components/editors/BoolSwitch.vue'
 
 import { useSettings } from '../composables/settings'
 import { useFeatures } from '../composables/features'
@@ -167,6 +201,7 @@ export default defineComponent({
     Actions,
     Dropdown,
     FlagSwitch,
+    BoolSwitch,
   },
   setup() {
     const { settings, load: loadSettings, save: saveSettings } = useSettings()
@@ -188,6 +223,7 @@ export default defineComponent({
       'gyro_hardware_lpf', 'looptime', 'i2c_speed', 'name',
       'acc_hardware', 'mag_hardware', 'baro_hardware', 'pitot_hardware', 'rangefinder_hardware', 'opflow_hardware',
       'align_board_roll', 'align_board_pitch', 'align_board_yaw', 'align_mag',
+      'gps_provider', 'gps_sbas_mode', 'gps_ublox_use_galileo', 'tz_offset', 'tz_automatic_dst'
     )
   }
 })
