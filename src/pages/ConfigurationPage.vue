@@ -278,6 +278,37 @@
         </p>
       </Panel>
       <Panel class="current-sensor" title="Current Sensor">
+        <p>
+          <FlagSwitch v-model.number="features" :flag="FEATURE_FLAG.CURRENT_METER" />
+          <label>Battery current monitoring</label>
+        </p>
+        <p>
+          <Dropdown
+            v-model.number="settings['current_meter_type'].value"
+            :options="settings['current_meter_type'].values"
+          />
+          <label>Current Meter Type</label>
+        </p>
+        <p>
+          <input type="number"
+            v-model.number="settings['current_meter_scale'].value"
+            :min="settings['current_meter_scale'].min"
+            :max="settings['current_meter_scale'].max"
+          />
+          <label>Scale the output voltage to milliamps [1/10th mV/A]</label>
+        </p>
+        <p>
+          <input type="number"
+            v-model.number="settings['current_meter_offset'].value"
+            :min="settings['current_meter_offset'].min"
+            :max="settings['current_meter_offset'].max"
+          />
+          <label>Offset in millivolt steps</label>
+        </p>
+        <p>
+          <input type="string" readonly v-model="current" />
+          <label>Battery Current</label>
+        </p>
       </Panel>
       <Panel class="battery-capacity" title="Battery Capacity">
         <p>Battery capacity</p>
@@ -328,11 +359,12 @@ export default defineComponent({
     const { settings, load: loadSettings, save: saveSettings } = useSettings()
     const { features, load: loadFeatures, save: saveFeatures } = useFeatures()
     const voltage = ref(0)
+    const current = ref(0)
 
     return {
       settings, loadSettings, saveSettings,
       features, loadFeatures, saveFeatures,
-      voltage
+      voltage, current
     }
   },
   computed: {
@@ -343,6 +375,7 @@ export default defineComponent({
   async mounted() {
     this.analogRefreshTask = this.$scheduler.enqueue(50, new AnalogRequest(), response => {
       this.voltage = response.voltage
+      this.current = response.current
     })
     await this.loadFeatures()
     await this.loadSettings(
@@ -355,6 +388,7 @@ export default defineComponent({
       'vbat_meter_type', 'bat_voltage_src', 'bat_cells', 'vbat_cell_detect_voltage',
       'vbat_min_cell_voltage', 'vbat_max_cell_voltage', 'vbat_warning_cell_voltage',
       'vbat_scale',
+      'current_meter_type', 'current_meter_scale', 'current_meter_offset'
     )
   },
   beforeUnmount() {

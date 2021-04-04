@@ -22,7 +22,7 @@ export class AnalogResponse extends Response {
     return this.getUint16(3, true) // 0-1023
   }
 
-  get amperage() {
+  get current() {
     return this.getInt16(5, true) / 100 // A
   }
 }
