@@ -66,6 +66,10 @@
         <DropdownSetting item="fw_loiter_direction" label="Loiter direction" />
         <NumericSetting item="nav_fw_control_smoothness" label="Control Smoothness" />
       </Panel>
+      <Panel title="Waypoint Navigation Settings">
+        <NumericSetting item="nav_wp_radius" label="Waypoint radius [cm]" />
+        <NumericSetting item="nav_wp_safe_distance" label="Waypoint safe distance [cm]" />
+      </Panel>
     </Column>
   </Page>
 
@@ -179,6 +183,8 @@ export default defineComponent({
       'nav_fw_loiter_radius',
       'fw_loiter_direction',
       'nav_fw_control_smoothness',
+      'nav_wp_radius',
+      'nav_wp_safe_distance',
     )
   },
   methods: {
@@ -238,6 +244,8 @@ export default defineComponent({
         'nav_fw_loiter_radius',
         'fw_loiter_direction',
         'nav_fw_control_smoothness',
+        'nav_wp_radius',
+        'nav_wp_safe_distance',
       )
       await this.saveSettingsToEeprom()
       await this.reboot()
