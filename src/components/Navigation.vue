@@ -19,10 +19,19 @@
 
       <div class="divider" />
 
-      <li class="navitem">
+      <li v-if="isSerialReady" class="navitem">
         <router-link to="/configuration">
           <img class="icon" src="./navigation/cf_icon_config_white.svg">
           <div class="title">Configuration</div>
+        </router-link>
+      </li>
+
+      <div class="divider" />
+
+      <li v-if="isSerialReady" class="navitem">
+        <router-link to="/advanced-tuning">
+          <img class="icon" src="./navigation/cf_icon_advanced_white.svg">
+          <div class="title">Advanced tuning</div>
         </router-link>
       </li>
     </ul>

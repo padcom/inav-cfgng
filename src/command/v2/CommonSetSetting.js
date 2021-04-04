@@ -33,8 +33,10 @@ export class CommonSetSettingRequest extends Request {
         break
       case DATA_TYPE.UINT32:
       case DATA_TYPE.INT32:
-      case DATA_TYPE.FLOAT:
         result.push32(this.#value)
+        break
+      case DATA_TYPE.FLOAT:
+        result.pushFloat(this.#value)
         break
       case DATA_TYPE.STRING:
         result.pushString(this.#value)

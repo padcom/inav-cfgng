@@ -72,7 +72,8 @@ const MINMAX = {
 
 // type overrides based on setting name
 const SETTING_TYPES = {
-  'name': { type: DATA_TYPE.STRING }
+  'name': { type: DATA_TYPE.STRING },
+  'inav_w_z_baro_p': { type: DATA_TYPE.FLOAT },
 }
 
 yaml.groups.forEach(group => {

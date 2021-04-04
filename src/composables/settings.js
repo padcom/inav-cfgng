@@ -32,7 +32,7 @@ async function loadSettings(...items) {
       } else if (setting.type === DATA_TYPE.INT32) {
         setting.value = response.signed
       } else if (setting.type === DATA_TYPE.FLOAT) {
-        setting.value = response.float
+        setting.value = Math.round(response.float * 1000000) / 1000000
       } else {
         setting.type = response.unsignedType
         setting.value = response.unsigned

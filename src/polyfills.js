@@ -26,7 +26,19 @@ if (!Array.prototype.push32) {
   }
 }
 
-  if (!Array.prototype.pushString) {
+if (!Array.prototype.pushFloat) {
+  Array.prototype.pushFloat = function(val) {
+    const buffer = new DataView(new Uint8Array(4).buffer)
+    buffer.setFloat32(0, val, true)
+    this.push8(buffer.getUint8(0))
+    this.push8(buffer.getUint8(1))
+    this.push8(buffer.getUint8(2))
+    this.push8(buffer.getUint8(3))
+    return this
+  }
+}
+
+if (!Array.prototype.pushString) {
   Array.prototype.pushString = function(val) {
     for (let i = 0; i < val.length; i++) {
       this.push8(val.charCodeAt(i))
