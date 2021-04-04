@@ -137,16 +137,21 @@ export default defineComponent({
   },
   setup() {
     const { saveSettingsToEeprom, reboot } = useCommonCommands()
-    const { settings, load: loadSettings, save: saveSettings } = useSettings()
-    const { features, load: loadFeatures, save: saveFeatures } = useFeatures()
+    const { load: loadSettings, save: saveSettings } = useSettings()
+    const { load: loadFeatures, save: saveFeatures } = useFeatures()
     const voltage = ref(0)
     const current = ref(0)
 
     return {
       saveSettingsToEeprom, reboot,
-      settings, loadSettings, saveSettings,
-      features, loadFeatures, saveFeatures,
+      loadSettings, saveSettings,
+      loadFeatures, saveFeatures,
       voltage, current
+    }
+  },
+  data() {
+    return {
+      settings: []
     }
   },
   computed: {
@@ -160,19 +165,7 @@ export default defineComponent({
       this.current = response.current
     })
     await this.loadFeatures()
-    await this.loadSettings(
-      'gyro_hardware_lpf', 'looptime', 'i2c_speed', 'name',
-      'acc_hardware', 'mag_hardware', 'baro_hardware', 'pitot_hardware', 'rangefinder_hardware', 'opflow_hardware',
-      'align_board_roll', 'align_board_pitch', 'align_board_yaw', 'align_mag',
-      'gps_provider', 'gps_sbas_mode', 'gps_ublox_use_galileo', 'tz_offset', 'tz_automatic_dst',
-      '3d_deadband_low', '3d_deadband_high', '3d_neutral',
-      'vtx_band', 'vtx_channel', 'vtx_power', 'vtx_low_power_disarm',
-      'vbat_meter_type', 'bat_voltage_src', 'bat_cells', 'vbat_cell_detect_voltage',
-      'vbat_min_cell_voltage', 'vbat_max_cell_voltage', 'vbat_warning_cell_voltage',
-      'vbat_scale',
-      'current_meter_type', 'current_meter_scale', 'current_meter_offset',
-      'battery_capacity_unit', 'battery_capacity', 'battery_capacity_warning', 'battery_capacity_critical',
-    )
+    await this.loadSettings(...this.settings)
   },
   beforeUnmount() {
     this.$scheduler.dequeue(this.analogRefreshTask)
@@ -180,19 +173,7 @@ export default defineComponent({
   methods: {
     async saveAndReboot() {
       await this.saveFeatures()
-      await this.saveSettings(
-        'gyro_hardware_lpf', 'looptime', 'i2c_speed', 'name',
-        'acc_hardware', 'mag_hardware', 'baro_hardware', 'pitot_hardware', 'rangefinder_hardware', 'opflow_hardware',
-        'align_board_roll', 'align_board_pitch', 'align_board_yaw', 'align_mag',
-        'gps_provider', 'gps_sbas_mode', 'gps_ublox_use_galileo', 'tz_offset', 'tz_automatic_dst',
-        '3d_deadband_low', '3d_deadband_high', '3d_neutral',
-        'vtx_band', 'vtx_channel', 'vtx_power', 'vtx_low_power_disarm',
-        'vbat_meter_type', 'bat_voltage_src', 'bat_cells', 'vbat_cell_detect_voltage',
-        'vbat_min_cell_voltage', 'vbat_max_cell_voltage', 'vbat_warning_cell_voltage',
-        'vbat_scale',
-        'current_meter_type', 'current_meter_scale', 'current_meter_offset',
-        'battery_capacity_unit', 'battery_capacity', 'battery_capacity_warning', 'battery_capacity_critical',
-      )
+      await this.saveSettings(...this.settings)
       await this.saveSettingsToEeprom()
       await this.reboot()
       this.$router.push('/configuration')

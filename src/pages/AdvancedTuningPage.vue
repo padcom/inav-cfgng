@@ -45,6 +45,9 @@
     </Column>
     <Column>
       <Panel title="Position Estimator">
+        <Warning>
+          This value should be changed very carefully. In most cases there is not need to change that. For advanced users only!
+        </Warning>
         <NumericSetting item="inav_w_z_baro_p" label="Vertical position barometer weight" />
         <NumericSetting item="inav_w_z_gps_p" label="Vertical position GPS weight" />
         <NumericSetting item="inav_w_z_gps_v" label="Vertical speed GPS weight" />
@@ -96,41 +99,41 @@ import Page from '../components/common/Page.vue'
 import PageHeader from '../components/common/PageHeader.vue'
 import Column from '../components/common/Column.vue'
 import Panel from '../components/common/Panel.vue'
+import Warning from '../components/common/Warning.vue'
 import Actions from '../components/Actions.vue'
 import DropdownSetting from '../components/editors/DropdownSetting.vue'
 import NumericSetting from '../components/editors/NumericSetting.vue'
-import FeatureSetting from '../components/editors/FeatureSetting.vue'
 import BoolSetting from '../components/editors/BoolSetting.vue'
 
 import { useSettings } from '../composables/settings'
-import { useFeatures } from '../composables/features'
 import { useCommonCommands } from '../composables/common-commands'
 
 import { FEATURE_FLAG } from '../models/feature'
 
 export default defineComponent({
-  name: 'ConfigurationPage',
+  name: 'AdvancedTuningPage',
   components: {
     Page,
     PageHeader,
     Column,
     Panel,
+    Warning,
     Actions,
     DropdownSetting,
     NumericSetting,
-    FeatureSetting,
     BoolSetting,
   },
   setup() {
     const { saveSettingsToEeprom, reboot, getSettingInfo } = useCommonCommands()
-    const { settings, load: loadSettings, save: saveSettings } = useSettings()
-    const { features, load: loadFeatures, save: saveFeatures } = useFeatures()
+    const { load: loadSettings, save: saveSettings } = useSettings()
 
     return {
       saveSettingsToEeprom, reboot, getSettingInfo,
-      settings, loadSettings, saveSettings,
-      features, loadFeatures, saveFeatures,
+      loadSettings, saveSettings,
     }
+  },
+  data() {
+    return { settings: [] }
   },
   computed: {
     FEATURE_FLAG() {
@@ -138,141 +141,11 @@ export default defineComponent({
     }
   },
   async mounted() {
-    await this.loadFeatures()
-    await this.loadSettings(
-      'nav_user_control_mode',
-      'inav_w_z_baro_p',
-      'nav_auto_speed',
-      'nav_manual_speed',
-      'nav_auto_climb_rate',
-      'nav_manual_climb_rate',
-      'nav_mc_bank_angle',
-      'nav_use_midthr_for_althold',
-      'nav_mc_hover_thr',
-      'nav_rth_alt_mode',
-      'nav_rth_altitude',
-      'nav_rth_home_altitude',
-      'nav_rth_climb_first',
-      'nav_rth_climb_ignore_emerg',
-      'nav_rth_tail_first',
-      'nav_rth_allow_landing',
-      'nav_landing_speed',
-      'nav_land_slowdown_minalt',
-      'nav_land_slowdown_maxalt',
-      'nav_min_rth_distance',
-      'nav_rth_abort_threshold',
-      'nav_emerg_landing_speed',
-      'nav_fw_launch_idle_thr',
-      'nav_fw_launch_max_angle',
-      'nav_fw_launch_velocity',
-      'nav_fw_launch_accel',
-      'nav_fw_launch_detect_time',
-      'nav_fw_launch_motor_delay',
-      'nav_fw_launch_min_time',
-      'nav_fw_launch_spinup_time',
-      'nav_fw_launch_thr',
-      'nav_fw_launch_climb_angle',
-      'nav_fw_launch_timeout',
-      'nav_fw_launch_max_altitude',
-      'nav_fw_launch_end_time',
-      'inav_w_z_baro_p',
-      'inav_w_z_gps_p',
-      'inav_w_z_gps_v',
-      'inav_w_xy_gps_p',
-      'inav_w_xy_gps_v',
-      'gps_min_sats',
-      'nav_fw_cruise_thr',
-      'nav_fw_cruise_yaw_rate',
-      'nav_fw_allow_manual_thr_increase',
-      'nav_fw_min_thr',
-      'nav_fw_max_thr',
-      'nav_fw_bank_angle',
-      'nav_fw_climb_angle',
-      'nav_fw_dive_angle',
-      'nav_fw_pitch2thr',
-      'nav_fw_loiter_radius',
-      'fw_loiter_direction',
-      'nav_fw_control_smoothness',
-      'nav_wp_radius',
-      'nav_wp_safe_distance',
-      'nav_mc_braking_speed_threshold',
-      'nav_mc_braking_disengage_speed',
-      'nav_mc_braking_timeout',
-      'nav_mc_braking_boost_factor',
-      'nav_mc_braking_boost_timeout',
-      'nav_mc_braking_boost_speed_threshold',
-      'nav_mc_braking_boost_disengage_speed',
-      'nav_mc_braking_bank_angle',
-    )
+    await this.loadSettings(...this.settings)
   },
   methods: {
     async saveAndReboot() {
-      await this.saveFeatures()
-      await this.saveSettings(
-        'nav_user_control_mode',
-        'inav_w_z_baro_p',
-        'nav_auto_speed',
-        'nav_manual_speed',
-        'nav_auto_climb_rate',
-        'nav_manual_climb_rate',
-        'nav_mc_bank_angle',
-        'nav_use_midthr_for_althold',
-        'nav_mc_hover_thr',
-        'nav_rth_alt_mode',
-        'nav_rth_altitude',
-        'nav_rth_home_altitude',
-        'nav_rth_climb_first',
-        'nav_rth_climb_ignore_emerg',
-        'nav_rth_tail_first',
-        'nav_rth_allow_landing',
-        'nav_landing_speed',
-        'nav_land_slowdown_minalt',
-        'nav_land_slowdown_maxalt',
-        'nav_min_rth_distance',
-        'nav_rth_abort_threshold',
-        'nav_emerg_landing_speed',
-        'nav_fw_launch_idle_thr',
-        'nav_fw_launch_max_angle',
-        'nav_fw_launch_velocity',
-        'nav_fw_launch_accel',
-        'nav_fw_launch_detect_time',
-        'nav_fw_launch_motor_delay',
-        'nav_fw_launch_min_time',
-        'nav_fw_launch_spinup_time',
-        'nav_fw_launch_thr',
-        'nav_fw_launch_climb_angle',
-        'nav_fw_launch_timeout',
-        'nav_fw_launch_max_altitude',
-        'nav_fw_launch_end_time',
-        'inav_w_z_baro_p',
-        'inav_w_z_gps_p',
-        'inav_w_z_gps_v',
-        'inav_w_xy_gps_p',
-        'inav_w_xy_gps_v',
-        'gps_min_sats',
-        'nav_fw_cruise_thr',
-        'nav_fw_cruise_yaw_rate',
-        'nav_fw_allow_manual_thr_increase',
-        'nav_fw_min_thr',
-        'nav_fw_max_thr',
-        'nav_fw_bank_angle',
-        'nav_fw_climb_angle',
-        'nav_fw_dive_angle',
-        'nav_fw_pitch2thr',
-        'nav_fw_loiter_radius',
-        'fw_loiter_direction',
-        'nav_fw_control_smoothness',
-        'nav_wp_radius',
-        'nav_wp_safe_distance',
-        'nav_mc_braking_speed_threshold',
-        'nav_mc_braking_disengage_speed',
-        'nav_mc_braking_timeout',
-        'nav_mc_braking_boost_factor',
-        'nav_mc_braking_boost_timeout',
-        'nav_mc_braking_boost_speed_threshold',
-        'nav_mc_braking_boost_disengage_speed',
-        'nav_mc_braking_bank_angle',
-      )
+      await this.saveSettings(...this.settings)
       await this.saveSettingsToEeprom()
       await this.reboot()
       this.$router.push('/advanced-tuning')

@@ -15,6 +15,7 @@
 import { defineComponent } from 'vue'
 import NumericInput from './NumericInput.vue'
 import { useSettings } from '../../composables/settings'
+import { useCurrentPage } from '../../composables/current-page'
 
 export default defineComponent({
   components: {
@@ -26,7 +27,11 @@ export default defineComponent({
   },
   setup() {
     const { settings } = useSettings()
-    return { settings }
+    const page = useCurrentPage()
+    return { settings, page }
+  },
+  created() {
+    this.page?.data?.settings.push(this.item)
   }
 })
 </script>

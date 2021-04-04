@@ -13,6 +13,7 @@
 <script>
 import { defineComponent } from 'vue'
 import { useSettings } from '../../composables/settings'
+import { useCurrentPage } from '../../composables/current-page'
 
 export default defineComponent({
   props: {
@@ -21,7 +22,11 @@ export default defineComponent({
   },
   setup() {
     const { settings } = useSettings()
-    return { settings }
+    const page = useCurrentPage()
+    return { settings, page }
+  },
+  created() {
+    this.page?.data?.settings.push(this.item)
   },
   methods: {
     update(e) {
