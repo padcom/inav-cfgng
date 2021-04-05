@@ -47,7 +47,7 @@ export default defineComponent({
   font-size: 12px;
   text-align: center;
   height: 15px;
-  width: 500px;
+  width: calc(100% - 120px); // .channel-name width + .channel-display margin-left
   margin-top: 2px;
   margin-left: 20px;
   border: var(--input-border);
