@@ -28,6 +28,17 @@
       "target": [
         "AppImage"
       ]
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": [
+        "msi",
+        "zip"
+      ]
     }
   },
   "author": "Matthias Hryniszak <padcom@gmail.com>",
