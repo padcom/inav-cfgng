@@ -11,6 +11,7 @@ import * as EepromWrite from './command/v1/EepromWrite'
 import * as Feature from './command/v1/Feature'
 import * as FeatureSet from './command/v1/SetFeature'
 import * as Analog from './command/v1/Analog'
+import * as Rc from './command/v1/Rc'
 
 import * as CommonSerialConfig from './command/v2/CommonSerialConfig'
 import * as CommonSetSerialConfig from './command/v2/CommonSetSerialConfig'
@@ -33,6 +34,7 @@ registry.registerMSPv1Command(EepromWrite)
 registry.registerMSPv1Command(Feature)
 registry.registerMSPv1Command(FeatureSet)
 registry.registerMSPv1Command(Analog)
+registry.registerMSPv1Command(Rc)
 
 registry.registerMSPv2Command(CommonSerialConfig)
 registry.registerMSPv2Command(CommonSetSerialConfig)

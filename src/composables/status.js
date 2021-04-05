@@ -21,7 +21,7 @@ const status = reactive({
   arming: {},
 })
 
-scheduler.enqueue(1, new StatusExRequest(), async response => {
+scheduler.enqueue(20, new StatusExRequest(), async response => {
   status.cycleTime = response.cycleTime
   status.i2cError = response.i2cError
   status.activeSensorsFlag = response.activeSensorsFlag
