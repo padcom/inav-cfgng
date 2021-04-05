@@ -8,32 +8,28 @@
       <Panel title="Receiver Mode">
         <DropdownSetting item="receiver_type" label="Receiver type" />
         <DropdownSetting v-if-setting.receiver_type="2" item="serialrx_provider" label="Serial Receiver Provider">
-          <Info style="margin-top: 8px;">
+          <Info style="margin-bottom: 8px;">
             <p>Note: Remember to configure a Serial Port (via Ports tab) for the serial receiver</p>
           </Info>
         </DropdownSetting>
         <BoolSetting v-if-setting.receiver_type="2" item="serialrx_inverted" label="Serial Port inverted (comparing to protocol default)" />
         <DropdownSetting v-if-setting.receiver_type="2" item="serialrx_halfduplex" label="Serial receiver half-duplex" />
       </Panel>
-      <Panel>
-        <Column style="background-color: red; flex-basis: 5px; ">
-          <strong>test</strong>
-        </Column>
-        <Column style="background-color: green; flex-basis: 5px; ">
-          <header>test</header>
-          <Column>
-            a
-          </Column>
-          <Column>
-            b
-          </Column>
-        </Column>
+      <Panel title="Curves">
+        <NumericSetting item="thr_mid" :scale="100" label="Throttle Mid" />
+        <NumericSetting item="thr_expo" label="Throttle Expo" />
+        <NumericSetting item="deadband" label="RC Deadband" />
+        <NumericSetting item="yaw_deadband" label="Yaw Deadband" />
+        <NumericSetting item="rc_expo" :scale="100" label="RC Expo" />
+        <NumericSetting item="manual_rc_expo" :scale="100" label="Manual RC Expo" />
+        <NumericSetting item="rc_yaw_expo" :scale="100" label="RC Yaw Expo" />
+        <NumericSetting item="manual_rc_yaw_expo" :scale="100" label="Manual RC Yaw Expo" />
       </Panel>
     </Column>
   </Page>
 
   <Actions>
-    <button @click="saveAndReboot" class="action">Save and Reboot</button>
+    <button class="action" @click="saveAndReboot">Save and Reboot</button>
   </Actions>
 </template>
 
@@ -47,7 +43,7 @@ import Panel from '../components/common/Panel.vue'
 import Info from '../components/common/Info.vue'
 import Actions from '../components/Actions.vue'
 import Condition from '../components/Condition.vue'
-import Channel from '../components/common/Channel.vue'
+import Channel from './receiver/Channel.vue'
 import DropdownSetting from '../components/editors/DropdownSetting.vue'
 import BoolSetting from '../components/editors/BoolSetting.vue'
 import NumericSetting from '../components/editors/NumericSetting.vue'

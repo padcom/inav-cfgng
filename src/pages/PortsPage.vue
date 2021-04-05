@@ -17,7 +17,7 @@
   </Page>
 
   <Actions>
-    <button @click="saveAndReboot" class="action">Save and Reboot</button>
+    <button class="action" @click="saveAndReboot">Save and Reboot</button>
   </Actions>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="panel full-width">
-    <Header v-if="title">{{ title }}</Header>
+    <header v-if="title">{{ title }}</header>
     <Column class="content">
       <slot />
     </Column>
@@ -10,14 +10,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
-import Header from './Header.vue'
 import Column from './Column.vue'
 
 export default defineComponent({
   name: 'Panel',
   components: {
     Column,
-    Header,
   },
   props: {
     title: { type: String }
