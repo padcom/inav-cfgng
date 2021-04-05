@@ -27,7 +27,7 @@
       </Panel>
       <Panel title="Curves">
         <NumericSetting item="thr_mid" :scale="100" label="Throttle Mid" />
-        <NumericSetting item="thr_expo" label="Throttle Expo" />
+        <NumericSetting item="thr_expo" :scale="100" label="Throttle Expo" />
         <NumericSetting item="deadband" label="RC Deadband" />
         <NumericSetting item="yaw_deadband" label="Yaw Deadband" />
         <NumericSetting item="rc_expo" :scale="100" label="RC Expo" />
