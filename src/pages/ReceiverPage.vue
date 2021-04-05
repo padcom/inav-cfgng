@@ -10,7 +10,9 @@
         ]" />
         <DropdownSetting item="rssi_channel" label="RSSI Channel" :options="rssiChannels" />
       </Panel>
-      <Channel v-for="(channel, index) in channels" :key="index" :index="index" :value="channel" />
+      <Panel title="Channel preview">
+        <Channel v-for="(channel, index) in channels" :key="index" :index="index" :value="channel" />
+      </Panel>
     </Column>
     <Column>
       <Panel title="Receiver Mode">
@@ -50,7 +52,6 @@ import Column from '../components/common/Column.vue'
 import Panel from '../components/common/Panel.vue'
 import Info from '../components/common/Info.vue'
 import Actions from '../components/Actions.vue'
-import Condition from '../components/Condition.vue'
 import Channel from './receiver/Channel.vue'
 import DropdownField from '../components/editors/DropdownField.vue'
 import DropdownSetting from '../components/editors/DropdownSetting.vue'
@@ -73,7 +74,6 @@ export default defineComponent({
     Panel,
     Info,
     Actions,
-    Condition,
     Channel,
     DropdownField,
     DropdownSetting,
@@ -116,7 +116,6 @@ export default defineComponent({
     await this.loadSettings(...this.settings)
     const response = await this.$serial.query(new RxMapRequest())
     this.mappings = response.mappings.join(',')
-    console.log(response.mappings)
   },
   beforeUnmount() {
     this.$scheduler.dequeue(this.refreshChannelsTaskId)

@@ -39,7 +39,7 @@ export default defineComponent({
 }
 
 .channel-name {
-  width: 80px;
+  width: 60px;
   text-align: right;
 }
 
@@ -47,7 +47,7 @@ export default defineComponent({
   font-size: 12px;
   text-align: center;
   height: 15px;
-  width: calc(100% - 100px); // .channel-name width + .channel-display margin-left
+  width: calc(100% - 80px); // .channel-name width + .channel-display margin-left
   margin-top: 2px;
   margin-left: 20px;
   border: var(--input-border);

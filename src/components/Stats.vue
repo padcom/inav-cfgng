@@ -18,9 +18,11 @@
 </template>
 
 <script>
-import { version } from '../../package.json'
 import { defineComponent } from 'vue'
+
 import { useStatus } from '../composables/status'
+
+import { version } from '../../package.json'
 
 export default defineComponent({
   name: 'Stats',

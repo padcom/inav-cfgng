@@ -11,7 +11,9 @@
 
 <script>
 import { defineComponent } from 'vue'
+
 import DropdownField from './DropdownField.vue'
+
 import { useSettings } from '../../composables/settings'
 import { useCurrentPage } from '../../composables/current-page'
 
@@ -33,21 +35,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="scss" scoped>
-.field {
-  flex-basis: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.input {
-  width: 150px;
-  margin-right: 8px;
-}
-
-.hint {
-  cursor: help;
-  margin-left: auto;
-}
-</style>

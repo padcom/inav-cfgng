@@ -3,7 +3,6 @@
 </template>
 
 <script>
-import { v4 as uuid } from 'uuid'
 import { defineComponent } from 'vue'
 
 import Switch from './Switch.vue'
@@ -20,9 +19,6 @@ export default defineComponent({
     'update:modelValue'
   ],
   computed: {
-    id() {
-      return uuid()
-    },
     checked() {
       return (this.modelValue & this.flag) !== 0
     }

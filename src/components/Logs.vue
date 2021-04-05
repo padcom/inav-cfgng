@@ -12,6 +12,7 @@
 <script>
 import format from 'date-fns/format'
 import { defineComponent } from 'vue'
+
 import { Logger } from '../logger'
 
 export default defineComponent({

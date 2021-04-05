@@ -12,6 +12,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
+  inheritAttrs: false,
   props: {
     modelValue: { type: [ String, Number ], default: null },
     min: { type: Number, default: 0 },

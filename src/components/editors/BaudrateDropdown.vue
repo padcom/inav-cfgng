@@ -6,6 +6,7 @@
 import { defineComponent } from 'vue'
 
 import Dropdown from './Dropdown.vue'
+
 import { BAUDRATE } from '../../models/serial-port'
 
 export default defineComponent({

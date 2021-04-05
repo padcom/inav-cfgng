@@ -149,9 +149,6 @@ export default defineComponent({
       await this.saveSettingsToEeprom()
       await this.reboot()
       this.$router.push('/advanced-tuning')
-    },
-    async test() {
-      console.log((await this.getSettingInfo('inav_w_z_baro_p')).toString())
     }
   }
 })

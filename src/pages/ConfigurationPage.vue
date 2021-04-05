@@ -55,14 +55,14 @@
         <NumericSetting item="vbat_max_cell_voltage" :scale="10" label="Maximum Cell Voltage" />
         <NumericSetting item="vbat_warning_cell_voltage" :scale="10" label="Warning Cell Voltage (%)" />
         <NumericSetting item="vbat_scale" label="Voltage Scale" />
-        <ReadonlySetting :value="voltage" label="Voltage" />
+        <ReadonlyField :value="voltage" label="Voltage" />
       </Panel>
       <Panel title="Current Sensor">
         <FeatureSetting :flag="FEATURE_FLAG.CURRENT_METER" label="Battery current monitoring" />
         <DropdownSetting item="current_meter_type" label="Current Meter Type" />
         <NumericSetting item="current_meter_scale" label="Scale the output voltage to milliamps [1/10th mV/A]" />
         <NumericSetting item="current_meter_offset" label="Offset in millivolt steps" />
-        <ReadonlySetting :value="current" label="Battery Current" />
+        <ReadonlyField :value="current" label="Battery Current" />
       </Panel>
       <Panel title="Battery Capacity">
         <DropdownSetting item="battery_capacity_unit" label="Unit" />
@@ -110,7 +110,7 @@ import NumericSetting from '../components/editors/NumericSetting.vue'
 import FeatureSetting from '../components/editors/FeatureSetting.vue'
 import BoolSetting from '../components/editors/BoolSetting.vue'
 import StringSetting from '../components/editors/StringSetting.vue'
-import ReadonlySetting from '../components/editors/ReadonlySetting.vue'
+import ReadonlyField from '../components/editors/ReadonlyField.vue'
 
 import { useSettings } from '../composables/settings'
 import { useFeatures } from '../composables/features'
@@ -133,7 +133,7 @@ export default defineComponent({
     FeatureSetting,
     BoolSetting,
     StringSetting,
-    ReadonlySetting,
+    ReadonlyField,
   },
   setup() {
     const { saveSettingsToEeprom, reboot } = useCommonCommands()

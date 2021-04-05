@@ -1,24 +1,29 @@
 <template>
-  <div class="field">
-    <input type="text" class="input"
-      v-bind="$attrs"
-      :value="settings[item].value"
-      @input="update"
-    />
-    <label class="label">{{ label }}</label>
-    <img v-if="settings[item].description" class="hint" src="./cf_icon_info_green.svg" width="16" :title="settings[item].description" />
-  </div>
+  <StringField
+    v-bind="$attrs"
+    v-model.number="settings[item].value"
+    :title="settings[item].description"
+    :description="settings[item].description"
+  >
+    <slot />
+  </StringField>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
+
+import StringField from './StringField.vue'
+
 import { useSettings } from '../../composables/settings'
 import { useCurrentPage } from '../../composables/current-page'
 
 export default defineComponent({
+  inheritAttrs: false,
+  components: {
+    StringField,
+  },
   props: {
     item: { type: String, required: true },
-    label: { type: String, default: '' },
   },
   setup() {
     const { settings } = useSettings()
@@ -27,29 +32,6 @@ export default defineComponent({
   },
   created() {
     this.page?.data?.settings.push(this.item)
-  },
-  methods: {
-    update(e) {
-      this.settings[this.item].value = e.target.value
-    }
   }
 })
 </script>
-
-<style lang="scss" scoped>
-.field {
-  display: flex;
-  align-items: center;
-  // margin: 0px 0;
-}
-
-.input {
-  width: 150px;
-  margin-right: 8px;
-}
-
-.hint {
-  cursor: help;
-  margin-left: auto;
-}
-</style>

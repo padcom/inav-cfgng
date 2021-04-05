@@ -35,6 +35,7 @@
 
 <script>
 import { defineComponent } from 'vue'
+
 import Dropdown from '../components/editors/Dropdown.vue'
 import Switch from '../components/editors/Switch.vue'
 
