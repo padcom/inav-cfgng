@@ -74,17 +74,15 @@ h1 {
 
 .content {
   grid-area: content;
-
-  display: flex;
-  flex-direction: column;
   justify-content: flex-start;
-  height: 100%;
   background-color: #f8f8f8;
   padding: 0;
+  overflow: none;
 
-  div:last-of-type() {
+  &:deep(.actions) {
+    position: sticky;
+    bottom: 0;
     margin-top: auto;
-    background-color: blue;
   }
 }
 

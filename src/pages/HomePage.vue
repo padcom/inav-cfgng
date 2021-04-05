@@ -15,6 +15,9 @@ export default defineComponent({
   components: {
     Page,
     PageHeader,
+  },
+  data() {
+    return { x: 100 }
   }
 })
 </script>

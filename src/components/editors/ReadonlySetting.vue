@@ -21,6 +21,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .field {
+  flex-basis: 100%;
   display: flex;
   align-items: center;
   // margin: 0px 0;

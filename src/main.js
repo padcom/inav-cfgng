@@ -16,6 +16,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { logger, ipc, serial, taskScheduler } from './plugins'
 import { router } from './router'
+import { install as installDirectives } from './directives'
 
 const app = createApp(App)
   .use(logger)
@@ -23,5 +24,7 @@ const app = createApp(App)
   .use(serial)
   .use(taskScheduler)
   .use(router)
+
+installDirectives(app)
 
 router.isReady().then(() => app.mount('#app'))

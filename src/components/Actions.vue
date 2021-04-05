@@ -1,5 +1,5 @@
 <template>
-  <div class="actions" >
+  <div class="actions full-width" >
     <div class="left">
       <slot name="left" />
     </div>

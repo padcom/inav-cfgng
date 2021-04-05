@@ -152,15 +152,50 @@ input[type=number]::-webkit-outer-spin-button {
    opacity: 1;
 }
 
+// grid system based on panels
+.column {
+  display: flex;
+  flex: 1 0 0px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  min-width: 1px;
+}
+
+.column + .column {
+  margin-left: 12px;
+}
+
+header {
+  flex-basis: 100%;
+}
+
+.full-width {
+  flex-basis: 100%;
+}
+
 .field {
-  margin-top: 8px;
+  flex-basis: 100%;
+  display: flex;
+  flex: 1 1 0px;
+  flex-wrap: wrap;
+
+  // margin-bottom: 8px;
+  padding-top: 8px;
   padding-bottom: 8px;
-  border-bottom: solid 1px var(--input-background-color);
+
+  border-top: solid 1px var(--input-background-color);
+
   &:first-of-type {
-    margin-top: 0px;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-top: none;
   }
+
   &:last-of-type {
     padding-bottom: 0;
     border-bottom: none;
   }
 }
+
+

@@ -7,14 +7,27 @@
     <Column>
       <Panel title="Receiver Mode">
         <DropdownSetting item="receiver_type" label="Receiver type" />
-        <Condition item="receiver_type" value="2">
+        <DropdownSetting v-if-setting.receiver_type="2" item="serialrx_provider" label="Serial Receiver Provider">
           <Info style="margin-top: 8px;">
             <p>Note: Remember to configure a Serial Port (via Ports tab) for the serial receiver</p>
           </Info>
-          <DropdownSetting item="serialrx_provider" label="Serial Receiver Provider" />
-          <BoolSetting item="serialrx_inverted" label="Serial Port inverted (comparing to protocol default)" />
-          <DropdownSetting item="serialrx_halfduplex" label="Serial receiver half-duplex" />
-        </Condition>
+        </DropdownSetting>
+        <BoolSetting v-if-setting.receiver_type="2" item="serialrx_inverted" label="Serial Port inverted (comparing to protocol default)" />
+        <DropdownSetting v-if-setting.receiver_type="2" item="serialrx_halfduplex" label="Serial receiver half-duplex" />
+      </Panel>
+      <Panel>
+        <Column style="background-color: red; flex-basis: 5px; ">
+          <strong>test</strong>
+        </Column>
+        <Column style="background-color: green; flex-basis: 5px; ">
+          <header>test</header>
+          <Column>
+            a
+          </Column>
+          <Column>
+            b
+          </Column>
+        </Column>
       </Panel>
     </Column>
   </Page>

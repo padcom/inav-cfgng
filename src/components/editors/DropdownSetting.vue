@@ -1,5 +1,6 @@
 <template>
   <div class="field">
+    <slot />
     <Dropdown class="input" v-model.number="settings[item].value" :options="settings[item].values" />
     <label class="label">{{ label }}</label>
     <img v-if="settings[item].description" class="hint" src="./cf_icon_info_green.svg" width="16" :title="settings[item].description" />
@@ -33,9 +34,9 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .field {
+  flex-basis: 100%;
   display: flex;
   align-items: center;
-  // margin: 0px 0;
 }
 
 .input {

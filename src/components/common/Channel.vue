@@ -1,5 +1,5 @@
 <template>
-  <div class="channel">
+  <div class="channel full-width">
     <div class="channel-name">{{ name[index] }}</div>
     <div class="channel-display" :style="{'background': `linear-gradient(to right, ${color[index]} ${scaled}%, white 0)` }">
       <div class="channel-value">
