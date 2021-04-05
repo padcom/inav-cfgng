@@ -1,5 +1,6 @@
 <template>
   <div class="field">
+    <slot />
     <NumericInput class="input"
       v-bind="$attrs"
       v-model.number="settings[item].value"

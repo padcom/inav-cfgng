@@ -45,10 +45,11 @@
     </Column>
     <Column>
       <Panel title="Position Estimator">
-        <Warning>
-          This value should be changed very carefully. In most cases there is not need to change that. For advanced users only!
-        </Warning>
-        <NumericSetting item="inav_w_z_baro_p" label="Vertical position barometer weight" />
+        <NumericSetting item="inav_w_z_baro_p" label="Vertical position barometer weight">
+          <Warning>
+            This value should be changed very carefully. In most cases there is not need to change that. For advanced users only!
+          </Warning>
+        </NumericSetting>
         <NumericSetting item="inav_w_z_gps_p" label="Vertical position GPS weight" />
         <NumericSetting item="inav_w_z_gps_v" label="Vertical speed GPS weight" />
         <NumericSetting item="inav_w_xy_gps_p" label="Horizontal position GPS weight" />
@@ -155,3 +156,9 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="scss" scoped>
+.warning {
+  margin-bottom: 8px;
+}
+</style>

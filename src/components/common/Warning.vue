@@ -1,16 +1,16 @@
 <template>
-  <div class="warning">
+  <div class="warning full-width">
     <slot />
   </div>
 </template>
 
 <style lang="scss" scoped>
 .warning {
-  flex-basis: 100%;
   padding: 8px 12px;
   background-color: #fff7cd;
   border: solid 1px #ffe55f;
   border-radius: 4px;
+  margin-bottom: 8px;
 }
 .warning:deep(p) {
   -webkit-font-smoothing: antialiased;

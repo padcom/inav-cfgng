@@ -108,7 +108,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .warning {
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 .serial-ports {
   margin-bottom: 24px;
