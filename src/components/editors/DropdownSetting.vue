@@ -1,25 +1,27 @@
 <template>
-  <div class="field">
+  <DropdownField
+    v-bind="$attrs"
+    v-model.number="settings[item].value"
+    :options="options || settings[item].values"
+    :description="settings[item].description"
+  >
     <slot />
-    <Dropdown class="input" v-model.number="settings[item].value" :options="settings[item].values" />
-    <label class="label">{{ label }}</label>
-    <img v-if="settings[item].description" class="hint" src="./cf_icon_info_green.svg" width="16" :title="settings[item].description" />
-  </div>
+  </DropdownField>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
-import Dropdown from './Dropdown.vue'
+import DropdownField from './DropdownField.vue'
 import { useSettings } from '../../composables/settings'
 import { useCurrentPage } from '../../composables/current-page'
 
 export default defineComponent({
   components: {
-    Dropdown,
+    DropdownField,
   },
   props: {
     item: { type: String, required: true },
-    label: { type: String, default: '' },
+    options: { type: Array, default: null },
   },
   setup() {
     const { settings } = useSettings()

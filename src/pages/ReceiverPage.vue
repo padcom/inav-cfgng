@@ -2,6 +2,14 @@
   <Page>
     <PageHeader>Receiver</PageHeader>
     <Column>
+      <Panel title="Receiver settings">
+        <DropdownField v-model="mappings" label="Channel mapping" :options="[
+          { label: 'Default', value: '0,1,3,2' },
+          { label: 'Futaba / Hitec', value: '0,1,3,2' },
+          { label: 'JR / Spectrum', value: '1,2,3,0' },
+        ]" />
+        <DropdownSetting item="rssi_channel" label="RSSI Channel" :options="rssiChannels" />
+      </Panel>
       <Channel v-for="(channel, index) in channels" :key="index" :index="index" :value="channel" />
     </Column>
     <Column>
@@ -44,6 +52,7 @@ import Info from '../components/common/Info.vue'
 import Actions from '../components/Actions.vue'
 import Condition from '../components/Condition.vue'
 import Channel from './receiver/Channel.vue'
+import DropdownField from '../components/editors/DropdownField.vue'
 import DropdownSetting from '../components/editors/DropdownSetting.vue'
 import BoolSetting from '../components/editors/BoolSetting.vue'
 import NumericSetting from '../components/editors/NumericSetting.vue'
@@ -52,6 +61,8 @@ import { useSettings } from '../composables/settings'
 import { useCommonCommands } from '../composables/common-commands'
 
 import { RcRequest } from '../command/v1/Rc'
+import { RxMapRequest } from '../command/v1/RxMap'
+import { SetRxMapRequest } from '../command/v1/SetRxMap'
 
 export default defineComponent({
   name: 'HomePage',
@@ -64,6 +75,7 @@ export default defineComponent({
     Actions,
     Condition,
     Channel,
+    DropdownField,
     DropdownSetting,
     BoolSetting,
     NumericSetting,
@@ -83,6 +95,17 @@ export default defineComponent({
     return {
       settings: [],
       channels: [],
+      mappings: '0,1,3,2',
+    }
+  },
+  computed: {
+    rssiChannels() {
+      const result = [{ label: 'Disabled', value: 0 }]
+      for (let i = 0; i < this.channels.length; i++) {
+        result.push({ label: i + 1, value: i + 1 })
+      }
+
+      return result
     }
   },
   async mounted() {
@@ -91,12 +114,17 @@ export default defineComponent({
     })
 
     await this.loadSettings(...this.settings)
+    const response = await this.$serial.query(new RxMapRequest())
+    this.mappings = response.mappings.join(',')
+    console.log(response.mappings)
   },
   beforeUnmount() {
     this.$scheduler.dequeue(this.refreshChannelsTaskId)
   },
   methods: {
     async saveAndReboot() {
+      const mappings = this.mappings.split(',').map(channel => parseInt(channel))
+      await this.$serial.query(new SetRxMapRequest(mappings))
       await this.saveSettings(...this.settings)
       await this.saveSettingsToEeprom()
       await this.reboot()
@@ -105,6 +133,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="scss" scoped>
-</style>
