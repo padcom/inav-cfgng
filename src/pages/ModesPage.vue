@@ -67,7 +67,7 @@ export default defineComponent({
     },
   },
   async mounted() {
-    this.refreshChannelsTaskId = this.$scheduler.enqueue(100, new RcRequest(), response => {
+    this.refreshChannelsTaskId = this.$scheduler.enqueue(10, new RcRequest(), response => {
       this.numberOfAuxChannels = response.count - 4
       this.modes.forEach(mode => {
         mode.ranges.forEach(range => {

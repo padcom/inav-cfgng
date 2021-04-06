@@ -16,12 +16,7 @@
           </div>
         </Column>
         <Column>
-          <Slider v-model="range.values" :min="900" :max="2100" :step="25" :margin="50" :ticker="range.current" :pips="{
-            mode: 'values',
-            values: [900, 1000, 1200, 1400, 1500, 1600, 1800, 2000, 2100],
-            density: 4,
-            stepped: true
-          }" />
+          <ChannelRangeSelector v-model="range.values" :ticker="range.current" />
         </Column>
         <Column class="fixed-width">
           <a class="close-button" @click="deleteRange(range)">x</a>
@@ -37,11 +32,13 @@ import { defineComponent } from 'vue'
 
 import Column from '../../components/common/Column.vue'
 import Slider from '../../components/common/Slider.vue'
+import ChannelRangeSelector from '../../components/common/ChannelRangeSelector.vue'
 
 export default defineComponent({
   components: {
     Column,
     Slider,
+    ChannelRangeSelector,
   },
   props: {
     mode: { type: Object, required: true },
@@ -97,10 +94,21 @@ export default defineComponent({
 
 .value {
   font-size: 12px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   padding-left: 12px;
   padding-right: 12px;
+
+  border-top: solid 1px white;
+  border-bottom: solid 1px lightgray;
+
+  &:first-of-type {
+    border-top: none;
+  }
+
+  &:last-of-type {
+    border-bottom: none;
+  }
 }
 
 .current-values {
