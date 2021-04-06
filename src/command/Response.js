@@ -22,7 +22,7 @@ export class Response {
 
     const parts = [
       this.constructor.name,
-      `(protocol: ${hex(protocol, 4)}/${protocolName}, command: ${hex(command, 4)}/${command}, payload: ${plLen} bytes)`,
+      `(direction: ${this.direction}, protocol: ${hex(protocol, 4)}/${protocolName}, command: ${hex(command, 4)}/${command}, payload: ${plLen} bytes)`,
       properties
     ]
 

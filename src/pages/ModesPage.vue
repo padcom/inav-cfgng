@@ -18,7 +18,7 @@
 
   <Actions>
     <button class="action" @click="loadModes">Reload</button>
-    <button class="action" @click="save">Save</button>
+    <button class="action" @click="saveModes">Save</button>
   </Actions>
 </template>
 
@@ -44,6 +44,7 @@ import { useCommonCommands } from '../composables/common-commands'
 import { RcRequest } from '../command/v1/Rc'
 import { BoxIDsRequest } from '../command/v1/BoxIDs'
 import { ActiveBoxesRequest } from '../command/v1/ActiveBoxes'
+import { ClearModeRangeRequest, SetModeRangeRequest } from '../command/v1/SetModeRange'
 
 export default defineComponent({
   name: 'ModesPage',
@@ -101,9 +102,13 @@ export default defineComponent({
   },
   methods: {
     async loadModes() {
+      this.modes = []
+
       const boxes = await this.$serial.query(new BoxNamesRequest())
       const ids = await this.$serial.query(new BoxIDsRequest())
       const ranges = await this.$serial.query(new ModeRangesRequest())
+
+      this.maxNumberOfModes = boxes.count
 
       this.modes = boxes.names.map((name, index) => ({
         name,
@@ -121,8 +126,21 @@ export default defineComponent({
     },
     async saveModes() {
       this.work(async () => {
-        await this.sleep(100)
-        this.$router.push('/modes')
+        for (let i = 0; i < this.maxNumberOfModes; i++) {
+          await this.$serial.query(new ClearModeRangeRequest(i))
+          await this.sleep(20)
+        }
+
+        let index = 0
+        for (let i = 0; i < this.modes.length; i++) {
+          const mode = this.modes[i]
+          for (let j = 0; j < mode.ranges.length; j++) {
+            const range = mode.ranges[j]
+            const { channel, values: [ start, end ] } = range
+            await this.$serial.send(new SetModeRangeRequest(index++, mode.id, channel, start, end))
+            await this.sleep(20)
+          }
+        }
       })
     },
   },

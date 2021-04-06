@@ -1,5 +1,6 @@
 import { useSerialPort } from './serial-port'
 import { useConnectionManager } from './connection-manager'
+import { useTaskScheduler } from './task-scheduler'
 
 import { EepromWriteRequest } from '../command/v1/EepromWrite'
 import { CommonSettingInfoRequest } from '../command/v2/CommonSettingInfo'
@@ -33,11 +34,14 @@ function endWork() {
 }
 
 async function work(cb, overlayDelay = 250) {
+  const scheduler = useTaskScheduler()
+  scheduler.pause()  
   beginWork(overlayDelay)
   try {
     await cb()
   } finally {
     endWork()
+    scheduler.resume()
   }
 }
 
