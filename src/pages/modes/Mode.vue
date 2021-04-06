@@ -1,6 +1,6 @@
 <template>
   <Column class="mode full-width">
-    <Column class="name fixed-width">
+    <Column class="name fixed-width" :class="{ active: mode.active }">
       <div class="channel-name">{{ mode.name }}</div>
       <button :disabled="!canAddMoreRanges" @click="addRange">Add Range</button>
     </Column>
@@ -71,6 +71,10 @@ export default defineComponent({
   min-height: 80px;
   background-color: lightgray;
 
+  &.active {
+    background-color: var(--color-info);
+  }
+
   .channel-name {
     width: 100%;
     margin-top: 15px;
@@ -123,12 +127,12 @@ export default defineComponent({
   text-align: center;
   cursor: pointer;
   font-weight: bold;
-  background-color: gray;
+  background-color: #bbb;
   color: white;
-  padding: 5px 4px 2px 4px;
+  padding: 2px 2px 2px 2px;
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   margin-left: 16px;
 }
 </style>

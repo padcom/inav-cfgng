@@ -9,7 +9,11 @@
       </p>
     </Warning>
 
-    <Mode v-for="mode in modes" :key="mode.name" :mode="mode" :canAddMoreRanges="ranges.length < maxNumberOfModes" :numberOfAuxChannels="numberOfAuxChannels" />
+    <Mode v-for="mode in modes" :key="mode.name"
+      :mode="mode"
+      :canAddMoreRanges="ranges.length < maxNumberOfModes"
+      :numberOfAuxChannels="numberOfAuxChannels"
+    />
   </Page>
 
   <Actions>
@@ -19,6 +23,7 @@
 </template>
 
 <script>
+
 import { v4 as uuid } from 'uuid'
 import { defineComponent } from 'vue'
 
@@ -33,9 +38,12 @@ import Mode from './modes/Mode.vue'
 import { BoxNamesRequest } from '../command/v1/BoxNames'
 import { ModeRangesRequest } from '../command/v1/ModeRanges'
 
+import { useStatus } from '../composables/status'
 import { useCommonCommands } from '../composables/common-commands'
 
 import { RcRequest } from '../command/v1/Rc'
+import { BoxIDsRequest } from '../command/v1/BoxIDs'
+import { ActiveBoxesRequest } from '../command/v1/ActiveBoxes'
 
 export default defineComponent({
   name: 'ModesPage',
@@ -49,9 +57,10 @@ export default defineComponent({
   },
   setup() {
     const { work, sleep } = useCommonCommands()
+    const { modes: activeModes } = useStatus()
 
     return {
-      work, sleep
+      work, sleep, activeModes
     }
   },
   data() {
@@ -67,12 +76,18 @@ export default defineComponent({
     },
   },
   async mounted() {
-    this.refreshChannelsTaskId = this.$scheduler.enqueue(10, new RcRequest(), response => {
+    this.refreshChannelsTaskId = this.$scheduler.enqueue(25, new RcRequest(), response => {
       this.numberOfAuxChannels = response.count - 4
       this.modes.forEach(mode => {
         mode.ranges.forEach(range => {
-          range.current = response.channels[range.channel + 5]
+          range.current = response.channels[range.channel + 4]
         })
+      })
+    })
+
+    this.refreshActiveModesTaskId = this.$scheduler.enqueue(25, new ActiveBoxesRequest(), response => {
+      this.modes.forEach((mode, index) => {
+        mode.active = !!(response.flags[0] & (1 << index))
       })
     })
 
@@ -82,20 +97,27 @@ export default defineComponent({
   },
   beforeUnmount() {
     this.$scheduler.dequeue(this.refreshChannelsTaskId)
+    this.$scheduler.dequeue(this.refreshActiveModesTaskId)
   },
   methods: {
     async loadModes() {
       const boxes = await this.$serial.query(new BoxNamesRequest())
+      const ids = await this.$serial.query(new BoxIDsRequest())
       const ranges = await this.$serial.query(new ModeRangesRequest())
-      this.maxNumberOfModes = ranges.count
-      this.modes = boxes.names
-        .map((name, index) => ({
-          name,
-          ranges: ranges.ranges
-            .filter(range => range.start > 900 && range.end > 900)
-            .filter(range => range.id === index)
-            .map(range => ({ id: uuid(), channel: range.auxChannelIndex, values: [ range.start, range.end ], current: null }))
-        }))
+
+      this.modes = boxes.names.map((name, index) => ({
+        name,
+        id: ids.ids[index],
+        ranges: ranges.ranges
+          .filter(range => range.id === ids.ids[index])
+          .filter(range => range.start !== range.end)
+          .map(range => ({
+            channel: range.auxChannelIndex,
+            values: [ range.start, range.end ],
+            current: null,
+            active: null,
+          }))
+      }))
     },
     async saveModes() {
       this.work(async () => {

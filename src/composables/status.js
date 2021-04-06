@@ -15,6 +15,7 @@ const status = reactive({
   i2cError: null,
   activeSensorsFlag: null,
   activeSensors: {},
+  modes: 0,
   profile: null,
   cpuLoad: null,
   armingFlags: null,
@@ -26,6 +27,7 @@ scheduler.enqueue(20, new StatusExRequest(), async response => {
   status.i2cError = response.i2cError
   status.activeSensorsFlag = response.activeSensorsFlag
   status.activeSensors = response.activeSensors
+  status.modes = response.modes
   status.profile = response.profile
   status.cpuLoad = response.cpuLoad
   status.armingFlags = response.armingFlags

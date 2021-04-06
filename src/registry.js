@@ -15,6 +15,8 @@ import * as Rc from './command/v1/Rc'
 import * as RxMap from './command/v1/RxMap'
 import * as SetRxMap from './command/v1/SetRxMap'
 import * as BoxNames from './command/v1/BoxNames'
+import * as BoxIDs from './command/v1/BoxIDs'
+import * as ActiveBoxes from './command/v1/ActiveBoxes'
 import * as ModeRanges from './command/v1/ModeRanges'
 
 import * as CommonSerialConfig from './command/v2/CommonSerialConfig'
@@ -42,6 +44,8 @@ registry.registerMSPv1Command(Rc)
 registry.registerMSPv1Command(RxMap)
 registry.registerMSPv1Command(SetRxMap)
 registry.registerMSPv1Command(BoxNames)
+registry.registerMSPv1Command(BoxIDs)
+registry.registerMSPv1Command(ActiveBoxes)
 registry.registerMSPv1Command(ModeRanges)
 
 registry.registerMSPv2Command(CommonSerialConfig)

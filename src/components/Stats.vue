@@ -10,6 +10,7 @@
         &nbsp;
       </span>
     </div>
+    <div v-if="status.isPortReady" class="item">Modes flag: {{ status.modes }}</div>
     <div v-if="status.isPortReady" class="item">Profile: {{ status.profile }}</div>
     <div v-if="status.isPortReady" class="item">CPU Load: {{ status.cpuLoad }}</div>
     <div v-if="status.isPortReady" class="item">Arming flags: {{ status.armingFlags }}</div>

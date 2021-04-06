@@ -78,6 +78,10 @@ export class StatusExResponse extends Response {
     return !!(this.activeSensorsFlag & SENSORS.HARDWARE)
   }
 
+  get modes() {
+    return this.getUint32(6, true)
+  }
+
   get profile() {
     return this.getUint8(10)
   }
