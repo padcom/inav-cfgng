@@ -1,16 +1,21 @@
 <template>
-  <div class="field full-width">
+  <Row class="field">
     <slot />
     <label class="label">{{ label }}</label>
     <img v-if="description" class="hint" src="./cf_icon_info_green.svg" width="16" :title="description" />
-  </div>
+  </Row>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
 
+import Row from '../common/Row.vue'
+
 export default defineComponent({
   inheritAttrs: false,
+  components: {
+    Row,
+  },
   props: {
     label: { type: String, default: '' },
     description: { type: String, default: null },

@@ -23,8 +23,6 @@
 </template>
 
 <script>
-
-import { v4 as uuid } from 'uuid'
 import { defineComponent } from 'vue'
 
 import Page from '../components/common/Page.vue'
@@ -67,7 +65,7 @@ export default defineComponent({
   data() {
     return {
       modes: [],
-      maxNumberOfModes: 32,
+      maxNumberOfModes: 8,
       numberOfAuxChannels: 8,
     }
   },

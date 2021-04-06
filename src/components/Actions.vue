@@ -1,13 +1,25 @@
 <template>
-  <div class="actions full-width" >
+  <Row class="actions" >
     <div class="left">
       <slot name="left" />
     </div>
     <div class="right">
       <slot />
     </div>
-  </div>
+  </Row>
 </template>
+
+<script>
+import { defineComponent } from 'vue'
+
+import Row from './common/Row.vue'
+
+export default defineComponent({
+  components: {
+    Row,
+  }
+})
+</script>
 
 <style lang="scss" scoped>
 .actions {

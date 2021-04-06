@@ -1,20 +1,22 @@
 <template>
-  <div class="panel full-width">
+  <Row class="panel">
     <header v-if="title">{{ title }}</header>
     <Column class="content">
       <slot />
     </Column>
-  </div>
+  </Row>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 
+import Row from './Row.vue'
 import Column from './Column.vue'
 
 export default defineComponent({
   name: 'Panel',
   components: {
+    Row,
     Column,
   },
   props: {

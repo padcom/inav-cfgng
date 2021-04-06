@@ -1,8 +1,8 @@
 <template>
   <Page>
     <PageHeader>Home page</PageHeader>
-    <Column class="full-width">
-    </Column>
+    <Row>
+    </Row>
   </Page>
 </template>
 
@@ -12,14 +12,14 @@ import { defineComponent } from 'vue'
 import Page from '../components/common/Page.vue'
 import PageHeader from '../components/common/PageHeader.vue'
 
-import Column from '../components/common/Column.vue'
+import Row from '../components/common/Row.vue'
 
 export default defineComponent({
   name: 'HomePage',
   components: {
     Page,
     PageHeader,
-    Column,
+    Row,
   },
   data() {
     return { }

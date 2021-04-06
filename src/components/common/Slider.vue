@@ -11,7 +11,7 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: {
-    modelValue: { type: Array, default: () => [ 25, 75] },
+    modelValue: { type: Array, default: () => [ 25, 75 ] },
     min: { type: Number, default: 0 },
     max: { type: Number, default: 100 },
     step: { type: Number, default: 1 },

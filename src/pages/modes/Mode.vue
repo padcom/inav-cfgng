@@ -1,11 +1,11 @@
 <template>
-  <Column class="mode full-width">
+  <Row class="mode">
     <Column class="name fixed-width" :class="{ active: mode.active }">
       <div class="channel-name">{{ mode.name }}</div>
       <button :disabled="!canAddMoreRanges" @click="addRange">Add Range</button>
     </Column>
     <Column class="ranges">
-      <Column class="value full-width" v-for="range in mode.ranges" :key="range.id">
+      <Row class="value" v-for="range in mode.ranges" :key="range.id">
         <Column class="fixed-width" style="width: 70px; margin-right: 16px">
           <select style="width: 100%; margin-bottom: 8px;" v-model="range.channel">
             <option v-for="i in numberOfAuxChannels" :key="i" :value="i - 1">CH{{ i + 4 }}</option>
@@ -21,21 +21,23 @@
         <Column class="fixed-width">
           <a class="close-button" @click="deleteRange(range)">x</a>
         </Column>
-      </Column>
+      </Row>
     </Column>
-  </Column>
+  </Row>
 </template>
 
 <script>
 import { v4 as uuid } from 'uuid'
 import { defineComponent } from 'vue'
 
+import Row from '../../components/common/Row.vue'
 import Column from '../../components/common/Column.vue'
 import Slider from '../../components/common/Slider.vue'
-import ChannelRangeSelector from '../../components/common/ChannelRangeSelector.vue'
+import ChannelRangeSelector from '../../components/ChannelRangeSelector.vue'
 
 export default defineComponent({
   components: {
+    Row,
     Column,
     Slider,
     ChannelRangeSelector,

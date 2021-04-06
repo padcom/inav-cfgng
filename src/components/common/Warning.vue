@@ -1,8 +1,21 @@
 <template>
-  <div class="warning full-width">
+  <Row class="warning">
     <slot />
-  </div>
+  </Row>
 </template>
+
+<script>
+import { defineComponent } from 'vue'
+
+import Row from './Row.vue'
+
+export default defineComponent({
+  components: {
+    Row
+  }
+})
+</script>
+
 
 <style lang="scss" scoped>
 .warning {

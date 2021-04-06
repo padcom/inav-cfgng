@@ -1,8 +1,20 @@
 <template>
-  <div class="info full-width">
+  <Row class="info">
     <slot />
-  </div>
+  </Row>
 </template>
+
+<script>
+import { defineComponent } from 'vue'
+
+import Row from './Row.vue'
+
+export default defineComponent({
+  components: {
+    Row,
+  }
+})
+</script>
 
 <style lang="scss" scoped>
 .info {

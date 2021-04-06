@@ -1,20 +1,25 @@
 <template>
-  <div class="channel full-width">
+  <Row class="channel">
     <div class="channel-name">{{ name[index] }}</div>
     <div class="channel-display" :style="{'background': `linear-gradient(to right, ${color[index]} ${scaled}%, white 0)` }">
       <div class="channel-value">
         {{ value }}
       </div>
     </div>
-  </div>
+  </Row>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
 
+import Row from '../../components/common/Row.vue'
+
 import { CHANNEL_NAME, CHANNEL_COLOR } from '../../models/channel'
 
 export default defineComponent({
+  components: {
+    Row,
+  },
   props: {
     value: { type: Number, default: 1500 },
     index: { type: Number, default: 1 },

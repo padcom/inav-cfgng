@@ -10,7 +10,7 @@
 <script>
 import { defineComponent } from 'vue'
 
-import Slider from './Slider.vue'
+import Slider from './common/Slider.vue'
 
 export default defineComponent({
   inheritAttrs: false,
