@@ -9,10 +9,11 @@
       </p>
     </Warning>
 
-    <Mode v-for="mode in modes" :key="mode.name" :mode="mode" :canAddMoreRanges="ranges.length < 5" />
+    <Mode v-for="mode in modes" :key="mode.name" :mode="mode" :canAddMoreRanges="ranges.length < maxNumberOfModes" :numberOfAuxChannels="numberOfAuxChannels" />
   </Page>
 
   <Actions>
+    <button class="action" @click="loadModes">Reload</button>
     <button class="action" @click="save">Save</button>
   </Actions>
 </template>
@@ -55,7 +56,9 @@ export default defineComponent({
   },
   data() {
     return {
-      modes: []
+      modes: [],
+      maxNumberOfModes: 32,
+      numberOfAuxChannels: 8,
     }
   },
   computed: {
@@ -65,7 +68,7 @@ export default defineComponent({
   },
   async mounted() {
     this.refreshChannelsTaskId = this.$scheduler.enqueue(100, new RcRequest(), response => {
-      // console.log(response.channels)
+      this.numberOfAuxChannels = response.count - 4
       this.modes.forEach(mode => {
         mode.ranges.forEach(range => {
           range.current = response.channels[range.channel + 5]
@@ -83,9 +86,8 @@ export default defineComponent({
   methods: {
     async loadModes() {
       const boxes = await this.$serial.query(new BoxNamesRequest())
-      console.log(boxes)
       const ranges = await this.$serial.query(new ModeRangesRequest())
-      console.log(ranges)
+      this.maxNumberOfModes = ranges.count
       this.modes = boxes.names
         .map((name, index) => ({
           name,

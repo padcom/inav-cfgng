@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .column {
+      min-height: 20px;
+    }
+
+    .column {
+      display: flex;
+      flex: 1 1 auto;
+      flex-wrap: wrap;
+      align-items: stretch;
+      align-content: flex-start;
+      min-width: 1px;
+    }
+
+    .column + .column {
+      margin-left: 12px;
+    }
+
+    .column + .full-width {
+      margin-left: 0px;
+    }
+
+    header {
+      width: 100%;
+    }
+
+    .full-width {
+      width: 100%;
+    }
+
+    .fixed-width {
+      flex-grow: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="column" style="background-color: #6a8024">
+    <header>Hello!</header>
+    <div class="column fixed-width" style="background-color: #879654; width: 300px">A</div>
+    <div class="column" style="background-color: #549659; height: 150px">B</div>
+    <div class="column" style="background-color: #549659;">C</div>
+  </div>
+</body>
+</html>

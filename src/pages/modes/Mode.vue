@@ -1,27 +1,31 @@
 <template>
   <Column class="mode full-width">
-    <Column class="name">
+    <Column class="name fixed-width">
       <div class="channel-name">{{ mode.name }}</div>
       <button :disabled="!canAddMoreRanges" @click="addRange">Add Range</button>
     </Column>
     <Column class="ranges">
       <Column class="value full-width" v-for="range in mode.ranges" :key="range.id">
-        <div style="width: 100px; margin-right: 16px">
+        <Column class="fixed-width" style="width: 70px; margin-right: 16px">
           <select style="width: 100%; margin-bottom: 8px;" v-model="range.channel">
-            <option v-for="i in 10" :key="i" :value="i - 1">AUX{{ i }}</option>
+            <option v-for="i in numberOfAuxChannels" :key="i" :value="i - 1">CH{{ i + 4 }}</option>
           </select>
-          Min: {{ range.values[0] }}<br/>
-          Max: {{ range.values[1] }}
-        </div>
-        <Slider style="width: calc(100% - 32px - 100px - 30px);" v-model="range.values" :min="900" :max="2100" :step="25" :margin="50" :ticker="range.current" :pips="{
-          mode: 'values',
-          values: [900, 1000, 1200, 1400, 1500, 1600, 1800, 2000, 2100],
-          density: 4,
-          stepped: true
-        }" />
-        <div style="width: 30px; text-align: right;">
-          <a @click="deleteRange(range)" style="display: block; text-align: center; cursor: pointer; font-weight: bold; background-color: gray; padding: 3px 4px 2px 4px; border-radius: 50%; width: 20px; height: 20px; color: white; margin-left: 32px">x</a>
-        </div>
+          <div class="current-values">
+            <p><label>Min</label>{{ range.values[0] }}</p>
+            <p><label>Max</label>{{ range.values[1] }}</p>
+          </div>
+        </Column>
+        <Column>
+          <Slider v-model="range.values" :min="900" :max="2100" :step="25" :margin="50" :ticker="range.current" :pips="{
+            mode: 'values',
+            values: [900, 1000, 1200, 1400, 1500, 1600, 1800, 2000, 2100],
+            density: 4,
+            stepped: true
+          }" />
+        </Column>
+        <Column class="fixed-width">
+          <a class="close-button" @click="deleteRange(range)">x</a>
+        </Column>
       </Column>
     </Column>
   </Column>
@@ -42,11 +46,10 @@ export default defineComponent({
   props: {
     mode: { type: Object, required: true },
     canAddMoreRanges: { type: Boolean, default: true },
+    numberOfAuxChannels: { type: Number, default: 4 },
   },
   methods: {
     addRange() {
-      console.log('Here..')
-
       this.mode.ranges.push({
         id: uuid(),
         channel: 0,
@@ -62,55 +65,74 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .mode {
-  margin-bottom: 0;
+  margin-bottom: 8px;
 }
 
 .name {
-  display: flex;
-  background-color: lightgray;
-  align-items: center;
   justify-content: center;
-  flex-basis: 170px;
-  width: 100%;
+  width: 180px;
   min-height: 80px;
-  max-height: 100%;
-  margin-bottom: 8px;
+  background-color: lightgray;
 
   .channel-name {
-    font-size: 14px;
+    width: 100%;
     margin-top: 15px;
+    font-size: 14px;
     font-weight: bold;
-    flex-basis: 100%;
-    display: flex;
-    justify-content: center;
+    text-align: center;
   }
+
   button {
     margin-top: 10px;
-    padding: 2px 4px;
+    padding: 3px 7px;
+    border: solid 1px gray;
+    border-radius: 3px;
+    outline: none;
   }
 }
 
 .ranges {
-  flex-basis: calc(100% - 170px - 12px);
   background-color: #F0F0F0;
-  margin-bottom: 8px;
 }
 
 .value {
-  flex-direction: row;
-  margin-top: 10px;
-  margin-bottom: 14px;
-  padding-left: 16px;
-  padding-right: 16px;
   font-size: 12px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.current-values {
+  label {
+    display: inline-block;
+    width: 30px;
+  }
+}
+
+.close-button {
+  display: block;
+  text-align: center;
+  cursor: pointer;
+  font-weight: bold;
+  background-color: gray;
+  color: white;
+  padding: 5px 4px 2px 4px;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  margin-left: 16px;
 }
 </style>
 
-<style>
-  .noUi-value {
-    margin-top: 12px;
-  }
-  .noUi-connect {
-    background-color: var(--color-info);
-  }
+<style lang="scss">
+.noUi-value {
+  margin-top: 12px;
+}
+.noUi-connect {
+  background-color: var(--color-info);
+}
+.noUi-handle {
+  outline: none;
+}
 </style>

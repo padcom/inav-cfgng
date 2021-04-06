@@ -15,7 +15,7 @@ export default defineComponent({
     style() {
       const result = {}
       if (this.width !== null) {
-        result['flex-basis'] = this.width
+        result['width'] = this.width
       }
       return result;
     }

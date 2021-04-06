@@ -89,6 +89,10 @@ button {
       box-shadow: inset 1px 1px 2px 1px rgba(0,0,0,0.2);
     }
   }
+
+  &.action + &.action {
+    margin-left: 8px;
+  }
 }
 
 table.data {
@@ -155,9 +159,9 @@ input[type=number]::-webkit-outer-spin-button {
 // grid system based on panels
 .column {
   display: flex;
-  flex: 1 0 0px;
+  flex: 1 1 0px;
   flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: stretch;
   align-content: flex-start;
   min-width: 1px;
 }
@@ -171,19 +175,23 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 header {
-  flex-basis: 100%;
+  width: 100%;
 }
 
 .full-width {
+  width: 100%;
   flex-basis: 100%;
 }
 
+.fixed-width {
+  flex: 0 0 auto;
+}
+
 .field {
-  flex-basis: 100%;
   display: flex;
-  flex: 1 1 0px;
   flex-wrap: wrap;
 
+  width: 100%;
   margin-bottom: 8px;
   padding-top: 8px;
 
