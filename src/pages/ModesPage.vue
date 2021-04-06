@@ -73,7 +73,7 @@ export default defineComponent({
           ranges: ranges.ranges
             .filter(range => range.start > 900 && range.end > 900)
             .filter(range => range.id === index)
-            .map(range => ({ id: uuid(), channel: range.auxChannelIndex, start: range.start, end: range.end }))
+            .map(range => ({ id: uuid(), channel: range.auxChannelIndex, values: [ range.start, range.end ] }))
         }))
     },
     async saveModes() {

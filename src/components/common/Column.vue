@@ -9,7 +9,6 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: {
-    fullWidth: { type: Boolean, default: false },
     width: { type: String, default: null }
   },
   computed: {
@@ -17,8 +16,6 @@ export default defineComponent({
       const result = {}
       if (this.width !== null) {
         result['flex-basis'] = this.width
-      } else if (this.fullWidth) {
-        result['flex-basis'] = `100%`
       }
       return result;
     }
