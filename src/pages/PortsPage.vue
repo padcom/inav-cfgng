@@ -40,6 +40,7 @@ import {
 } from '../models/serial-port'
 
 import { useConnectionManager } from '../composables/connection-manager'
+import { useCommonCommands } from '../composables/common-commands'
 
 import { CommonSerialConfigRequest } from '../command/v2/CommonSerialConfig'
 import { CommonSetSerialConfigRequest } from '../command/v2/CommonSetSerialConfig'
@@ -54,13 +55,22 @@ export default defineComponent({
     Actions,
     SerialPortsEditor,
   },
+  setup() {
+    const { work } = useCommonCommands()
+
+    return {
+      work
+    }
+  },
   data() {
     return {
       ports: []
     }
   },
   mounted() {
-    this.readPortSettings()
+    this.work(async () => {
+      await this.readPortSettings()
+    })
   },
   methods: {
     async readPortSettings() {
@@ -81,26 +91,28 @@ export default defineComponent({
       }
     },
     async saveAndReboot() {
-      const ports = this.ports.map(port => ({
-        identifier: port.identifier,
-        functionMask: port.msp | port.telemetry | port.rxSerial | port.sensor | port.peripheral,
-        mspBaudrate: port.mspBaudrate,
-        sensorBaudrate: port.sensorBaudrate,
-        telemetryBaudrate: port.telemetryBaudrate,
-        peripheralBaudrate: port.peripheralBaudrate
-      }))
+      this.work(async () => {
+        const ports = this.ports.map(port => ({
+          identifier: port.identifier,
+          functionMask: port.msp | port.telemetry | port.rxSerial | port.sensor | port.peripheral,
+          mspBaudrate: port.mspBaudrate,
+          sensorBaudrate: port.sensorBaudrate,
+          telemetryBaudrate: port.telemetryBaudrate,
+          peripheralBaudrate: port.peripheralBaudrate
+        }))
 
-      const request = new CommonSetSerialConfigRequest(ports)
+        const request = new CommonSetSerialConfigRequest(ports)
 
-      await this.$scheduler.pause()
-      try {
-        await this.$serial.query(request)
-        await this.$serial.query(new EepromWriteRequest())
-        await useConnectionManager().reboot()
-        this.$router.push('/ports')
-      } finally {
-        await this.$scheduler.resume()
-      }
+        await this.$scheduler.pause()
+        try {
+          await this.$serial.query(request)
+          await this.$serial.query(new EepromWriteRequest())
+          await useConnectionManager().reboot()
+          this.$router.push('/ports')
+        } finally {
+          await this.$scheduler.resume()
+        }
+      })
     }
   }
 })

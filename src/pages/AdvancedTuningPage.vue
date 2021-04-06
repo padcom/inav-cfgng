@@ -124,11 +124,11 @@ export default defineComponent({
     BoolSetting,
   },
   setup() {
-    const { saveSettingsToEeprom, reboot, getSettingInfo } = useCommonCommands()
+    const { saveSettingsToEeprom, reboot, getSettingInfo, work } = useCommonCommands()
     const { load: loadSettings, save: saveSettings } = useSettings()
 
     return {
-      saveSettingsToEeprom, reboot, getSettingInfo,
+      saveSettingsToEeprom, reboot, getSettingInfo, work,
       loadSettings, saveSettings,
     }
   },
@@ -141,14 +141,18 @@ export default defineComponent({
     }
   },
   async mounted() {
-    await this.loadSettings(...this.settings)
+    this.work(async () => {
+      await this.loadSettings(...this.settings)
+    })
   },
   methods: {
     async saveAndReboot() {
-      await this.saveSettings(...this.settings)
-      await this.saveSettingsToEeprom()
-      await this.reboot()
-      this.$router.push('/advanced-tuning')
+      this.work(async () => {
+        await this.saveSettings(...this.settings)
+        await this.saveSettingsToEeprom()
+        await this.reboot()
+        this.$router.push('/advanced-tuning')
+      })
     }
   }
 })

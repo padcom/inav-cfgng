@@ -136,14 +136,14 @@ export default defineComponent({
     ReadonlyField,
   },
   setup() {
-    const { saveSettingsToEeprom, reboot } = useCommonCommands()
+    const { saveSettingsToEeprom, reboot, work } = useCommonCommands()
     const { load: loadSettings, save: saveSettings } = useSettings()
     const { load: loadFeatures, save: saveFeatures } = useFeatures()
     const voltage = ref(0)
     const current = ref(0)
 
     return {
-      saveSettingsToEeprom, reboot,
+      saveSettingsToEeprom, reboot, work,
       loadSettings, saveSettings,
       loadFeatures, saveFeatures,
       voltage, current
@@ -164,19 +164,23 @@ export default defineComponent({
       this.voltage = response.voltage
       this.current = response.current
     })
-    await this.loadFeatures()
-    await this.loadSettings(...this.settings)
+    this.work(async () => {
+      await this.loadFeatures()
+      await this.loadSettings(...this.settings)
+    })
   },
   beforeUnmount() {
     this.$scheduler.dequeue(this.analogRefreshTask)
   },
   methods: {
     async saveAndReboot() {
-      await this.saveFeatures()
-      await this.saveSettings(...this.settings)
-      await this.saveSettingsToEeprom()
-      await this.reboot()
-      this.$router.push('/configuration')
+      this.work(async () => {
+        await this.saveFeatures()
+        await this.saveSettings(...this.settings)
+        await this.saveSettingsToEeprom()
+        await this.reboot()
+        this.$router.push('/configuration')
+      })
     }
   }
 })

@@ -16,10 +16,45 @@ async function getSettingInfo(name) {
   return await useSerialPort().query(new CommonSettingInfoRequest(name))
 }
 
+let workTimer = null
+
+function beginWork(overlayDelay = 250) {
+  workTimer = setTimeout(() => {
+    document.body.classList.add('loading')
+  }, overlayDelay)
+}
+
+function endWork() {
+  if (workTimer) {
+    clearTimeout(workTimer)
+    workTimer = null
+  }
+  document.body.classList.remove('loading')
+}
+
+async function work(cb, overlayDelay = 250) {
+  beginWork(overlayDelay)
+  try {
+    await cb()
+  } finally {
+    endWork()
+  }
+}
+
+async function sleep(ms) {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms)
+  })
+}
+
 export function useCommonCommands() {
   return {
     saveSettingsToEeprom,
     reboot,
-    getSettingInfo
+    getSettingInfo,
+    beginWork,
+    endWork,
+    work,
+    sleep,
   }
 }

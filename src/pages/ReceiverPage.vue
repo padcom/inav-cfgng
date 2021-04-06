@@ -82,13 +82,14 @@ export default defineComponent({
   },
   setup() {
     const { load: loadSettings, save: saveSettings } = useSettings()
-    const { reboot, saveSettingsToEeprom } = useCommonCommands()
+    const { reboot, saveSettingsToEeprom, work } = useCommonCommands()
 
     return {
       loadSettings,
       saveSettings,
       reboot,
       saveSettingsToEeprom,
+      work,
     }
   },
   data() {
@@ -113,21 +114,25 @@ export default defineComponent({
       this.channels = response.channels
     })
 
-    await this.loadSettings(...this.settings)
-    const response = await this.$serial.query(new RxMapRequest())
-    this.mappings = response.mappings.join(',')
+    this.work(async () => {
+      await this.loadSettings(...this.settings)
+      const response = await this.$serial.query(new RxMapRequest())
+      this.mappings = response.mappings.join(',')
+    })
   },
   beforeUnmount() {
     this.$scheduler.dequeue(this.refreshChannelsTaskId)
   },
   methods: {
     async saveAndReboot() {
-      const mappings = this.mappings.split(',').map(channel => parseInt(channel))
-      await this.$serial.query(new SetRxMapRequest(mappings))
-      await this.saveSettings(...this.settings)
-      await this.saveSettingsToEeprom()
-      await this.reboot()
-      this.$router.push('/receiver')
+      this.work(async () => {
+        const mappings = this.mappings.split(',').map(channel => parseInt(channel))
+        await this.$serial.query(new SetRxMapRequest(mappings))
+        await this.saveSettings(...this.settings)
+        await this.saveSettingsToEeprom()
+        await this.reboot()
+        this.$router.push('/receiver')
+      })
     }
   }
 })
