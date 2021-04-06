@@ -43,6 +43,15 @@
           <div class="title">Receiver</div>
         </router-link>
       </li>
+
+      <div class="divider" />
+
+      <li v-if="isSerialReady" class="navitem">
+        <router-link to="/modes">
+          <img class="icon" src="./navigation/cf_icon_modes_white.svg">
+          <div class="title">Modes</div>
+        </router-link>
+      </li>
     </ul>
   </div>
 </template>
