@@ -1,6 +1,6 @@
 {
   "name": "inav-cfgng",
-  "version": "2.6.1-ng.prealpha-5",
+  "version": "2.6.1-ng.prealpha-6",
   "description": "INAV Configurator - new generation",
   "main": "backend.js",
   "scripts": {
