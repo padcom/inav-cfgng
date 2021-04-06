@@ -9,7 +9,7 @@
       </p>
     </Warning>
 
-    <Mode v-for="mode in modes" :key="mode.name" :mode="mode" />
+    <Mode v-for="mode in modes" :key="mode.name" :mode="mode" :canAddMoreRanges="ranges.length < 5" />
   </Page>
 
   <Actions>
@@ -34,6 +34,8 @@ import { ModeRangesRequest } from '../command/v1/ModeRanges'
 
 import { useCommonCommands } from '../composables/common-commands'
 
+import { RcRequest } from '../command/v1/Rc'
+
 export default defineComponent({
   name: 'ModesPage',
   components: {
@@ -56,10 +58,27 @@ export default defineComponent({
       modes: []
     }
   },
+  computed: {
+    ranges() {
+      return this.modes.map(mode => mode.ranges).flat()
+    },
+  },
   async mounted() {
+    this.refreshChannelsTaskId = this.$scheduler.enqueue(100, new RcRequest(), response => {
+      // console.log(response.channels)
+      this.modes.forEach(mode => {
+        mode.ranges.forEach(range => {
+          range.current = response.channels[range.channel + 5]
+        })
+      })
+    })
+
     this.work(async () => {
       await this.loadModes()
     })
+  },
+  beforeUnmount() {
+    this.$scheduler.dequeue(this.refreshChannelsTaskId)
   },
   methods: {
     async loadModes() {
@@ -73,7 +92,7 @@ export default defineComponent({
           ranges: ranges.ranges
             .filter(range => range.start > 900 && range.end > 900)
             .filter(range => range.id === index)
-            .map(range => ({ id: uuid(), channel: range.auxChannelIndex, values: [ range.start, range.end ] }))
+            .map(range => ({ id: uuid(), channel: range.auxChannelIndex, values: [ range.start, range.end ], current: null }))
         }))
     },
     async saveModes() {
