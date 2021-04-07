@@ -36,7 +36,6 @@ import Mode from './modes/Mode.vue'
 import { BoxNamesRequest } from '../command/v1/BoxNames'
 import { ModeRangesRequest } from '../command/v1/ModeRanges'
 
-import { useStatus } from '../composables/status'
 import { useCommonCommands } from '../composables/common-commands'
 
 import { RcRequest } from '../command/v1/Rc'
@@ -56,10 +55,9 @@ export default defineComponent({
   },
   setup() {
     const { work, sleep } = useCommonCommands()
-    const { modes: activeModes } = useStatus()
 
     return {
-      work, sleep, activeModes
+      work, sleep
     }
   },
   data() {
