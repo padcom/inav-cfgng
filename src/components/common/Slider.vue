@@ -10,6 +10,7 @@ import noUiSlider from 'nouislider'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
+  inheritAttrs: false,
   props: {
     modelValue: { type: Array, default: () => [ 25, 75 ] },
     min: { type: Number, default: 0 },
@@ -18,6 +19,7 @@ export default defineComponent({
     margin: { type: Number, default: 0 },
     pips: { type: Object, default: null },
     ticker: { type: Number, default: null },
+    disabled: { type: Boolean, default: false }
   },
   emits: [
     'update:modelValue',
@@ -36,6 +38,7 @@ export default defineComponent({
         connect: true,
         behaviour: 'snap-drag',
         margin: this.margin,
+        disabled: false,
       }
     },
     tickerPosition() {
@@ -44,6 +47,9 @@ export default defineComponent({
     }
   },
   mounted() {
+    if (this.disabled) {
+      this.$refs.slider.setAttribute('disabled', true)
+    }
     noUiSlider.create(this.$refs.slider, this.config)
     if (this.pips) {
       this.$refs.slider.noUiSlider.pips(this.pips)  
@@ -54,6 +60,15 @@ export default defineComponent({
   },
   beforeUnmount() {
     this.$refs.slider.noUiSlider.destroy()
+  },
+  watch: {
+    disabled(newValue) {
+      if (newValue) {
+        this.$refs.slider.setAttribute('disabled', true)
+      } else {
+        this.$refs.slider.removeAttribute('disabled')
+      }
+    }
   }
 })
 </script>

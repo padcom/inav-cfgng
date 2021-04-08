@@ -20,11 +20,18 @@
         on the same channel.
       </p>
     </Warning>
+
+    <Adjustment v-for="(adjustment, index) in adjustments"
+      :index="index"
+      :adjustment="adjustment"
+      :numberOfAuxChannels="numberOfAuxChannels"
+    />
+
   </Page>
 
   <Actions>
-    <button class="action" @click="loadModes">Reload</button>
-    <button class="action" @click="saveModes">Save</button>
+    <button class="action" @click="loadAdjustments">Reload</button>
+    <button class="action" @click="saveAdjustments">Save</button>
   </Actions>
 </template>
 
@@ -37,7 +44,7 @@ import Warning from '../components/common/Warning.vue'
 import Column from '../components/common/Column.vue'
 import Actions from '../components/Actions.vue'
 
-// import Mode from './modes/Mode.vue'
+import Adjustment from './adjustments/Adjustment.vue'
 
 import { AdjustmentRangesRequest } from '../command/v1/AdjustmentRanges'
 
@@ -54,6 +61,7 @@ export default defineComponent({
     Warning,
     Column,
     Actions,
+    Adjustment,
   },
   setup() {
     const { work, sleep } = useCommonCommands()
@@ -65,20 +73,14 @@ export default defineComponent({
   data() {
     return {
       adjustments: [],
-      maxNumberOfAdjustments: 8,
       numberOfAuxChannels: 8,
     }
-  },
-  computed: {
-    ranges() {
-      return this.modes.map(mode => mode.ranges).flat()
-    },
   },
   async mounted() {
     this.refreshChannelsTaskId = this.$scheduler.enqueue(25, new RcRequest(), response => {
       this.numberOfAuxChannels = response.count - 4
-      this.modes.forEach(mode => {
-        mode.ranges.forEach(range => {
+      this.adjustments.forEach(adjustment => {
+        adjustment.ranges.forEach(range => {
           range.current = response.channels[range.channel + 4]
         })
       })
@@ -94,10 +96,19 @@ export default defineComponent({
   methods: {
     async loadAdjustments() {
       this.adjustments = []
-      this.adjustments = await this.$serial.query(new AdjustmentRangesRequest())
-      this.maxNumberOfAdjustments = this.adjustments.count
+
+      const response = await this.$serial.query(new AdjustmentRangesRequest())
+      this.adjustments = response.ranges.map(adjustment => ({
+        ...adjustment,
+        values: [
+          adjustment.start,
+          adjustment.start === adjustment.end ? 950 : adjustment.end,
+        ],
+        enabled: adjustment.start !== adjustment.end
+      }))
+      console.log(this.adjustments.map(x => x))
     },
-    async saveModes() {
+    async saveAdjustments() {
       this.work(async () => {
         // TODO: implement saving of adjustments
       })
