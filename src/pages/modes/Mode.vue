@@ -1,6 +1,6 @@
 <template>
   <Row class="mode">
-    <Column class="name fixed-width" :class="{ active: mode.active }">
+    <Column class="name fixed-width" width="180px" :class="{ active: mode.active }">
       <div class="channel-name">{{ mode.name }}</div>
       <button :disabled="!canAddMoreRanges" @click="addRange">Add Range</button>
     </Column>
@@ -69,7 +69,6 @@ export default defineComponent({
 
 .name {
   justify-content: center;
-  width: 180px;
   min-height: 80px;
   background-color: lightgray;
 

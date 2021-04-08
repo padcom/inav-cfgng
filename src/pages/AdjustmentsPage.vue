@@ -80,9 +80,7 @@ export default defineComponent({
     this.refreshChannelsTaskId = this.$scheduler.enqueue(25, new RcRequest(), response => {
       this.numberOfAuxChannels = response.count - 4
       this.adjustments.forEach(adjustment => {
-        adjustment.ranges.forEach(range => {
-          range.current = response.channels[range.channel + 4]
-        })
+        adjustment.current = response.channels[adjustment.auxChannelIndex + 4]
       })
     })
 
@@ -104,6 +102,7 @@ export default defineComponent({
           adjustment.start,
           adjustment.start === adjustment.end ? 950 : adjustment.end,
         ],
+        current: 111,
         enabled: adjustment.start !== adjustment.end
       }))
       console.log(this.adjustments.map(x => x))

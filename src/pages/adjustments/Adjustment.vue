@@ -1,26 +1,25 @@
 <template>
-  <Row class="adjustment">
-    <Column style="flex: 1 0 auto; width: 100px">
+  <Row class="adjustment" :class="{ active: adjustment.enabled && adjustment.values[0] <= adjustment.current && adjustment.values[1] >= adjustment.current }">
+    <Column class="fixed-width" width="60px">
       <Switch v-model="adjustment.enabled" />
     </Column>
-    <Column style="flex: 1 1 auto;">
+    <Column class="aux-channel fixed-width" width="80px">
       <AuxChannelSelector v-model="adjustment.auxChannelIndex" :numberOfAuxChannels="numberOfAuxChannels" />
       <div class="current-values">
         <p><label>Min</label>{{ adjustment.values[0] }}</p>
         <p><label>Max</label>{{ adjustment.values[1] }}</p>
       </div>
     </Column>
-    <Column style="flex: 1 1 auto;">
-      {{ adjustment.enabled }}
+    <Column class="value">
       <ChannelRangeSelector v-model="adjustment.values" :ticker="adjustment.current" :disabled="!adjustment.enabled" />
     </Column>
-    <Column style="flex: 1 1 auto;">
+    <Column class="function fixed-width" width="260px">
       <Dropdown v-model="adjustment.fn" :options="functions" />
     </Column>
-    <Column style="flex: 1 1 auto;">
+    <Column class="aux-switch fixed-width" width="70px">
       <AuxChannelSelector v-model="adjustment.auxSwitchChannelIndex" :numberOfAuxChannels="numberOfAuxChannels" />
     </Column>
-    <Column style="flex: 1 1 auto;">
+    <Column class="slot fixed-width" width="80px">
       <Dropdown v-model.number="adjustment.slot" :options="[
         { label: 'Slot 0', value: 0 },
         { label: 'Slot 1', value: 1 },
@@ -125,19 +124,57 @@ export default defineComponent({
 
   &:nth-of-type(even) {
     background-color: #EEEEEE;
+    &.active {
+      background-color: #EEF4EE;
+    }
   }
 
   &:nth-of-type(2) {
     border-top: none;
   }
 
+  &.active {
+    background-color: #DDE3DD;
+  }
+
   &:nth-last-of-type(1) {
     margin-bottom: 24px;
   }
+}
 
-  .switch {
-    margin-top: 20px;
-    margin-left: 16px;
+.switch {
+  margin-top: 30px;
+  margin-left: 16px;
+}
+
+.aux-channel {
+  margin-top: 10px;
+}
+
+.current-values {
+  font-size: 12px;
+  label {
+    display: inline-block;
+    width: 30px;
   }
+}
+
+.value {
+  margin-top: 10px;
+  margin-bottom: 48px;
+  font-size: 12px;
+}
+
+.function {
+  margin-left: 32px;
+  margin-top: 30px;
+}
+
+.aux-switch {
+  margin-top: 30px;
+}
+
+.slot {
+  margin-top: 30px;
 }
 </style>
