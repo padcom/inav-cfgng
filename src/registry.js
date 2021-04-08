@@ -19,6 +19,7 @@ import * as BoxIDs from './command/v1/BoxIDs'
 import * as ActiveBoxes from './command/v1/ActiveBoxes'
 import * as ModeRanges from './command/v1/ModeRanges'
 import * as SetModeRange from './command/v1/SetModeRange'
+import * as AdjustmentRanges from './command/v1/AdjustmentRanges'
 
 import * as CommonSerialConfig from './command/v2/CommonSerialConfig'
 import * as CommonSetSerialConfig from './command/v2/CommonSetSerialConfig'
@@ -49,6 +50,7 @@ registry.registerMSPv1Command(BoxIDs)
 registry.registerMSPv1Command(ActiveBoxes)
 registry.registerMSPv1Command(ModeRanges)
 registry.registerMSPv1Command(SetModeRange)
+registry.registerMSPv1Command(AdjustmentRanges)
 
 registry.registerMSPv2Command(CommonSerialConfig)
 registry.registerMSPv2Command(CommonSetSerialConfig)

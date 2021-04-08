@@ -17,7 +17,7 @@
         </router-link>
       </li>
 
-      <div class="divider" />
+      <div v-if="isSerialReady" class="divider" />
 
       <li v-if="isSerialReady" class="navitem">
         <router-link to="/configuration">
@@ -26,7 +26,7 @@
         </router-link>
       </li>
 
-      <div class="divider" />
+      <div v-if="isSerialReady" class="divider" />
 
       <li v-if="isSerialReady" class="navitem">
         <router-link to="/advanced-tuning">
@@ -35,7 +35,7 @@
         </router-link>
       </li>
 
-      <div class="divider" />
+      <div v-if="isSerialReady" class="divider" />
 
       <li v-if="isSerialReady" class="navitem">
         <router-link to="/receiver">
@@ -44,12 +44,21 @@
         </router-link>
       </li>
 
-      <div class="divider" />
+      <div v-if="isSerialReady" class="divider" />
 
       <li v-if="isSerialReady" class="navitem">
         <router-link to="/modes">
           <img class="icon" src="./navigation/cf_icon_modes_white.svg">
           <div class="title">Modes</div>
+        </router-link>
+      </li>
+
+      <div v-if="isSerialReady" class="divider" />
+
+      <li v-if="isSerialReady" class="navitem">
+        <router-link to="/adjustments">
+          <img class="icon" src="./navigation/cf_icon_adjust_white.svg">
+          <div class="title">Adjustments</div>
         </router-link>
       </li>
     </ul>
