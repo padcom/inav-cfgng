@@ -9,7 +9,7 @@
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "postinstall": "electron-builder install-app-deps && npm run update-settings",
-    "update-settings": "wget https://raw.githubusercontent.com/iNavFlight/inav/master/src/main/fc/settings.yaml"
+    "update-settings": "wget https://raw.githubusercontent.com/iNavFlight/inav/2.6.1/src/main/fc/settings.yaml"
   },
   "build": {
     "files": [
