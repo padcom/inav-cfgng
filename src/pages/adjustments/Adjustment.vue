@@ -14,10 +14,10 @@
       <ChannelRangeSelector v-model="adjustment.values" :ticker="adjustment.current" :disabled="!adjustment.enabled" />
     </Column>
     <Column class="function fixed-width" width="260px">
-      <Dropdown v-model="adjustment.fn" :options="functions" />
+      <Dropdown v-model.number="adjustment.fn" :options="functions" />
     </Column>
     <Column class="aux-switch fixed-width" width="70px">
-      <AuxChannelSelector v-model="adjustment.auxSwitchChannelIndex" :numberOfAuxChannels="numberOfAuxChannels" />
+      <AuxChannelSelector v-model.number="adjustment.auxSwitchChannelIndex" :numberOfAuxChannels="numberOfAuxChannels" />
     </Column>
     <Column class="slot fixed-width" width="80px">
       <Dropdown v-model.number="adjustment.slot" :options="[

@@ -51,7 +51,7 @@ import { AdjustmentRangesRequest } from '../command/v1/AdjustmentRanges'
 import { useCommonCommands } from '../composables/common-commands'
 
 import { RcRequest } from '../command/v1/Rc'
-// import { ClearModeRangeRequest, SetModeRangeRequest } from '../command/v1/SetModeRange'
+import { SetAdjustmentRangeRequest } from '../command/v1/SetAdjustmentRange'
 
 export default defineComponent({
   name: 'AdjustmentPage',
@@ -105,12 +105,24 @@ export default defineComponent({
         current: 111,
         enabled: adjustment.start !== adjustment.end
       }))
-      console.log(this.adjustments.map(x => x))
     },
     async saveAdjustments() {
-      this.work(async () => {
-        // TODO: implement saving of adjustments
+      await this.work(async () => {
+        for (let i = 0; i < this.adjustments.length; i++) {
+          const adjustment = this.adjustments[i]
+          const request = new SetAdjustmentRangeRequest(
+            i,
+            adjustment.auxChannelIndex,
+            adjustment.values[0],
+            adjustment.values[1],
+            adjustment.fn,
+            adjustment.auxSwitchChannelIndex,
+            adjustment.slot
+          )
+          await this.$serial.query(request)
+        }
       })
+      this.$log.info('Adjustments have been saved.')
     },
   },
 })
