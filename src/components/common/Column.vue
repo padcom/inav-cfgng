@@ -1,5 +1,5 @@
 <template>
-  <div class="column" :style="style">
+  <div class="column" :class="{ 'fixed-width': width }" :style="style">
     <slot />
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <Row class="adjustment" :class="{ active: adjustment.enabled && adjustment.values[0] <= adjustment.current && adjustment.values[1] >= adjustment.current }">
-    <Column class="fixed-width" width="60px">
+    <Column width="60px">
       <Switch v-model="adjustment.enabled" />
     </Column>
     <Column class="aux-channel fixed-width" width="80px">
@@ -13,13 +13,13 @@
     <Column class="value">
       <ChannelRangeSelector v-model="adjustment.values" :ticker="adjustment.current" :disabled="!adjustment.enabled" />
     </Column>
-    <Column class="function fixed-width" width="260px">
+    <Column class="function" width="260px">
       <Dropdown v-model.number="adjustment.fn" :options="functions" />
     </Column>
-    <Column class="aux-switch fixed-width" width="70px">
+    <Column class="aux-switch" width="70px">
       <AuxChannelSelector v-model.number="adjustment.auxSwitchChannelIndex" :numberOfAuxChannels="numberOfAuxChannels" />
     </Column>
-    <Column class="slot fixed-width" width="80px">
+    <Column class="slot" width="80px">
       <Dropdown v-model.number="adjustment.slot" :options="[
         { label: 'Slot 0', value: 0 },
         { label: 'Slot 1', value: 1 },

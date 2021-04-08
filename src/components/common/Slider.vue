@@ -85,3 +85,15 @@ export default defineComponent({
   opacity: 0.6;
 }
 </style>
+
+<style lang="scss">
+.noUi-value {
+  margin-top: 12px;
+}
+.noUi-connect {
+  background-color: var(--color-info);
+}
+.noUi-handle {
+  outline: none;
+}
+</style>

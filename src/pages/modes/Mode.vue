@@ -1,15 +1,13 @@
 <template>
   <Row class="mode">
-    <Column class="name fixed-width" width="180px" :class="{ active: mode.active }">
+    <Column class="name" :class="{ active: mode.active }" width="180px">
       <div class="channel-name">{{ mode.name }}</div>
       <button :disabled="!canAddMoreRanges" @click="addRange">Add Range</button>
     </Column>
     <Column class="ranges">
       <Row class="value" v-for="range in mode.ranges" :key="range.id">
-        <Column class="fixed-width" style="width: 70px; margin-right: 16px">
-          <select style="width: 100%; margin-bottom: 8px;" v-model="range.channel">
-            <option v-for="i in numberOfAuxChannels" :key="i" :value="i - 1">CH{{ i + 4 }}</option>
-          </select>
+        <Column width="70px" style="margin-right: 16px">
+          <AuxChannelSelector v-model="range.channel" :numberOfAuxChannels="numberOfAuxChannels" />
           <div class="current-values">
             <p><label>Min</label>{{ range.values[0] }}</p>
             <p><label>Max</label>{{ range.values[1] }}</p>
@@ -18,7 +16,7 @@
         <Column>
           <ChannelRangeSelector v-model="range.values" :ticker="range.current" />
         </Column>
-        <Column class="fixed-width">
+        <Column width="auto">
           <a class="close-button" @click="deleteRange(range)">x</a>
         </Column>
       </Row>
@@ -33,6 +31,7 @@ import { defineComponent } from 'vue'
 import Row from '../../components/common/Row.vue'
 import Column from '../../components/common/Column.vue'
 import Slider from '../../components/common/Slider.vue'
+import AuxChannelSelector from '../../components/AuxChannelSelector.vue'
 import ChannelRangeSelector from '../../components/ChannelRangeSelector.vue'
 
 export default defineComponent({
@@ -40,6 +39,7 @@ export default defineComponent({
     Row,
     Column,
     Slider,
+    AuxChannelSelector,
     ChannelRangeSelector,
   },
   props: {
@@ -135,17 +135,5 @@ export default defineComponent({
   width: 20px;
   height: 20px;
   margin-left: 16px;
-}
-</style>
-
-<style lang="scss">
-.noUi-value {
-  margin-top: 12px;
-}
-.noUi-connect {
-  background-color: var(--color-info);
-}
-.noUi-handle {
-  outline: none;
 }
 </style>

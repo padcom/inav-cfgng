@@ -46,11 +46,10 @@ import Actions from '../components/Actions.vue'
 
 import Adjustment from './adjustments/Adjustment.vue'
 
-import { AdjustmentRangesRequest } from '../command/v1/AdjustmentRanges'
-
 import { useCommonCommands } from '../composables/common-commands'
 
 import { RcRequest } from '../command/v1/Rc'
+import { AdjustmentRangesRequest } from '../command/v1/AdjustmentRanges'
 import { SetAdjustmentRangeRequest } from '../command/v1/SetAdjustmentRange'
 
 export default defineComponent({
@@ -109,16 +108,12 @@ export default defineComponent({
     async saveAdjustments() {
       await this.work(async () => {
         for (let i = 0; i < this.adjustments.length; i++) {
-          const adjustment = this.adjustments[i]
-          const request = new SetAdjustmentRangeRequest(
-            i,
-            adjustment.auxChannelIndex,
-            adjustment.values[0],
-            adjustment.values[1],
-            adjustment.fn,
-            adjustment.auxSwitchChannelIndex,
-            adjustment.slot
-          )
+          const { enabled, auxChannelIndex, values: [ start, end ], fn, auxSwitchChannelIndex, slot } = this.adjustments[i]
+
+          const request = enabled
+            ? new SetAdjustmentRangeRequest(i, auxChannelIndex, start, end, fn, auxSwitchChannelIndex, slot)
+            : new SetAdjustmentRangeRequest(i)
+
           await this.$serial.query(request)
         }
       })
