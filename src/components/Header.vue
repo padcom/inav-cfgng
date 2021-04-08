@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="connection-manager">
-      <button v-if="!isConnected" class="round-button connect" @click="connect">
+      <button v-if="!isConnected" class="round-button connect" @click="connect" :disabled="serialPort === ''" :title="serialPort === '' ? 'Select serial port first' : ''">
         <img src="./header/cf_icon_usb2_white.svg" width="32" height="32" />
       </button>
       <button v-if="isConnected" class="round-button disconnect" @click="disconnect">
@@ -75,7 +75,8 @@ export default defineComponent({
     }
   },
   async created() {
-    this.serialPorts = [ '', ...(await this.$serial.list()) ]
+    const ports = await this.$serial.list()
+    this.onSerialPortListUpdated({}, ports)
   },
   onSerialOpen() {
     this.isConnecting = true
@@ -87,6 +88,22 @@ export default defineComponent({
   onSerialClose() {
     this.isConnected = false
     this.isConnecting = false
+  },
+  onSerialPortListUpdated(sender, ports) {
+    this.serialPorts = [ '', ...ports ]
+
+    const serialPortStillPresent = this.serialPorts.some(port => port.path === this.serialPort)
+    if (!serialPortStillPresent) {
+      this.serialPort = ''
+    }
+
+    if (!this.serialPort) {
+      const inavSerialPort = this.serialPorts.find(port => port.manufacturer === 'INAV')?.path
+      if (inavSerialPort) {
+        console.log('INAV serial port found - setting', inavSerialPort)
+        this.$nextTick(() => { this.serialPort = inavSerialPort })
+      }
+    }
   },
   methods: {
     connect() {
@@ -173,6 +190,9 @@ export default defineComponent({
 
   .connect {
     background-color: var(--color-info);
+    &:disabled {
+      cursor: help;
+    }
   }
 
   .disconnect {

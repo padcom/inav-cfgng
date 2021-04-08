@@ -5,6 +5,7 @@ const SerialPort = require('serialport')
 const { app, ipcMain, BrowserWindow } = require('electron')
 
 const PORTS = {}
+let window = null
 
 async function initializeSerialPort() {
   ipcMain.on('serial.open', (event, path) => {
@@ -69,6 +70,25 @@ async function initializeSerialPort() {
       port.close()
     })
   })
+
+  let availablePorts = ''
+  let isRefreshingPorts = false
+
+  setInterval(async () => {
+    if (!isRefreshingPorts && window) {
+      isRefreshingPorts = true
+      try {
+        const ports = await SerialPort.list()
+        const portsValue = JSON.stringify(ports)
+        if (portsValue !== availablePorts) {
+          availablePorts = portsValue
+          window.send('serial.list-updated', ports)
+        }
+      } finally {
+        isRefreshingPorts = false
+      }
+    }
+  }, 500)
 }
 
 async function initializeSystemRequests() {
@@ -92,7 +112,7 @@ async function initializeFrontendBuildProcess() {
 }
 
 async function initializeMainWindow() {
-  const window = new BrowserWindow({
+  window = new BrowserWindow({
     icon: path.join(app.getAppPath(), './', 'build/icons/128x128.png'),
     webPreferences: {
       devTools: true,

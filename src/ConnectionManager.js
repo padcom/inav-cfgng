@@ -28,16 +28,22 @@ export class ConnectionManager {
     this.#path = path
     this.#serial.resetProtocolToMSPv1()
 
-    await this.#waitForPortToExist(path)
-    await this.#waitForPortToOpen(path)
+    try {
+      await this.#waitForPortToExist(path)
+      await this.#waitForPortToOpen(path)
 
-    await this.#readVersionInformation()
-    await this.#readFcInformation()
-    await this.#readFirmwareBuildInformation()
-    await this.#readBoardInformation()
-    await this.#readDeviceIdInformatin()
+      await this.#readVersionInformation()
+      await this.#readFcInformation()
+      await this.#readFirmwareBuildInformation()
+      await this.#readBoardInformation()
+      await this.#readDeviceIdInformatin()
 
-    this.#serial.emit('ready', path)
+      this.#serial.emit('ready', path)
+    } catch (e) {
+      this.#log.error('Timed out waiting to open serial port', this.#path)
+      this.#serial.close()
+      this.#serial.emit('close')
+    }
   }
 
   async disconnect() {
