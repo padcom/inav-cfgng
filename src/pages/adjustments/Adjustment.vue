@@ -1,5 +1,5 @@
 <template>
-  <Row class="adjustment" :class="{ active: adjustment.enabled && adjustment.values[0] <= adjustment.current && adjustment.values[1] >= adjustment.current }">
+  <Row class="adjustment" :class="{ active: isAdjustmentActive(adjustment) }">
     <Column width="60px">
       <Switch v-model="adjustment.enabled" />
     </Column>
@@ -113,6 +113,13 @@ export default defineComponent({
       ]
     }
   },
+  methods: {
+    isAdjustmentActive(adjustment) {
+      return adjustment.enabled 
+        && adjustment.values[0] <= adjustment.current 
+        && adjustment.values[1] >= adjustment.current
+    }
+  }
 })
 </script>
 
