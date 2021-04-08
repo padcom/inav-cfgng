@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="connection-manager">
-      <button v-if="!isConnected" class="round-button connect" @click="connect" :disabled="serialPort === ''" :title="serialPort === '' ? 'Select serial port first' : ''">
+      <button v-if="!isConnected" class="round-button connect" @click="connect" :disabled="serialPort === ''" :title="connectButtonHint">
         <img src="./header/cf_icon_usb2_white.svg" width="32" height="32" />
       </button>
       <button v-if="isConnected" class="round-button disconnect" @click="disconnect">
@@ -72,6 +72,9 @@ export default defineComponent({
       } else {
         return 'Connect'
       }
+    },
+    connectButtonHint() {
+      return this.serialPort === '' ? 'Select an INAV serial port first' : ''
     }
   },
   async created() {
