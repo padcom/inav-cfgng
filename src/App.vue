@@ -8,6 +8,14 @@
     </Content>
     <Stats class="stats" />
   </div>
+  <dialog ref="wrongVersionDialog">
+    <header>Wrong INAV version</header>
+    <p>Sorry, your version of INAV is not compatible with this configurator.</p>
+    <p>Required version: <b>{{ version }}</b></p>
+    <div class="actions">
+      <button @click="dismiss" class="action">Dismiss</button>
+    </div>
+  </dialog>
 </template>
 
 <script>
@@ -19,6 +27,8 @@ import Navigation from './components/Navigation.vue'
 import Content from './components/Content.vue'
 import Stats from './components/Stats.vue'
 
+import { version } from '../package.json'
+
 export default defineComponent({
   name: 'App',
   components: {
@@ -28,6 +38,11 @@ export default defineComponent({
     Content,
     Stats
   },
+  computed: {
+    version() {
+      return version.split('-')[0]
+    }
+  },
   async created() {
     this.$router.replace({ path: '/' })
   },
@@ -35,9 +50,20 @@ export default defineComponent({
     const info = await this.$ipc.query('system.properties')
     this.$log.info(`Running OS: <strong>${info.os.type} ${info.os.version}</strong>, Chrome: <strong>${info.versions.chrome}</strong>, Electron: <strong>${info.versions.electron}</strong>`)
   },
+  async onSerialReady(port, fcVariant, fcVersion) {
+    if (fcVariant !== 'INAV' || fcVersion !== this.version) {
+      this.$serial.close()
+      this.$refs.wrongVersionDialog.showModal()
+    }
+  },
   async onSerialClose() {
     this.$router.push('/')
   },
+  methods: {
+    dismiss(e) {
+      this.$refs.wrongVersionDialog.close();
+    }
+  }
 })
 </script>
 

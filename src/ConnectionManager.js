@@ -13,6 +13,8 @@ export class ConnectionManager {
   #log = Logger.getLogger('MAIN')
   #serial = null
   #path = null
+  #fcVariant = null
+  #fcVersion = null
 
   constructor(serial) {
     this.#serial = serial
@@ -38,7 +40,7 @@ export class ConnectionManager {
       await this.#readBoardInformation()
       await this.#readDeviceIdInformatin()
 
-      this.#serial.emit('ready', path)
+      this.#serial.emit('ready', path, this.#fcVariant, this.#fcVersion)
     } catch (e) {
       this.#log.error('Timed out waiting to open serial port', this.#path)
       this.#serial.close()
@@ -89,7 +91,9 @@ export class ConnectionManager {
 
   async #readFcInformation() {
     const fcVersion = await this.#serial.query(new FcVersionRequest())
+    this.#fcVersion = fcVersion.version
     const fcVariant = await this.#serial.query(new FcVariantRequest())
+    this.#fcVariant = fcVariant.variant
     this.#log.info(`Flight controller info, identifier: <strong>${fcVariant.variant}</strong>, version: <strong>${fcVersion.version}</strong>`)
   }
 

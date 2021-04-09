@@ -225,3 +225,29 @@ body.loading {
     background-color: rgba(128, 128, 128, 0.5);
   }
 }
+
+dialog {
+  margin: auto;
+  border: solid 2px #333;
+  border-radius: 10px;
+  padding: 16px 16px;
+
+  header {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+
+  p {
+    margin: 4px 0;
+  }
+
+  .actions {
+    margin-top: 24px;
+    display: flex;
+    
+    button:nth-of-type(1) {
+      margin-left: auto;
+    }
+  }
+}
