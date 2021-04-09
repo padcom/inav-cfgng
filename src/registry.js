@@ -27,6 +27,8 @@ import * as CommonSetSerialConfig from './command/v2/CommonSetSerialConfig'
 import * as CommonSettingInfo from './command/v2/CommonSettingInfo'
 import * as CommonSetting from './command/v2/CommonSetting'
 import * as CommonSetSetting from './command/v2/CommonSetSetting'
+import * as LogicConditions from './command/v2/LogicConditions'
+import * as GvarStatus from './command/v2/GvarStatus'
 
 
 export const registry = new Registry()
@@ -59,3 +61,5 @@ registry.registerMSPv2Command(CommonSetSerialConfig)
 registry.registerMSPv2Command(CommonSettingInfo)
 registry.registerMSPv2Command(CommonSetting)
 registry.registerMSPv2Command(CommonSetSetting)
+registry.registerMSPv2Command(LogicConditions)
+registry.registerMSPv2Command(GvarStatus)

@@ -3,6 +3,7 @@ import './polyfills'
 
 import { Logger, LogLevel } from './logger'
 Logger.getLogger('DEFAULT').level = LogLevel.info
+// Logger.getLogger('SCHEDULER').level = LogLevel.trace
 // Logger.getLogger('REGISTRY').level = LogLevel.trace
 // Logger.getLogger('MSPV1').level = LogLevel.trace
 // Logger.getLogger('MSPV2').level = LogLevel.trace

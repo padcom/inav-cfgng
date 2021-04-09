@@ -27,6 +27,7 @@ export class TaskScheduler {
     if (!request) throw new Error('Invalid request')
 
     const id = uuid()
+
     this.#tasks.set(id, { priority, request, handler })
     this.#log.debug('Enqueued', request, 'with priority', priority)
 
@@ -89,9 +90,11 @@ export class TaskScheduler {
         if (this.#index % priority === 0) {
           try {
             const data = typeof request === 'function' ? request() : request
+            this.#log.trace('Sending request', data)
             const response = await this.#serial.query(data)
             handler(response)
           } catch (e) {
+            this.#log.trace('Error while processing response', e)
             const isSerialPortOpen = await this.#serial.isOpen()
             if (isSerialPortOpen) {
               this.#log.warn('Unable to perform scheduled task', request, ':', e, '- skipping')

@@ -2,6 +2,9 @@
   <Page>
     <PageHeader>Programming</PageHeader>
 
+    <Row>
+      <GVar v-for="(value, index) in variables" :key="index" :value="value" :index="index" />
+    </Row>
   </Page>
 
   <Actions>
@@ -16,15 +19,18 @@ import { defineComponent } from 'vue'
 import Page from '../components/common/Page.vue'
 import PageHeader from '../components/common/PageHeader.vue'
 import Warning from '../components/common/Warning.vue'
+import Row from '../components/common/Row.vue'
 import Column from '../components/common/Column.vue'
 import Actions from '../components/Actions.vue'
 
-// import Adjustment from './adjustments/Adjustment.vue'
+import GVar from './programming/GVar.vue'
+// import Adjustment from './programming/Adjustment.vue'
 
 import { useCommonCommands } from '../composables/common-commands'
 
 // import { RcRequest } from '../command/v1/Rc'
-// import { AdjustmentRangesRequest } from '../command/v1/AdjustmentRanges'
+import { GvarStatusRequest } from '../command/v2/GvarStatus'
+import { LogicConditionsRequest } from '../command/v2/LogicConditions'
 // import { SetAdjustmentRangeRequest } from '../command/v1/SetAdjustmentRange'
 
 export default defineComponent({
@@ -33,8 +39,10 @@ export default defineComponent({
     Page,
     PageHeader,
     Warning,
+    Row,
     Column,
     Actions,
+    GVar,
     // Adjustment,
   },
   setup() {
@@ -47,29 +55,29 @@ export default defineComponent({
   data() {
     return {
       conditions: [],
-      numberOfAuxChannels: 8,
+      variables: [],
     }
   },
   async mounted() {
-    // this.refreshChannelsTaskId = this.$scheduler.enqueue(25, new RcRequest(), response => {
-    //   this.numberOfAuxChannels = response.count - 4
-    //   this.adjustments.forEach(adjustment => {
-    //     adjustment.current = response.channels[adjustment.auxChannelIndex + 4]
-    //   })
-    // })
+    this.refreshGlobalVariablesTaskId = this.$scheduler.enqueue(25, new GvarStatusRequest(), response => {
+      this.variables = response.variables
+    })
+
+    console.log('this.refreshGlobalVariablesTaskId', this.refreshGlobalVariablesTaskId)
 
     this.work(async () => {
       await this.loadLogicConditions()
     })
   },
   beforeUnmount() {
-    // this.$scheduler.dequeue(this.refreshChannelsTaskId)
+    this.$scheduler.dequeue(this.refreshGlobalVariablesTaskId)
   },
   methods: {
     async loadLogicConditions() {
       this.conditions = []
 
-      // const response = await this.$serial.query(new AdjustmentRangesRequest())
+      const response = await this.$serial.query(new LogicConditionsRequest())
+      console.log('response', response)
       // this.adjustments = response.ranges.map(adjustment => ({
       //   ...adjustment,
       //   values: [
