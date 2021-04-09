@@ -5,6 +5,10 @@
     <Row>
       <GVar v-for="(value, index) in variables" :key="index" :value="value" :index="index" />
     </Row>
+
+    <Row>
+      <LogicConditions :conditions="conditions" />
+    </Row>
   </Page>
 
   <Actions>
@@ -24,14 +28,13 @@ import Column from '../components/common/Column.vue'
 import Actions from '../components/Actions.vue'
 
 import GVar from './programming/GVar.vue'
-// import Adjustment from './programming/Adjustment.vue'
+import LogicConditions from './programming/LogicConditions.vue'
 
 import { useCommonCommands } from '../composables/common-commands'
 
-// import { RcRequest } from '../command/v1/Rc'
 import { GvarStatusRequest } from '../command/v2/GvarStatus'
+import { LogicConditionsStatusRequest } from '../command/v2/LogicConditionsStatus'
 import { LogicConditionsRequest } from '../command/v2/LogicConditions'
-// import { SetAdjustmentRangeRequest } from '../command/v1/SetAdjustmentRange'
 
 export default defineComponent({
   name: 'ProgrammingPage',
@@ -43,7 +46,7 @@ export default defineComponent({
     Column,
     Actions,
     GVar,
-    // Adjustment,
+    LogicConditions,
   },
   setup() {
     const { work, sleep } = useCommonCommands()
@@ -62,8 +65,11 @@ export default defineComponent({
     this.refreshGlobalVariablesTaskId = this.$scheduler.enqueue(25, new GvarStatusRequest(), response => {
       this.variables = response.variables
     })
-
-    console.log('this.refreshGlobalVariablesTaskId', this.refreshGlobalVariablesTaskId)
+    this.refreshLogicConditionStatusTaskId = this.$scheduler.enqueue(25, new LogicConditionsStatusRequest(), response => {
+      for (let i = 0; i < response.count && i < this.conditions.length; i++) {
+        this.conditions[i].status = response.status[i]
+      }
+    })
 
     this.work(async () => {
       await this.loadLogicConditions()
@@ -71,34 +77,19 @@ export default defineComponent({
   },
   beforeUnmount() {
     this.$scheduler.dequeue(this.refreshGlobalVariablesTaskId)
+    this.$scheduler.dequeue(this.refreshLogicConditionStatusTaskId)
   },
   methods: {
     async loadLogicConditions() {
       this.conditions = []
 
       const response = await this.$serial.query(new LogicConditionsRequest())
-      console.log('response', response)
-      // this.adjustments = response.ranges.map(adjustment => ({
-      //   ...adjustment,
-      //   values: [
-      //     adjustment.start,
-      //     adjustment.start === adjustment.end ? 950 : adjustment.end,
-      //   ],
-      //   current: 111,
-      //   enabled: adjustment.start !== adjustment.end
-      // }))
+      this.conditions = response.conditions.map(condition => ({ ...condition, status: null }))
+      console.log('this.conditions', this.conditions)
     },
     async saveLogicConditions() {
       await this.work(async () => {
-        // for (let i = 0; i < this.adjustments.length; i++) {
-        //   const { enabled, auxChannelIndex, values: [ start, end ], fn, auxSwitchChannelIndex, slot } = this.adjustments[i]
-
-        //   const request = enabled
-        //     ? new SetAdjustmentRangeRequest(i, auxChannelIndex, start, end, fn, auxSwitchChannelIndex, slot)
-        //     : new SetAdjustmentRangeRequest(i)
-
-        //   await this.$serial.query(request)
-        // }
+        // TODO: implement saving of logic conditions
       })
       this.$log.info('Logic conditions have been saved.')
     },
@@ -107,7 +98,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.warning {
-  margin-bottom: 24px;
+.logic-conditions {
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 </style>

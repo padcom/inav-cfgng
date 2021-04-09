@@ -29,6 +29,7 @@ import * as CommonSetting from './command/v2/CommonSetting'
 import * as CommonSetSetting from './command/v2/CommonSetSetting'
 import * as LogicConditions from './command/v2/LogicConditions'
 import * as GvarStatus from './command/v2/GvarStatus'
+import * as LogicConditionsStatus from './command/v2/LogicConditionsStatus'
 
 
 export const registry = new Registry()
@@ -63,3 +64,4 @@ registry.registerMSPv2Command(CommonSetting)
 registry.registerMSPv2Command(CommonSetSetting)
 registry.registerMSPv2Command(LogicConditions)
 registry.registerMSPv2Command(GvarStatus)
+registry.registerMSPv2Command(LogicConditionsStatus)
