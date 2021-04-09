@@ -10,7 +10,7 @@ let window = null
 async function initializeSerialPort() {
   ipcMain.on('serial.open', (event, path) => {
     if (!PORTS[path]) {
-      PORTS[path] = new SerialPort(path)
+      PORTS[path] = new SerialPort(path, { baudRate: 115200 })
       PORTS[path].on('open', () => {
         event.sender.send('serial.open', path)
       })
@@ -37,12 +37,17 @@ async function initializeSerialPort() {
 
   ipcMain.on('serial.write', (event, path, buffer) => {
     if (PORTS[path]) {
-      PORTS[path].write(buffer, err => {
+      const result = PORTS[path].write(buffer, err => {
         if (err) {
           console.error('Error writing to serial port', err)
         }
         event.sender.send('serial.write-completed', { error: err || false })
       })
+      if (!result) {
+        PORTS[path].once('drain', (...args) => {
+          event.sender.send('serial.write-completed', { error: false })
+        })
+      }
     }
   })
 

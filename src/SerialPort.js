@@ -131,11 +131,11 @@ export class Serial extends EventEmitter {
     ipc.send('serial.close', this.#path)
   }
 
-  async send(request) {
+  async send(request, timeout = 1000) {
     const buffer = this.#protocol.encode(MSP.DIRECTION_TO_MSC, request.command, request.payload)
     ipc.send('serial.write', this.#path, buffer)
 
-    const result = await waitForSingleEvent(ipc, 'serial.write-completed', 100)
+    const result = await waitForSingleEvent(ipc, 'serial.write-completed', timeout)
     if (result.error) throw new Error(result.error)
 
     return true
@@ -148,7 +148,7 @@ export class Serial extends EventEmitter {
 
     try {
       for (let i = 10; i >= 0; i--) {
-        await this.send(request)
+        await this.send(request, timeout / 4)
         try {
           const [ , response ] = await waitForSingleEvent(this, 'packet', timeout)
           if (request.command === response.command) {

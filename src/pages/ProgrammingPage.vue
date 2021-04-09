@@ -35,6 +35,7 @@ import { useCommonCommands } from '../composables/common-commands'
 import { GvarStatusRequest } from '../command/v2/GvarStatus'
 import { LogicConditionsStatusRequest } from '../command/v2/LogicConditionsStatus'
 import { LogicConditionsRequest } from '../command/v2/LogicConditions'
+import { SetLogicConditionsRequest } from '../command/v2/SetLogicConditions'
 
 export default defineComponent({
   name: 'ProgrammingPage',
@@ -85,13 +86,19 @@ export default defineComponent({
 
       const response = await this.$serial.query(new LogicConditionsRequest())
       this.conditions = response.conditions.map(condition => ({ ...condition, status: null }))
-      console.log('this.conditions', this.conditions)
     },
     async saveLogicConditions() {
-      await this.work(async () => {
-        // TODO: implement saving of logic conditions
-      })
-      this.$log.info('Logic conditions have been saved.')
+      try {
+        await this.work(async () => {
+          for (let i = 0; i < this.conditions.length; i++) {
+            const request = new SetLogicConditionsRequest(i, this.conditions[i])
+            const response = await this.$serial.query(request, 5000, true)
+          }
+        })
+        this.$log.info('Logic conditions have been saved.')
+      } catch (e) {
+        this.$log.error('Error while saving logic conditions', e)
+      }
     },
   },
 })

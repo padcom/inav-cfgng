@@ -16,17 +16,18 @@ export class LogicConditionsResponse extends Response {
 
   get conditions() {
     const result = []
+
     for (let i = 0; i < this.count; i++) {
       const enabled = this.getUint8(i * 14 + 0)
       const activatorId = this.getInt8(i * 14 + 1)
       const operation = this.getUint8(i * 14 + 2)
       const a = {
         type: this.getUint8(i * 14 + 3),
-        value: this.getUint32(i * 14 + 4, true)
+        value: this.getInt32(i * 14 + 4, true)
       }
       const b = {
         type: this.getUint8(i * 14 + 8),
-        value: this.getUint32(i * 14 + 9, true)
+        value: this.getInt32(i * 14 + 9, true)
       }
       const flags = this.getUint8(i * 14 + 13)
 

@@ -17,7 +17,7 @@ export class GvarStatusResponse extends Response {
   get variables() {
     const result = []
     for (let i = 0; i < this.count; i++) {
-      result.push(this.getUint32(i * 4, true))
+      result.push(this.getInt32(i * 4, true))
   }
 
     return result

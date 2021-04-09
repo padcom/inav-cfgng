@@ -28,6 +28,7 @@ import * as CommonSettingInfo from './command/v2/CommonSettingInfo'
 import * as CommonSetting from './command/v2/CommonSetting'
 import * as CommonSetSetting from './command/v2/CommonSetSetting'
 import * as LogicConditions from './command/v2/LogicConditions'
+import * as SetLogicConditions from './command/v2/SetLogicConditions'
 import * as GvarStatus from './command/v2/GvarStatus'
 import * as LogicConditionsStatus from './command/v2/LogicConditionsStatus'
 
@@ -63,5 +64,6 @@ registry.registerMSPv2Command(CommonSettingInfo)
 registry.registerMSPv2Command(CommonSetting)
 registry.registerMSPv2Command(CommonSetSetting)
 registry.registerMSPv2Command(LogicConditions)
+registry.registerMSPv2Command(SetLogicConditions)
 registry.registerMSPv2Command(GvarStatus)
 registry.registerMSPv2Command(LogicConditionsStatus)
