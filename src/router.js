@@ -7,6 +7,7 @@ import AdvancedTuningPage from './pages/AdvancedTuningPage.vue'
 import ReceiverPage from './pages/ReceiverPage.vue'
 import ModesPage from './pages/ModesPage.vue'
 import AdjustmentsPage from './pages/AdjustmentsPage.vue'
+import ProgrammingPage from './pages/ProgrammingPage.vue'
 
 export const router = createRouter({
   history: createWebHashHistory(),
@@ -18,5 +19,6 @@ export const router = createRouter({
     { path: '/receiver', component: ReceiverPage },
     { path: '/modes', component: ModesPage },
     { path: '/adjustments', component: AdjustmentsPage },
+    { path: '/programming', component: ProgrammingPage },
   ]
 })

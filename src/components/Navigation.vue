@@ -61,6 +61,15 @@
           <div class="title">Adjustments</div>
         </router-link>
       </li>
+
+      <div v-if="isSerialReady" class="divider" />
+
+      <li v-if="isSerialReady" class="navitem">
+        <router-link to="/programming">
+          <img class="icon" src="./navigation/cf_icon_config_white.svg">
+          <div class="title">Programming</div>
+        </router-link>
+      </li>
     </ul>
   </div>
 </template>
