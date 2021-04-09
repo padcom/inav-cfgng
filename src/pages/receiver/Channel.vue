@@ -1,7 +1,11 @@
 <template>
   <Row class="channel">
-    <div class="channel-name">{{ name[index] }}</div>
-    <div class="channel-display" :style="{'background': `linear-gradient(to right, ${color[index]} ${scaled}%, white 0)` }">
+    <div class="channel-name">
+      {{ name[index] }}
+    </div>
+    <div class="channel-display" :style="{
+      'background': `linear-gradient(to right, ${color[index]} ${scaled}%, white 0)`
+    }">
       <div class="channel-value">
         {{ value }}
       </div>

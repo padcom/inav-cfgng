@@ -67,8 +67,16 @@
         </td>
         <td width="1">
           <div v-if="condition.enabled">
-            <span v-if="OPERATION[condition.operation].output === 'boolean'" class="boolean-status-indicator" :class="{ active: condition.status }">&nbsp;</span>
-            <span v-if="OPERATION[condition.operation].output === 'raw'">{{ condition.status }}</span>
+            <span
+              v-if="OPERATION[condition.operation].output === 'boolean'"
+              class="boolean-status-indicator"
+              :class="{ active: condition.status }"
+            >
+              &nbsp;
+            </span>
+            <span v-if="OPERATION[condition.operation].output === 'raw'">
+              {{ condition.status }}
+            </span>
           </div>
         </td>
       </tr>
@@ -110,14 +118,6 @@ export default defineComponent({
     },
   },
   methods: {
-    updateDefaultOperandValue(operand, e) {
-      console.log('e', e, 'type:', operand.type, 'prev value:', operand.value, 'default:', OPERAND_TYPE[operand.type].default)
-      setTimeout(() => {
-        // this.$set(operand, 'value', OPERAND_TYPE[operand.type].default)
-        operand.value = OPERAND_TYPE[operand.type].default
-        console.log('new operand.value', operand.value)
-      }, 500)
-    },
     getValueOptions(type, value) {
       const operandType = OPERAND_TYPE[type]
       if (!operandType) {
@@ -132,6 +132,8 @@ export default defineComponent({
           result.push({ label: i, value: i })
         }
         return result
+      } else {
+        return []
       }
     }
   }

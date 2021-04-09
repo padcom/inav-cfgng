@@ -91,8 +91,18 @@ export default defineComponent({
       try {
         await this.work(async () => {
           for (let i = 0; i < this.conditions.length; i++) {
-            const request = new SetLogicConditionsRequest(i, this.conditions[i])
-            const response = await this.$serial.query(request, 5000, true)
+            const request = new SetLogicConditionsRequest(
+              i,
+              this.conditions[i].enabled,
+              this.conditions[i].activatorId,
+              this.conditions[i].operation,
+              this.conditions[i].a.type,
+              this.conditions[i].a.value,
+              this.conditions[i].b.type,
+              this.conditions[i].b.value,
+              this.conditions[i].flags,
+            )
+            await this.$serial.query(request)
           }
         })
         this.$log.info('Logic conditions have been saved.')
