@@ -34,6 +34,7 @@ import * as SetLogicConditions from './command/v2/SetLogicConditions'
 import * as GvarStatus from './command/v2/GvarStatus'
 import * as LogicConditionsStatus from './command/v2/LogicConditionsStatus'
 import * as AnalogV2 from './command/v2/Analog'
+import * as InavOsdLayouts from './command/v2/InavOsdLayouts'
 
 
 export const registry = new Registry()
@@ -73,3 +74,4 @@ registry.registerMSPv2Command(SetLogicConditions)
 registry.registerMSPv2Command(GvarStatus)
 registry.registerMSPv2Command(LogicConditionsStatus)
 registry.registerMSPv2Command(AnalogV2)
+registry.registerMSPv2Command(InavOsdLayouts)

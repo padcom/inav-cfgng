@@ -18,5 +18,5 @@ contextBridge.exposeInMainWorld('ipc', {
   query: (channel, ...data) => new Promise(resolve => {
     ipcRenderer.once(channel, (sennder, ...data) => { resolve(...data) })
     ipcRenderer.send(channel, ...data)
-  })
+  }),
 })

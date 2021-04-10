@@ -2,7 +2,7 @@ const url = require('url')
 const path = require('path')
 const development = require('electron-is-dev')
 const SerialPort = require('serialport')
-const { app, ipcMain, BrowserWindow } = require('electron')
+const { app, ipcMain, BrowserWindow, nativeImage } = require('electron')
 
 const PORTS = {}
 let window = null
@@ -97,7 +97,7 @@ async function initializeSerialPort() {
 }
 
 async function initializeSystemRequests() {
-  ipcMain.on('system.properties', (event) => {
+  ipcMain.on('system.properties', event => {
     event.sender.send('system.properties', {
       os: {
         type: require('os').type(),
@@ -122,6 +122,7 @@ async function initializeMainWindow() {
     webPreferences: {
       devTools: true,
       preload: path.join(app.getAppPath(), './', 'preload.js'),
+      nodeIntegration: true,
     }
   })
   window.maximize()

@@ -55,13 +55,13 @@ export class Registry {
   }
 
   async getCommandByCode(code) {
-    this.#log.trace(`Retrieving command with code ${hex(code)}/${code}`)
+    this.#log.trace(`Retrieving command with code ${hex(code, 4)}/${code}`)
     if (this.#commands.has(code)) {
       const command = this.#commands.get(code)
-      this.#log.debug(`Command with code ${hex(code)}/${code} found ${JSON.stringify(command)}`)
+      this.#log.debug(`Command with code ${hex(code, 4)}/${code} found ${JSON.stringify(command)}`)
       return command
     } else {
-      this.#log.warn(`Command with code ${hex(code)}/${code} not found`)
+      this.#log.warn(`Command with code ${hex(code, 4)}/${code} not found`)
       return {
         command: 'unknown',
         code,
