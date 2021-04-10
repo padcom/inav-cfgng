@@ -73,6 +73,8 @@ import Dropdown from '../components/editors/Dropdown.vue'
 import Panel from '../components/common/Panel.vue'
 import Actions from '../components/Actions.vue'
 
+import { useCommonCommands } from '../composables/common-commands'
+
 export default defineComponent({
   name: 'OsdPage',
   components: {
@@ -84,9 +86,25 @@ export default defineComponent({
     Panel,
     Actions,
   },
+  setup() {
+    const { work, saveSettingsToEeprom} = useCommonCommands()
+
+    return {
+      work,
+      saveSettingsToEeprom,
+    }
+  },
   data() {
     return {
       layout: 0,
+    }
+  },
+  methods: {
+    async save() {
+      await this.work(async () => {
+        await this.saveSettingsToEeprom()
+        this.$log.info('OSD settings saved.')
+      })
     }
   }
 })
