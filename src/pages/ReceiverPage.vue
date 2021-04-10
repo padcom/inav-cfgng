@@ -8,7 +8,7 @@
           { label: 'Futaba / Hitec', value: '0,1,3,2' },
           { label: 'JR / Spectrum', value: '1,2,3,0' },
         ]" />
-        <DropdownSetting item="rssi_channel" label="RSSI Channel" :options="rssiChannels" />
+        <DropdownSetting v-show="!isCrossfireRx" item="rssi_channel" label="RSSI Channel" :options="rssiChannels" />
       </Panel>
       <Panel title="Channel preview">
         <Channel v-for="(channel, index) in channels" :key="index" :index="index" :value="channel" />
@@ -81,10 +81,11 @@ export default defineComponent({
     NumericSetting,
   },
   setup() {
-    const { load: loadSettings, save: saveSettings } = useSettings()
+    const { settings: sx, load: loadSettings, save: saveSettings } = useSettings()
     const { reboot, saveSettingsToEeprom, work } = useCommonCommands()
 
     return {
+      sx,
       loadSettings,
       saveSettings,
       reboot,
@@ -107,6 +108,9 @@ export default defineComponent({
       }
 
       return result
+    },
+    isCrossfireRx() {
+      return this.sx['receiver_type'].value == 2 && this.sx['serialrx_provider'].value == 9
     }
   },
   async mounted() {
