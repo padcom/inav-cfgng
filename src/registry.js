@@ -7,6 +7,8 @@ import * as BuildInfo from './command/v1/BuildInfo'
 import * as BoardInfo from './command/v1/BoardInfo'
 import * as Uid from './command/v1/Uid'
 import * as StatusEx from './command/v1/StatusEx'
+import * as SensorConfig from './command/v1/SensorConfig'
+import * as SensorStatus from './command/v1/SensorStatus'
 import * as EepromWrite from './command/v1/EepromWrite'
 import * as Feature from './command/v1/Feature'
 import * as FeatureSet from './command/v1/SetFeature'
@@ -43,6 +45,8 @@ registry.registerMSPv1Command(BuildInfo)
 registry.registerMSPv1Command(BoardInfo)
 registry.registerMSPv1Command(Uid)
 registry.registerMSPv1Command(StatusEx)
+registry.registerMSPv1Command(SensorConfig)
+registry.registerMSPv1Command(SensorStatus)
 registry.registerMSPv1Command(EepromWrite)
 registry.registerMSPv1Command(Feature)
 registry.registerMSPv1Command(FeatureSet)

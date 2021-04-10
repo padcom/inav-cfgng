@@ -4,12 +4,6 @@
     <div v-if="status.isPortOpen" class="item">Buffer size: {{ bufferSize }}</div>
     <div v-if="status.isPortReady" class="item">Cycle time: {{ status.cycleTime }}us</div>
     <div v-if="status.isPortReady" class="item">i2c errors: {{ status.i2cError }}</div>
-    <div v-if="status.isPortReady" class="item">
-      <span v-for="sensor in sensors" :class="{ error: !sensor.status }">
-        {{ sensor.sensor }}
-        &nbsp;
-      </span>
-    </div>
     <div v-if="status.isPortReady" class="item">Modes flag: {{ status.modes }}</div>
     <div v-if="status.isPortReady" class="item">Profile: {{ status.profile }}</div>
     <div v-if="status.isPortReady" class="item">CPU Load: {{ status.cpuLoad }}</div>
