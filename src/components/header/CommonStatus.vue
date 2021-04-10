@@ -1,6 +1,7 @@
 <template>
-  <Panel>
+  <Panel class="common-status">
     <BatteryIndicator :volts="status.volts" :percentage="status.percentage" />
+    <div> ala ma kota</div>
   </Panel>
 </template>
 
@@ -32,3 +33,9 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="scss" scoped>
+.common-status {
+  flex-direction: column;
+}
+</style>
