@@ -7,7 +7,7 @@
     <Icon v-else file="images/status/cf_icon_failsafe_grey.svg" />
 
     <Icon v-if="link" file="images/status/cf_icon_link_active.svg" />
-    <Icon v-else file="images/status/cf_icon_link_gray.svg" />
+    <Icon v-else file="images/status/cf_icon_link_grey.svg" />
   </div>
 </template>
 
@@ -33,7 +33,7 @@ export default defineComponent({
   computed: {
     armed() {
       const armModeIndex = this.modes.findIndex(mode => mode === 'ARM')
-      return this.activeBoxes & (1 << armModeIndex)
+      return this.activeBoxes[0] & (1 << armModeIndex)
     },
     failsafe() {
       const failsafeModeIndex = this.modes.findIndex(mode => mode === 'FAILSAFE')
