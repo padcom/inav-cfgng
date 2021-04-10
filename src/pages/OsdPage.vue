@@ -40,21 +40,11 @@
       </Column>
       <Column width="382px" style="align-self: flex-start; position: sticky; top: 92px;">
         <Panel title="Preview">
-          <div ref="osd" class="osd-editor" width="360" height="288"
-            :style="{
-              'background-color': 'red',
-              cursor: draggedElement ? 'grabbing' : 'default'
-            }"
-            @mousemove="drag"
-          >
-            <img ref="x" class="osd-item" draggable="false"
-              :style="{
-                left: left+'px',
-                top: top+'px',
-                cursor: draggedElement ? 'grabbing' : 'default'
-              }"
-              @mousedown.prevent="beginDrag"
-            />
+          <div ref="osd" class="osd-editor" width="360" height="288" style="background-color: red">
+            <DragItem>
+              <img ref="x" class="osd-item" draggable="false" />
+              <img ref="y" class="osd-item" draggable="false" />
+            </DragItem>
           </div>
         </Panel>
       </Column>
@@ -90,11 +80,11 @@ import Column from '../components/common/Column.vue'
 import Dropdown from '../components/editors/Dropdown.vue'
 import Panel from '../components/common/Panel.vue'
 import Actions from '../components/Actions.vue'
+import DragItem from '../components/common/DragItem.vue'
 
 import { useCommonCommands } from '../composables/common-commands'
 
 import { InavOsdLayoutsRequest } from '../command/v2/InavOsdLayouts'
-import { waitForSingleEvent } from '../utils'
 
 import { FONT } from '../models/font'
 
@@ -108,6 +98,7 @@ export default defineComponent({
     Dropdown,
     Panel,
     Actions,
+    DragItem,
   },
   setup() {
     const { work, saveSettingsToEeprom} = useCommonCommands()
@@ -140,10 +131,7 @@ export default defineComponent({
       this.items = response.items
     })
 
-    // const canvas = this.$refs.osd
-
     // convert font elements to transparent
-    const t1 = Date.now()
     const canvas = document.createElement('canvas')
     const context = canvas.getContext('2d')
     const chars = this.$refs.font.querySelectorAll('img')
@@ -168,15 +156,7 @@ export default defineComponent({
     })
 
     this.$refs.x.src = this.chars[49]
-    console.log(this.chars[3])
-
-    const t2 = Date.now()
-
-    console.log('Processing time:', t2 - t1)
-    window.addEventListener('mouseup', this.endDrag)
-  },
-  beforeUnmount() {
-    window.removeEventListener('mouseup', this.endDrag)
+    this.$refs.y.src = this.chars[50]
   },
   methods: {
     async save() {
@@ -185,24 +165,6 @@ export default defineComponent({
         this.$log.info('OSD settings saved.')
       })
     },
-    beginDrag(e) {
-      this.draggedElement = e.target
-      const rect = e.target.getBoundingClientRect()
-      this.dragArea = this.$refs.osd.getBoundingClientRect()
-      this.dragOrigin = { x: e.clientX - rect.x, y: e.clientY - rect.y }
-    },
-    endDrag(e) {
-      this.draggedElement = null
-      this.dragOrigin = { x: 0, y: 0 }
-    },
-    drag(e) {
-      if (!this.draggedElement) return
-      const left = Math.round((e.clientX - this.dragArea.x) / 12) * 12 - this.dragOrigin.x
-      const top = Math.round((e.clientY - this.dragArea.y) / 18) * 18 - this.dragOrigin.y
-
-      this.left = left
-      this.top = top
-    }
   }
 })
 </script>
@@ -216,12 +178,6 @@ export default defineComponent({
   background-size: 100%;
 }
 
-.osd-item {
-  position: relative;
-  left: 20px;
-  top: 20px;
-  cursor: -webkit-grab;
-}
 img {
  filter: chroma(color=#808080);
 }

@@ -33,7 +33,7 @@ export function readonly(object, field, value) {
 }
 
 export function hex(n, width = 2, prefix = '0x') {
-  return `${prefix}${('0'.repeat(width) + n.toString(16)).substr(-width)}`
+  return n !== undefined ? `${prefix}${('0'.repeat(width) + n.toString(16)).substr(-width)}` : ''
 }
 
 export function sleep(ms) {
