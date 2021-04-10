@@ -1,7 +1,7 @@
 <template>
   <Panel class="common-status">
     <BatteryIndicator :volts="status.volts" :percentage="status.percentage" />
-    <div> ala ma kota</div>
+    <StatusIndicator />
   </Panel>
 </template>
 
@@ -10,12 +10,14 @@ import { defineComponent } from 'vue'
 
 import Panel from './Panel.vue'
 import BatteryIndicator from './BatteryIndicator.vue'
+import StatusIndicator from './StatusIndicator.vue'
 import { AnalogRequest } from '../../command//v2/Analog'
 
 export default defineComponent({
   components: {
     Panel,
     BatteryIndicator,
+    StatusIndicator,
   },
   data() {
     return {
@@ -37,5 +39,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 .common-status {
   flex-direction: column;
+
 }
 </style>

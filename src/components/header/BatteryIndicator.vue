@@ -29,6 +29,7 @@ export default defineComponent({
 .battery-indicator {
   display: flex;
   align-items: center;
+  align-content: flex-start;
   height: 40px;
 }
 
@@ -53,5 +54,6 @@ export default defineComponent({
   margin-right: 12px;
   margin-top: 1px;
   margin-left: 1px;
+  text-align: left;
 }
 </style>
