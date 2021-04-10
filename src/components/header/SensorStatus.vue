@@ -38,7 +38,7 @@ export default defineComponent({
     }
   },
   async mounted() {
-    this.sensorStatusTaskId = this.$scheduler.enqueue(50, new SensorStatusRequest(), response => {
+    this.sensorStatusTaskId = this.$scheduler.enqueue(100, new SensorStatusRequest(), response => {
       this.sensors.gyroscope = response.gyroscope
       this.sensors.accelerometer = response.accelerometer
       this.sensors.barometer = response.barometer
