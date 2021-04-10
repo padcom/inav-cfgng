@@ -14,10 +14,18 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
+  props: {
+    modelValue: { type: Object, default: () => ({ x: 0, y: 0 }) },
+    gridCellWidth: { type: Number, default: 1 },
+    gridCellHeight: { type: Number, default: 1 },
+  },
+  emits: [
+    'update:modelValue'
+  ],
   data() {
     return {
-      left: 10,
-      top: 10,
+      left: this.modelValue.x * this.gridCellWidth,
+      top: this.modelValue.y * this.gridCellHeight,
       isHovered: false,
       isBeingDragged: false,
       dragBegin: null,
@@ -38,20 +46,23 @@ export default defineComponent({
   methods: {
     beginDrag(e) {
       window.document.body.style.cursor = 'grabbing'
-      const rect = this.$el.getBoundingClientRect()
-      this.dragRect = rect
+      this.dragRect = this.$el.getBoundingClientRect()
+      console.log('this.dragRect', this.dragRect)
       this.dragArea = this.$el.parentNode.getBoundingClientRect()
-      this.dragOrigin = { x: e.clientX - rect.x, y: e.clientY - rect.y }
+      console.log('this.dragArea', this.dragArea)
+      this.dragOrigin = { x: e.clientX - this.dragRect.x, y: e.clientY - this.dragRect.y }
       this.isBeingDragged = true
     },
     drag(e) {
       if (this.isBeingDragged) {
-        const left = Math.round((e.clientX - this.dragArea.x - this.dragOrigin.x) / 12) * 12
-        const top = Math.round((e.clientY - this.dragArea.y - this.dragOrigin.y) / 18) * 18
+        const left = Math.round((e.clientX - this.dragArea.x - this.dragOrigin.x) / this.gridCellWidth) * this.gridCellWidth
+        const top = Math.round((e.clientY - this.dragArea.y - this.dragOrigin.y) / this.gridCellHeight) * this.gridCellHeight
 
         const rect = this.$el.getBoundingClientRect()
         const dx = rect.left - this.dragRect.left
         const dy = rect.top - this.dragRect.top
+
+        console.log('dx', dx)
 
         if (left + dx < 0) {
           this.left = 0
@@ -75,7 +86,7 @@ export default defineComponent({
     endDrag(e) {
       window.document.body.style.cursor = 'default'
       this.isBeingDragged = false
-      this.$emit('moved', this, this.left, this.right)
+      this.$emit('update:modelValue', this, { x: this.left / this.gridCellWidth, y: this.top / this.gridCellHeight })
     },
   }
 })
@@ -84,7 +95,9 @@ export default defineComponent({
 <style lang="scss" scoped>
 .drag-item {
   display: inline-block;
-  position: relative;
+  position: absolute;
+  line-height: 0;
+  border-radius: 3px;
 
   &:hover {
     background-color: rgba(255, 255, 255, 0.3);

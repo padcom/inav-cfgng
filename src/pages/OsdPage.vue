@@ -40,10 +40,18 @@
       </Column>
       <Column width="382px" style="align-self: flex-start; position: sticky; top: 92px;">
         <Panel title="Preview">
-          <div ref="osd" class="osd-editor" width="360" height="288" style="background-color: red">
-            <DragItem>
+          <div ref="osd" class="osd-editor" width="360" height="288" style="background-color: red; position: relative;">
+            <DragItem :gridCellWidth="12" :gridCellHeight="18">
               <img ref="x" class="osd-item" draggable="false" />
               <img ref="y" class="osd-item" draggable="false" />
+            </DragItem>
+            <DragItem :gridCellWidth="12" :gridCellHeight="18" :modelValue="{ x: 1, y: 1 }">
+              <img ref="x2" class="osd-item" draggable="false" />
+              <img ref="y2" class="osd-item" draggable="false" />
+            </DragItem>
+            <DragItem :gridCellWidth="12" :gridCellHeight="18" :modelValue="{ x: 2, y: 2 }">
+              <img ref="x3" class="osd-item" draggable="false" />
+              <img ref="y3" class="osd-item" draggable="false" />
             </DragItem>
           </div>
         </Panel>
@@ -157,6 +165,10 @@ export default defineComponent({
 
     this.$refs.x.src = this.chars[49]
     this.$refs.y.src = this.chars[50]
+    this.$refs.x2.src = this.chars[51]
+    this.$refs.y2.src = this.chars[52]
+    this.$refs.x3.src = this.chars[54]
+    this.$refs.y3.src = this.chars[55]
   },
   methods: {
     async save() {
