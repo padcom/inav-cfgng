@@ -1,6 +1,7 @@
 <template>
   <div class="header">
     <div class="logo"></div>
+    <CommonStatus v-if="isConnected" />
     <SensorStatus v-if="isConnected" />
     <div v-if="!isConnected" class="connection-controls">
       <div class="port-selector">
@@ -40,6 +41,7 @@ import { defineComponent } from 'vue'
 import Dropdown from '../components/editors/Dropdown.vue'
 import Switch from '../components/editors/Switch.vue'
 import SensorStatus from './header/SensorStatus.vue'
+import CommonStatus from './header/CommonStatus.vue'
 
 import { useConnectionManager } from '../composables/connection-manager'
 
@@ -49,6 +51,7 @@ export default defineComponent({
     Dropdown,
     Switch,
     SensorStatus,
+    CommonStatus,
   },
   setup() {
     return {

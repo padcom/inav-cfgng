@@ -15,18 +15,29 @@
 <script>
 import { defineComponent } from 'vue'
 
-import { useStatus } from '../composables/status'
-
 import { version } from '../../package.json'
+
+import { StatusExRequest } from '../command/v1/StatusEx'
 
 export default defineComponent({
   name: 'Stats',
-  setup() {
-    return { status: useStatus() }
-  },
   data() {
     return {
-      queueSize: 0, bufferSize: 0
+      queueSize: 0,
+      bufferSize: 0,
+      status: {
+        isPortOpen: false,
+        isPortReady: false,
+        cycleTime: null,
+        i2cError: null,
+        activeSensorsFlag: null,
+        activeSensors: null,
+        modes: null,
+        profile: null,
+        cpuLoad: null,
+        armingFlags: null,
+        arming: null,
+      }
     }
   },
   computed: {
@@ -58,6 +69,32 @@ export default defineComponent({
     version() {
       return version
     }
+  },
+  mounted() {
+    this.statusTaskId = this.$scheduler.enqueue(20, new StatusExRequest(), async response => {
+      this.status.cycleTime = response.cycleTime
+      this.status.i2cError = response.i2cError
+      this.status.activeSensorsFlag = response.activeSensorsFlag
+      this.status.activeSensors = response.activeSensors
+      this.status.modes = response.modes
+      this.status.profile = response.profile
+      this.status.cpuLoad = response.cpuLoad
+      this.status.armingFlags = response.armingFlags
+      this.status.arming = response.arming
+    })
+  },
+  beforeUnmount() {
+    this.$scheduler.dequeue(this.statusTaskId)
+  },
+  onSerialOpen() {
+    this.status.isPortOpen = true
+  },
+  onSerialReady() {
+    this.status.isPortReady = true
+  },
+  onSerialClose() {
+    this.status.isPortOpen = false
+    this.status.isPortReady = false
   },
   onSerialBuffer(buffer) {
     this.bufferSize = buffer.byteLength
