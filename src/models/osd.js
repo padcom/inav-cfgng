@@ -843,81 +843,141 @@ export const OSD_ITEM = {
     description: '',
     format: ({ analog }) => 'G3:30126',
   },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
+  [OSD_ELEMENT.ROLL_PIDS]: {
+    name: 'Roll PIDs',
+    description: '',
+    format: ({ analog }) => 'ROL  40  30  23',
+  },
+  [OSD_ELEMENT.PITCH_PIDS]: {
+    name: 'Pitch PIDs',
+    description: '',
+    format: ({ analog }) => 'PIT  40  30  23',
+  },
+  [OSD_ELEMENT.YAW_PIDS]: {
+    name: 'Yaw PIDs',
+    description: '',
+    format: ({ analog }) => 'YAW  85  45   0',
+  },
+  [OSD_ELEMENT.LEVEL_PIDS]: {
+    name: 'Level PIDs',
+    description: '',
+    format: ({ analog }) => 'LEV  20  15  80',
+  },
+  [OSD_ELEMENT.POS_XY_PIDS]: {
+    name: 'Position XY PIDs',
+    description: '',
+    format: ({ analog }) => 'PXY  20  15  80',
+  },
+  [OSD_ELEMENT.POS_Z_PIDS]: {
+    name: 'Position Z PIDs',
+    description: '',
+    format: ({ analog }) => 'PZ   20  15  80',
+  },
+  [OSD_ELEMENT.VEL_XY_PIDS]: {
+    name: 'Velocity XY PIDs',
+    description: '',
+    format: ({ analog }) => 'VXY  20  15  80',
+  },
+  [OSD_ELEMENT.VEL_Z_PIDS]: {
+    name: 'Velocity Z PIDs',
+    description: '',
+    format: ({ analog }) => 'VZ   20  15  80',
+  },
+  [OSD_ELEMENT.HEADING_P]: {
+    name: 'Heading P',
+    description: '',
+    format: ({ analog }) => 'HP  20',
+  },
+  [OSD_ELEMENT.BOARD_ALIGNMENT_ROLL]: {
+    name: 'Board Alignment Roll',
+    description: '',
+    format: ({ analog }) => 'AR    0',
+  },
+  [OSD_ELEMENT.BOARD_ALIGNMENT_PITCH]: {
+    name: 'Board Alignment Pitch',
+    description: '',
+    format: ({ analog }) => dot('AP   1.0'),
+  },
+  [OSD_ELEMENT.THROTTLE_EXPO]: {
+    name: 'Throttle Expo',
+    description: '',
+    format: ({ analog }) => 'TEX   0',
+  },
+  [OSD_ELEMENT.STABILIZED_RC_EXPO]: {
+    name: 'Stabilized RC Expo',
+    description: '',
+    format: ({ analog }) => 'EXP  20',
+  },
+  [OSD_ELEMENT.STABILIZED_RC_YAW_EXPO]: {
+    name: 'Stabilized RC Yaw Expo',
+    description: '',
+    format: ({ analog }) => 'YEX  20',
+  },
+  [OSD_ELEMENT.STABILIZED_PITCH_RATE]: {
+    name: 'Stabilized Pitch Rate',
+    description: '',
+    format: ({ analog }) => 'SPR  20',
+  },
+  [OSD_ELEMENT.STABILIZED_ROLL_RATE]: {
+    name: 'Stabilized Roll Rate',
+    description: '',
+    format: ({ analog }) => 'SRR  20',
+  },
+  [OSD_ELEMENT.STABILIZED_YAW_RATE]: {
+    name: 'Stabilized Yaw Rate',
+    description: '',
+    format: ({ analog }) => 'SYR  20',
+  },
+  [OSD_ELEMENT.MANUAL_RC_EXPO]: {
+    name: 'Manual RC Expo',
+    description: '',
+    format: ({ analog }) => 'MEX  20',
+  },
+  [OSD_ELEMENT.MANUAL_RC_YAW_EXPO]: {
+    name: 'Manual RC Yaw Expo',
+    description: '',
+    format: ({ analog }) => 'MYX  20',
+  },
+  [OSD_ELEMENT.MANUAL_PITCH_RATE]: {
+    name: 'Manual Pitch Rate',
+    description: '',
+    format: ({ analog }) => 'MPR  20',
+  },
+  [OSD_ELEMENT.MANUAL_ROLL_RATE]: {
+    name: 'Manual Roll Rate',
+    description: '',
+    format: ({ analog }) => 'MRR  20',
+  },
+  [OSD_ELEMENT.MANUAL_YAW_RATE]: {
+    name: 'Manual Yaw Rate',
+    description: '',
+    format: ({ analog }) => 'MYR  20',
+  },
+  [OSD_ELEMENT.NAV_FW_CRUISE_THROTTLE]: {
+    name: 'Navigation FW Cruise throttle',
+    description: '',
+    format: ({ analog }) => 'CRS 1500',
+  },
+  [OSD_ELEMENT.NAV_FW_PITCH_TO_THROTTLE]: {
+    name: 'Navigation Pitch to Throttle',
+    description: '',
+    format: ({ analog }) => 'P2T  10',
+  },
+  [OSD_ELEMENT.FW_MIN_THROTTLE_DOWN_PITCH_ANGLE]: {
+    name: 'FW Min Throttle Down Pitch Angle',
+    description: '',
+    format: ({ analog }) => dot('0TP  4.5'),
+  },
+  [OSD_ELEMENT.THRUST_PID_ATTENUATION]: {
+    name: 'Thrust PID Attenuation',
+    description: '',
+    format: ({ analog }) => 'TPA    0\nBP  1500',
+  },
+  [OSD_ELEMENT.CONTROL_SMOOTHNESS]: {
+    name: 'Control Smoothness',
+    description: '',
+    format: ({ analog }) => 'CTL S 3',
+  },
   // [OSD_ELEMENT.]: {
   //   name: '',
   //   description: '',
