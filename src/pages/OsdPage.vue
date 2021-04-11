@@ -41,7 +41,10 @@
       <Column width="382px" style="align-self: flex-start; position: sticky; top: 92px;">
         <Panel title="Preview">
           <DragContainer ref="osd" class="osd-editor" width="360" height="288">
-            <DragItem v-for="item in enabledItems" :key="item.index" v-model="item.position" :gridCellWidth="12" :gridCellHeight="18" :title="item.index">
+            <DragItem v-for="item in fixedItems" :key="item.index" v-model="item.position" :fixed="true" :gridCellWidth="12" :gridCellHeight="18" :title="JSON.stringify(item)">
+              <String :value="getItemText(item.index)" />
+            </DragItem>
+            <DragItem v-for="item in movableItems" :key="item.index" v-model="item.position" :gridCellWidth="12" :gridCellHeight="18" :title="JSON.stringify(item)">
               <String :value="getItemText(item.index)" />
             </DragItem>
           </DragContainer>
@@ -134,6 +137,12 @@ export default defineComponent({
     enabledItems() {
       return this.items.filter(item => item.isVisible)
     },
+    fixedItems() {
+      return this.items.filter(item => item.isVisible && item.fixed)
+    },
+    movableItems() {
+      return this.items.filter(item => item.isVisible && !item.fixed)
+    },
     FONT() {
       return FONT
     },
@@ -161,7 +170,10 @@ export default defineComponent({
         this.items = response.items.map((item, index) => ({
           ...item,
           index,
-          position: { x: item.column, y: item.line },
+          fixed: !!OSD_ITEM[index]?.position,
+          position: !!OSD_ITEM[index]?.position
+            ? OSD_ITEM[index].position
+            : { x: item.column, y: item.line },
         }))
       })
     },

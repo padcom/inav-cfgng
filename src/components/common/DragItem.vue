@@ -1,8 +1,8 @@
 <template>
   <div
     draggable="false"
-    :class="{ 'drag-item': true, dragged: isBeingDragged }"
-    :style="{ left: left+'px', top: top+'px' }"
+    :class="{ 'drag-item': true, fixed: !isDraggable, dragged: isBeingDragged }"
+    :style="{ left: left+'px', top: top+'px', 'z-index': isDraggable ? 200 : 1 }"
     v-bind="$attrs"
     @mousedown="beginDrag"
   >
@@ -18,20 +18,26 @@ export default defineComponent({
     modelValue: { type: Object, default: () => ({ x: 0, y: 0 }) },
     gridCellWidth: { type: Number, default: 1 },
     gridCellHeight: { type: Number, default: 1 },
+    fixed: { type: Boolean, default: false },
   },
   emits: [
     'update:modelValue'
   ],
   data() {
     return {
-      left: this.modelValue.x * this.gridCellWidth,
-      top: this.modelValue.y * this.gridCellHeight,
+      left: (this.position?.x || this.modelValue.x) * this.gridCellWidth,
+      top: (this.position?.y || this.modelValue.y) * this.gridCellHeight,
       isHovered: false,
       isBeingDragged: false,
       dragBegin: null,
       dragOrigin: { x: 0, y: 0 },
       dragArea: {},
       originalParentCursor: 'default',
+    }
+  },
+  computed: {
+    isDraggable() {
+      return !this.fixed
     }
   },
   mounted() {
@@ -45,11 +51,13 @@ export default defineComponent({
   },
   methods: {
     beginDrag(e) {
-      window.document.body.style.cursor = 'grabbing'
-      this.dragRect = this.$el.getBoundingClientRect()
-      this.dragArea = this.$el.parentNode.getBoundingClientRect()
-      this.dragOrigin = { x: e.clientX - this.dragRect.x, y: e.clientY - this.dragRect.y }
-      this.isBeingDragged = true
+      if (!this.fixed) {
+        window.document.body.style.cursor = 'grabbing'
+        this.dragRect = this.$el.getBoundingClientRect()
+        this.dragArea = this.$el.parentNode.getBoundingClientRect()
+        this.dragOrigin = { x: e.clientX - this.dragRect.x, y: e.clientY - this.dragRect.y }
+        this.isBeingDragged = true
+      }
     },
     drag(e) {
       if (this.isBeingDragged) {
@@ -102,6 +110,10 @@ export default defineComponent({
 
   &:hover {
     background-color: rgba(255, 255, 255, 0.3);
+  }
+
+  &.fixed:hover {
+    background-color: transparent;
   }
 
   &.dragged {

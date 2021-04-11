@@ -24,6 +24,8 @@ async function loadFonts() {
       for (let i = 0; i < imageData.data.length; i += 4) {
         if (imageData.data[i] === 0x80 && imageData.data[i + 1] === 0x80 && imageData.data[i + 2] === 0x80) {
           imageData.data[i + 3] = 0
+        } else if (imageData.data[i] === 0x7F && imageData.data[i + 1] === 0x7F && imageData.data[i + 2] === 0x7F) {
+          imageData.data[i + 3] = 0
         }
       }
       context.clearRect(0, 0, img.width, img.height)

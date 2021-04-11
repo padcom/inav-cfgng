@@ -28,7 +28,7 @@ export default defineComponent({
         timestamp: format(new Date(), 'HH:mm:ss'),
         level,
         source,
-        message: args.map(arg => arg.toString()).join(' ')
+        message: args.map(arg => (arg || '').toString()).join(' ')
       })
     }
 
