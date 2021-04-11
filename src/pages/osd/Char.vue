@@ -1,5 +1,6 @@
 <template>
-  <img :src="font[code]" draggable="false" />
+  <br v-if="letter === '\n'" />
+  <img v-else :src="font[code]" draggable="false" />
 </template>
 
 <script>

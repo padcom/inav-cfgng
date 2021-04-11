@@ -732,21 +732,39 @@ export const OSD_ITEM = {
       }
     },
   },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
+  [OSD_ELEMENT.ALTITUDE]: {
+    name: 'Altitude',
+    description: '',
+    format: ({ analog, settings }) => {
+      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+        return dot(`118${OSD_SYMBOL.ALT_FT.marker}`)
+      } else {
+        return dot(`399${OSD_SYMBOL.ALT_M.marker}`)
+      }
+    },
+  },
+  [OSD_ELEMENT.VARIO]: {
+    name: '',
+    description: '',
+    format: ({ analog }) => [
+      OSD_SYMBOL.VARIO_UP_2A.marker,
+      OSD_SYMBOL.VARIO_UP_2A.marker,
+      OSD_SYMBOL.VARIO_UP_2A.marker,
+      OSD_SYMBOL.VARIO_UP_2A.marker,
+      OSD_SYMBOL.VARIO_UP_2A.marker,
+    ].join('\n')
+  },
+  [OSD_ELEMENT.VARIO_NUM]: {
+    name: 'Numeric vario',
+    description: 'Shows vertical speed using a number',
+    format: ({ analog, settings }) => {
+      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+        return dot(`-1.6${OSD_SYMBOL.FT_S.marker}`)
+      } else {
+        return dot(`-0.5${OSD_SYMBOL.M_S.marker}`)
+      }
+    },
+  },
   // [OSD_ELEMENT.]: {
   //   name: '',
   //   description: '',
