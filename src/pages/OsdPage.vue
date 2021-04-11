@@ -41,8 +41,8 @@
       <Column width="382px" style="align-self: flex-start; position: sticky; top: 92px;">
         <Panel title="Preview">
           <DragContainer ref="osd" class="osd-editor" width="360" height="288">
-            <DragItem v-for="item in items" :key="item.index" v-model="item.position" :gridCellWidth="12" :gridCellHeight="18">
-              <img class="osd-item" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAASCAYAAABvqT8MAAAAbElEQVQ4T5WTQRKAMAgD4f+PxpmOIGIC0kNP2UAoVVkeXerFARvAMA7AjDOqR/ZcImIdcNQ3NLbkRhVgEaLyH+DV5gpAoWtL0D1GBQJ8encNemnqzipQdwS07i2QJ5Mz5gyje61Qtw+u/vo/XLIFNhPoJzpKAAAAAElFTkSuQmCC" />
+            <DragItem v-for="item in enabledItems" :key="item.index" v-model="item.position" :gridCellWidth="12" :gridCellHeight="18">
+              <img class="osd-item" draggable="false" :src="chars[56]" />
             </DragItem>
           </DragContainer>
         </Panel>
@@ -59,7 +59,7 @@
   </Page>
 
   <div ref="font" style="display: block">
-    <img v-for="char in FONT" :key="char" :src="`./images/font/${char}.png`" :id="`char-${char}`" class="char" />
+    <img v-for="char in FONT" :key="char" :src="`./images/font/${char}.png`" :id="`char-${char}`" class="char" :title="char" />
   </div>
 
   <Actions>
