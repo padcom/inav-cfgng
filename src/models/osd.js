@@ -207,6 +207,7 @@ export const OSD_ELEMENT = {
   G_FORCE_Y                        : 102,
   G_FORCE_Z                        : 103,
   RC_SOURCE                        : 104,
+  VTX_POWER                        : 105,
   ESC_RPM                          : 106,
   ESC_TEMPERATURE                  : 107,
   AZIMUTH                          : 108,
@@ -786,6 +787,156 @@ export const OSD_ITEM = {
     description: 'Reference (direction that points up) of the current map. N for North and T for takeoff direction.',
     format: ({ analog }) => dot(`${OSD_SYMBOL.DIRECTION.marker}\nN`),
   },
+  [OSD_ELEMENT.VTX_CHANNEL]: {
+    name: 'Video TX Band and Channel',
+    description: 'Shows the current band and channel of the VTX. Requires either a VTX with SmartAudio or Tramp or either a VTX integrated in the flight controller.',
+    format: ({ analog }) => 'CH:F7:1',
+  },
+  [OSD_ELEMENT.VTX_POWER]: {
+    name: 'Video TX power level',
+    description: 'Shows the current VTX power level. Blinks when the corresponding RC adjustment is selected.',
+    format: ({ analog }) => '1',
+  },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
   // [OSD_ELEMENT.]: {
   //   name: '',
   //   description: '',
