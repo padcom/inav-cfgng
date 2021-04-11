@@ -765,26 +765,26 @@ export const OSD_ITEM = {
       }
     },
   },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
+  [OSD_ELEMENT.G_FORCE]: {
+    name: 'g force',
+    description: 'Shows the g force taking into account all axes',
+    format: ({ analog }) => dot(`${OSD_SYMBOL.GFORCE.marker}1.00`),
+  },
+  [OSD_ELEMENT.G_FORCE_X]: {
+    name: 'Longitudinal g force in body frame (X)',
+    description: 'Shows the g force in the X axis (longitudinal)',
+    format: ({ analog }) => dot(`${OSD_SYMBOL.GFORCE_X.marker}-0.10`),
+  },
+  [OSD_ELEMENT.G_FORCE_Y]: {
+    name: 'Lateral g force in body frame (Y)',
+    description: 'Shows the g force in the Y axis (lateral)Shows the g force in the Y axis (lateral)',
+    format: ({ analog }) => dot(`${OSD_SYMBOL.GFORCE_Y.marker}-0.20`),
+  },
+  [OSD_ELEMENT.G_FORCE_Z]: {
+    name: 'Vertical g force in body frame (Z)',
+    description: 'Shows the g force in the Z axis (vertical)',
+    format: ({ analog }) => dot(`${OSD_SYMBOL.GFORCE_Y.marker}-0.30`),
+  },
   // [OSD_ELEMENT.]: {
   //   name: '',
   //   description: '',
