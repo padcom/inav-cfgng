@@ -42,7 +42,8 @@
         <Panel title="Preview">
           <DragContainer ref="osd" class="osd-editor" width="360" height="288">
             <DragItem v-for="item in enabledItems" :key="item.index" v-model="item.position" :gridCellWidth="12" :gridCellHeight="18">
-              <img class="osd-item" draggable="false" :src="chars[56]" />
+              <Rssi v-if="item.index === 0" />
+              <img v-else class="osd-item" draggable="false" :src="font[56]" />
             </DragItem>
           </DragContainer>
         </Panel>
@@ -58,12 +59,9 @@
     </Row>
   </Page>
 
-  <div ref="font" style="display: block">
-    <img v-for="char in FONT" :key="char" :src="`./images/font/${char}.png`" :id="`char-${char}`" class="char" :title="char" />
-  </div>
-
   <Actions>
     <button class="action" @click="manageFont">Font manager</button>
+    <button class="action" @click="load">Reload</button>
     <button class="action" @click="save">Save</button>
   </Actions>
 </template>
@@ -82,11 +80,12 @@ import Actions from '../components/Actions.vue'
 import DragContainer from '../components/common/DragContainer.vue'
 import DragItem from '../components/common/DragItem.vue'
 
+import Rssi from './osd/Rssi.vue'
+
 import { useCommonCommands } from '../composables/common-commands'
+import { useFont } from '../composables/font'
 
 import { InavOsdLayoutsRequest } from '../command/v2/InavOsdLayouts'
-
-import { FONT } from '../models/font'
 
 export default defineComponent({
   name: 'OsdPage',
@@ -100,13 +99,17 @@ export default defineComponent({
     Actions,
     DragContainer,
     DragItem,
+    Rssi,
   },
   setup() {
     const { work, saveSettingsToEeprom} = useCommonCommands()
+    const { font, loadFonts } = useFont()
 
     return {
       work,
       saveSettingsToEeprom,
+      font,
+      loadFonts,
     }
   },
   data() {
@@ -122,58 +125,26 @@ export default defineComponent({
     }
   },
   computed: {
-    FONT() {
-      return FONT
-    },
     enabledItems() {
       return this.items.filter(item => item.isVisible)
     }
   },
-  async mounted() {
-    await this.work(async () => {
-      const response = await this.$serial.query(new InavOsdLayoutsRequest(this.layout))
-      this.items = response.items.map((item, index) => ({
-        ...item,
-        index,
-        position: { x: item.column, y: item.line },
-      }))
-      console.log(this.items)
-    })
-
-    // convert font elements to transparent
-    const canvas = document.createElement('canvas')
-    const context = canvas.getContext('2d')
-    const chars = this.$refs.font.querySelectorAll('img')
-
-    const makeImageTransparent = img => {
-      canvas.width = img.width
-      canvas.height = img.height
-      context.drawImage(img, 0, 0)
-      const imageData = context.getImageData(0, 0, img.width, img.height)  
-      for (let i = 0; i < imageData.data.length; i += 4) {
-        if (imageData.data[i] === 0x80 && imageData.data[i + 1] === 0x80 && imageData.data[i + 2] === 0x80) {
-          imageData.data[i + 3] = 0
-        }
-      }
-      context.clearRect(0, 0, img.width, img.height)
-      context.putImageData(imageData, 0, 0)
-    }
-
-    chars.forEach(img => {
-      makeImageTransparent(img)
-      this.chars[Number.parseInt(img.id.split('-')[1])] = canvas.toDataURL('image/png')
-    })
-
-    console.log('char', this.chars[55])
-
-    // this.$refs.x.src = this.chars[49]
-    // this.$refs.y.src = this.chars[50]
-    // this.$refs.x2.src = this.chars[51]
-    // this.$refs.y2.src = this.chars[52]
-    // this.$refs.x3.src = this.chars[54]
-    // this.$refs.y3.src = this.chars[55]
+  async created() {
+    await this.loadFonts()
+    await this.load()
   },
   methods: {
+    async load() {
+      this.items = []
+      await this.work(async () => {
+        const response = await this.$serial.query(new InavOsdLayoutsRequest(this.layout))
+        this.items = response.items.map((item, index) => ({
+          ...item,
+          index,
+          position: { x: item.column, y: item.line },
+        }))
+      })
+    },
     async save() {
       await this.work(async () => {
         await this.saveSettingsToEeprom()

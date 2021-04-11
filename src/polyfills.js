@@ -70,3 +70,13 @@ if (!Array.prototype.toDataView) {
     return new DataView(this.toArrayBuffer(), offset, length)
   }
 }
+
+if (!Number.prototype.padWith) {
+  Number.prototype.padWith = function(char, length) {
+    let result = this.toString()
+    while (result.length < length) {
+      result = char + result
+    }
+    return result
+  }
+}
