@@ -204,7 +204,4 @@ export default defineComponent({
   background-color: rgba(255, 255, 255, 1);
 }
 
-img {
- filter: chroma(color=#808080);
-}
 </style>
