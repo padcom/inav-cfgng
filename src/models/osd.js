@@ -595,6 +595,136 @@ export const OSD_ITEM = {
     description: '',
     format: ({ analog }) => dot(`${OSD_SYMBOL.ROLL_LEFT.marker}31.4`),
   },
+  [OSD_ELEMENT.CURRENT_DRAW]: {
+    name: 'Current drawn',
+    description: '',
+    format: ({ analog }) => dot(`42.1${OSD_SYMBOL.AMP.marker}`),
+  },
+  [OSD_ELEMENT.MAH_DRAWN]: {
+    name: 'mAh drawn',
+    description: '',
+    format: ({ analog }) => dot(` 690${OSD_SYMBOL.MAH.marker}`),
+  },
+  [OSD_ELEMENT.WH_DRAWN]: {
+    name: 'Capacity drawn',
+    description: '',
+    format: ({ analog }) => dot(`1.25${OSD_SYMBOL.WH.marker}`),
+  },
+  [OSD_ELEMENT.POWER]: {
+    name: 'Power',
+    description: '',
+    format: ({ analog }) => dot(` 50${OSD_SYMBOL.WATT.marker}`),
+  },
+  [OSD_ELEMENT.MAIN_BATT_REMAINING_CAPACITY]: {
+    name: 'Battery Remaining Capacity',
+    description: '',
+    format: ({ analog }) => dot(` 690${OSD_SYMBOL.MAH.marker}`),
+  },
+  [OSD_ELEMENT.EFFICIENCY_MAH]: {
+    name: 'Efficiency mAh/Km',
+    description: '',
+    format: ({ analog }) => dot(`123${OSD_SYMBOL.MAH_KM_0.marker}${OSD_SYMBOL.MAH_KM_1.marker}`),
+  },
+  [OSD_ELEMENT.EFFICIENCY_WH]: {
+    name: 'Efficiency Wh/Km',
+    description: '',
+    format: ({ analog }) => dot(`1.23${OSD_SYMBOL.WH_KM_0.marker}${OSD_SYMBOL.WH_KM_1.marker}`),
+  },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
   // [OSD_ELEMENT.]: {
   //   name: '',
   //   description: '',
