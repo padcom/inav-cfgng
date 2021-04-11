@@ -61,7 +61,7 @@
     </Row>
   </Page>
 
-  <div>
+  <div v-if="false">
     <img v-for="char in FONT" :key="char" :src="`images/font/${char}.png`" :title="char" />
   </div>
 
