@@ -42,7 +42,7 @@
         <Panel title="Preview">
           <DragContainer ref="osd" class="osd-editor" width="360" height="288">
             <DragItem v-for="item in enabledItems" :key="item.index" v-model="item.position" :gridCellWidth="12" :gridCellHeight="18">
-              <Rssi v-if="item.index === 0" />
+              <Rssi v-if="item.index === 0" :value="5" />
               <img v-else class="osd-item" draggable="false" :src="font[56]" />
             </DragItem>
           </DragContainer>

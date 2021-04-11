@@ -71,11 +71,21 @@ if (!Array.prototype.toDataView) {
   }
 }
 
-if (!Number.prototype.padWith) {
-  Number.prototype.padWith = function(char, length) {
+if (!Number.prototype.padLeftWith) {
+  Number.prototype.padLeftWith = function(char, length) {
     let result = this.toString()
     while (result.length < length) {
       result = char + result
+    }
+    return result
+  }
+}
+
+if (!Number.prototype.padRightWith) {
+  Number.prototype.padRightWith = function(char, length) {
+    let result = this.toString()
+    while (result.length < length) {
+      result = result + char
     }
     return result
   }

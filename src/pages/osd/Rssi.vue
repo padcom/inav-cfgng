@@ -16,7 +16,7 @@ export default defineComponent({
   },
   computed: {
     formatted() {
-      return `#001${this.value.padWith(' ', 2)}`
+      return `#001${this.value.padLeftWith(' ', 2)}`
     }
   }
 })
