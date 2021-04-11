@@ -797,21 +797,32 @@ export const OSD_ITEM = {
     description: 'Shows the current VTX power level. Blinks when the corresponding RC adjustment is selected.',
     format: ({ analog }) => '1',
   },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
+  [OSD_ELEMENT.CRSF_RSSI_DBM]: {
+    name: 'RX RSSI in dBm',
+    description: '',
+    format: ({ analog, settings }) => dot(`${OSD_SYMBOL.RSSI.marker}-100${OSD_SYMBOL.DBM.marker}`)
+  },
+  [OSD_ELEMENT.CRSF_LQ]: {
+    name: 'RX Link Quality %',
+    description: 'Use Crossfire LQ Format setting to select format type.',
+    format: ({ analog, settings }) => {
+      if (settings?.crsfLqFormat === 1) {
+        return '2:100%'
+      } else {
+        return '  300%'
+      }
+    },
+  },
+  [OSD_ELEMENT.CRSF_SNR_DB]: {
+    name: 'RX Uplink SNR in dB',
+    description: 'Shown only when SNR goes below alarm level. At 0dB, received signal level equals noise floor level.',
+    format: ({ analog }) => dot(`${OSD_SYMBOL.SNR.marker}-12${OSD_SYMBOL.DB.marker}`)
+  },
+  [OSD_ELEMENT.CRSF_TX_POWER]: {
+    name: 'TX power in mW',
+    description: '',
+    format: ({ analog }) => dot(`  10${OSD_SYMBOL.MW.marker}`),
+  },
   // [OSD_ELEMENT.]: {
   //   name: '',
   //   description: '',
