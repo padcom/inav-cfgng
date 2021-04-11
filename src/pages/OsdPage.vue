@@ -41,9 +41,8 @@
       <Column width="382px" style="align-self: flex-start; position: sticky; top: 92px;">
         <Panel title="Preview">
           <DragContainer ref="osd" class="osd-editor" width="360" height="288">
-            <DragItem v-for="item in enabledItems" :key="item.index" v-model="item.position" :gridCellWidth="12" :gridCellHeight="18">
-              <Rssi v-if="item.index === 0" :value="Math.round(analog.rssi)" />
-              <img v-else class="osd-item" draggable="false" :src="font[56]" />
+            <DragItem v-for="item in enabledItems" :key="item.index" v-model="item.position" :gridCellWidth="12" :gridCellHeight="18" :title="item.index">
+              <String :value="getItemText(item.index)" />
             </DragItem>
           </DragContainer>
         </Panel>
@@ -58,6 +57,10 @@
       </Column>
     </Row>
   </Page>
+
+  <div>
+    <img v-for="char in FONT" :key="char" :src="`images/font/${char}.png`" :title="char" />
+  </div>
 
   <Actions>
     <button class="action" @click="manageFont">Font manager</button>
@@ -79,14 +82,15 @@ import Panel from '../components/common/Panel.vue'
 import Actions from '../components/Actions.vue'
 import DragContainer from '../components/common/DragContainer.vue'
 import DragItem from '../components/common/DragItem.vue'
-
-import Rssi from './osd/Rssi.vue'
+import String from './osd/String.vue'
 
 import { useCommonCommands } from '../composables/common-commands'
 import { useFont } from '../composables/font'
 
 import { InavOsdLayoutsRequest } from '../command/v2/InavOsdLayouts'
 import { AnalogRequest } from '../command/v2/Analog'
+
+import { FONT, OSD_ITEM } from '../models/osd'
 
 export default defineComponent({
   name: 'OsdPage',
@@ -100,7 +104,7 @@ export default defineComponent({
     Actions,
     DragContainer,
     DragItem,
-    Rssi,
+    String,
   },
   setup() {
     const { work, saveSettingsToEeprom} = useCommonCommands()
@@ -129,7 +133,13 @@ export default defineComponent({
   computed: {
     enabledItems() {
       return this.items.filter(item => item.isVisible)
-    }
+    },
+    FONT() {
+      return FONT
+    },
+    OSD_ITEM() {
+      return OSD_ITEM
+    },
   },
   async created() {
     await this.loadFonts()
@@ -161,6 +171,10 @@ export default defineComponent({
         this.$log.info('OSD settings saved.')
       })
     },
+    getItemText(index) {
+      const item = OSD_ITEM[index] || { format: () => `FIXME${index}` }
+      return item.format({ analog: this.analog })
+    }
   }
 })
 </script>
