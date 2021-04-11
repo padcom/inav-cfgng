@@ -823,11 +823,26 @@ export const OSD_ITEM = {
     description: '',
     format: ({ analog }) => dot(`  10${OSD_SYMBOL.MW.marker}`),
   },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
+  [OSD_ELEMENT.GVAR_0]: {
+    name: '',
+    description: '',
+    format: ({ analog }) => 'G0:01337',
+  },
+  [OSD_ELEMENT.GVAR_1]: {
+    name: '',
+    description: '',
+    format: ({ analog }) => 'G1:31415',
+  },
+  [OSD_ELEMENT.GVAR_2]: {
+    name: '',
+    description: '',
+    format: ({ analog }) => 'G2:01611',
+  },
+  [OSD_ELEMENT.GVAR_3]: {
+    name: '',
+    description: '',
+    format: ({ analog }) => 'G3:30126',
+  },
   // [OSD_ELEMENT.]: {
   //   name: '',
   //   description: '',
