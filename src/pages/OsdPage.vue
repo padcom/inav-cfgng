@@ -40,20 +40,11 @@
       </Column>
       <Column width="382px" style="align-self: flex-start; position: sticky; top: 92px;">
         <Panel title="Preview">
-          <div ref="osd" class="osd-editor" width="360" height="288" style="background-color: red; position: relative;">
-            <DragItem :gridCellWidth="12" :gridCellHeight="18">
-              <img ref="x" class="osd-item" draggable="false" />
-              <img ref="y" class="osd-item" draggable="false" />
+          <DragContainer ref="osd" class="osd-editor" width="360" height="288">
+            <DragItem v-for="item in items" :key="item.index" v-model="item.position" :gridCellWidth="12" :gridCellHeight="18">
+              <img class="osd-item" draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAASCAYAAABvqT8MAAAAbElEQVQ4T5WTQRKAMAgD4f+PxpmOIGIC0kNP2UAoVVkeXerFARvAMA7AjDOqR/ZcImIdcNQ3NLbkRhVgEaLyH+DV5gpAoWtL0D1GBQJ8encNemnqzipQdwS07i2QJ5Mz5gyje61Qtw+u/vo/XLIFNhPoJzpKAAAAAElFTkSuQmCC" />
             </DragItem>
-            <DragItem :gridCellWidth="12" :gridCellHeight="18" :modelValue="{ x: 1, y: 1 }">
-              <img ref="x2" class="osd-item" draggable="false" />
-              <img ref="y2" class="osd-item" draggable="false" />
-            </DragItem>
-            <DragItem :gridCellWidth="12" :gridCellHeight="18" :modelValue="{ x: 2, y: 2 }">
-              <img ref="x3" class="osd-item" draggable="false" />
-              <img ref="y3" class="osd-item" draggable="false" />
-            </DragItem>
-          </div>
+          </DragContainer>
         </Panel>
       </Column>
       <Column>
@@ -88,6 +79,7 @@ import Column from '../components/common/Column.vue'
 import Dropdown from '../components/editors/Dropdown.vue'
 import Panel from '../components/common/Panel.vue'
 import Actions from '../components/Actions.vue'
+import DragContainer from '../components/common/DragContainer.vue'
 import DragItem from '../components/common/DragItem.vue'
 
 import { useCommonCommands } from '../composables/common-commands'
@@ -106,6 +98,7 @@ export default defineComponent({
     Dropdown,
     Panel,
     Actions,
+    DragContainer,
     DragItem,
   },
   setup() {
@@ -131,12 +124,20 @@ export default defineComponent({
   computed: {
     FONT() {
       return FONT
+    },
+    enabledItems() {
+      return this.items.filter(item => item.isVisible)
     }
   },
   async mounted() {
     await this.work(async () => {
       const response = await this.$serial.query(new InavOsdLayoutsRequest(this.layout))
-      this.items = response.items
+      this.items = response.items.map((item, index) => ({
+        ...item,
+        index,
+        position: { x: item.column, y: item.line },
+      }))
+      console.log(this.items)
     })
 
     // convert font elements to transparent
@@ -163,12 +164,14 @@ export default defineComponent({
       this.chars[Number.parseInt(img.id.split('-')[1])] = canvas.toDataURL('image/png')
     })
 
-    this.$refs.x.src = this.chars[49]
-    this.$refs.y.src = this.chars[50]
-    this.$refs.x2.src = this.chars[51]
-    this.$refs.y2.src = this.chars[52]
-    this.$refs.x3.src = this.chars[54]
-    this.$refs.y3.src = this.chars[55]
+    console.log('char', this.chars[55])
+
+    // this.$refs.x.src = this.chars[49]
+    // this.$refs.y.src = this.chars[50]
+    // this.$refs.x2.src = this.chars[51]
+    // this.$refs.y2.src = this.chars[52]
+    // this.$refs.x3.src = this.chars[54]
+    // this.$refs.y3.src = this.chars[55]
   },
   methods: {
     async save() {
@@ -188,6 +191,10 @@ export default defineComponent({
   // aspect-ratio: calc(4/3);
   background: url(./osd/osd-bg-1.jpg) no-repeat;
   background-size: 100%;
+}
+
+.highlight {
+  background-color: rgba(255, 255, 255, 1);
 }
 
 img {

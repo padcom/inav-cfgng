@@ -47,9 +47,7 @@ export default defineComponent({
     beginDrag(e) {
       window.document.body.style.cursor = 'grabbing'
       this.dragRect = this.$el.getBoundingClientRect()
-      console.log('this.dragRect', this.dragRect)
       this.dragArea = this.$el.parentNode.getBoundingClientRect()
-      console.log('this.dragArea', this.dragArea)
       this.dragOrigin = { x: e.clientX - this.dragRect.x, y: e.clientY - this.dragRect.y }
       this.isBeingDragged = true
     },
@@ -61,8 +59,6 @@ export default defineComponent({
         const rect = this.$el.getBoundingClientRect()
         const dx = rect.left - this.dragRect.left
         const dy = rect.top - this.dragRect.top
-
-        console.log('dx', dx)
 
         if (left + dx < 0) {
           this.left = 0
@@ -84,9 +80,14 @@ export default defineComponent({
       }
     },
     endDrag(e) {
-      window.document.body.style.cursor = 'default'
-      this.isBeingDragged = false
-      this.$emit('update:modelValue', this, { x: this.left / this.gridCellWidth, y: this.top / this.gridCellHeight })
+      if (this.isBeingDragged) {
+        window.document.body.style.cursor = 'default'
+        this.isBeingDragged = false
+        this.$emit('update:modelValue', {
+          x: this.left / this.gridCellWidth,
+          y: this.top / this.gridCellHeight
+        })
+      }
     },
   }
 })
