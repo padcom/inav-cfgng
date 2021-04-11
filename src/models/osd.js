@@ -32,6 +32,7 @@ export const OSD_SYMBOL = {
   AH_CENTER_LINE_RIGHT   :  { index: 39, marker: '#039' },
   DIR_TO_HOME            :  { index: 96, marker: '#096' },
   DIRECTION              : { index: 114, marker: '#114' },
+  DIRECTION1             : { index: 115, marker: '#115' },
   AH_CENTER              : { index: 126, marker: '#126' },
   AH_BAR9_0              : { index: 128, marker: '#128' },
   KMH_3D                 : { index: 137, marker: '#137' },
@@ -630,81 +631,127 @@ export const OSD_ITEM = {
     description: '',
     format: ({ analog }) => dot(`1.23${OSD_SYMBOL.WH_KM_0.marker}${OSD_SYMBOL.WH_KM_1.marker}`),
   },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
+  [OSD_ELEMENT.GPS_SPEED]: {
+    name: 'GPS Speed',
+    description: 'Shows GPS ground speed.',
+    format: ({ analog }) => dot(`1.23${OSD_SYMBOL.KMH.marker}`),
+  },
+  [OSD_ELEMENT.MSL_ALTITUDE]: {
+    name: 'MSL Altitude',
+    description: 'Altitude above Mean Sea Level',
+    format: ({ analog, settings }) => {
+      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+        return dot(`275${OSD_SYMBOL.ALT_FT.marker}`)
+      } else {
+        return dot(`477${OSD_SYMBOL.ALT_M.marker}`)
+      }
+    },
+  },
+  [OSD_ELEMENT['3D_SPEED']]: {
+    name: '3D Speed',
+    description: 'Shows 3D speed considering both horizontal and vertical speed.',
+    format: ({ analog, settings }) => {
+      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+        return dot(` 30${OSD_SYMBOL.MPH_3D.marker}`)
+      } else {
+        return dot(` 48${OSD_SYMBOL.KMH_3D.marker}`)
+      }
+    },
+  },
+  [OSD_ELEMENT.GPS_SATS]: {
+    name: 'GPS Satellites',
+    description: 'Shows the number of GPS satellites located by the GPS receiver.',
+    format: ({ analog }) => dot(`${OSD_SYMBOL.GPS_SAT1.marker}${OSD_SYMBOL.GPS_SAT2.marker}14`),
+  },
+  [OSD_ELEMENT.LONGITUDE]: {
+    name: 'Longitude',
+    description: '',
+    format: ({ analog, settings }) => dot(`${OSD_SYMBOL.LON.marker}${'-114.7652134'.substr(0, settings?.numberOfCoordinateDigits || 11)}`)
+  },
+  [OSD_ELEMENT.LATITUDE]: {
+    name: 'Latitude',
+    description: '',
+    format: ({ analog, settings }) => dot(`${OSD_SYMBOL.LAT.marker}${'-114.7652134'.substr(0, settings?.numberOfCoordinateDigits || 11)}`)
+  },
+  [OSD_ELEMENT.PLUS_CODE]: {
+    name: 'Plus Code (latitude + longitude)',
+    description: 'Plus codes encode both latitude and longitude on a single value that can be entered directly in Google Maps. It provides the same level of precision than latitude and longitude while using less screen space.',
+    format: ({ analog, settings }) => dot('9547X6PM+VWCCC'.substr(0, settings?.numberOfPlusCodeDigits || 11))
+  },
+  [OSD_ELEMENT.DIRECTION_TO_HOME]: {
+    name: 'Direction to home',
+    description: '',
+    format: ({ analog }) => OSD_SYMBOL.DIR_TO_HOME.marker,
+  },
+  [OSD_ELEMENT.HOME_HEADING_ERROR]: {
+    name: 'Home heading error',
+    description: '',
+    format: ({ analog }) => `${OSD_SYMBOL.HOME.marker}${OSD_SYMBOL.HEADING.marker} -10${OSD_SYMBOL.DEGREES.marker}`,
+  },
+  [OSD_ELEMENT.AZIMUTH]: {
+    name: 'Azimuth',
+    description: 'Azimuth is the direction of the aircraft in relation to the home point. It\'s useful to keep the aircraft on the correct course or to keep the aircraft in front of a fixed directional antenna.',
+    format: ({ analog }) => `${OSD_SYMBOL.AZIMUTH.marker} 20`,
+  },
+  [OSD_ELEMENT.DISTANCE_TO_HOME]: {
+    name: 'Distance to home',
+    description: '',
+    format: ({ analog, settings }) => {
+      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+        return dot(`${OSD_SYMBOL.HOME.marker}0.98${OSD_SYMBOL.DIST_MI.marker}`)
+      } else {
+        return dot(`${OSD_SYMBOL.HOME.marker}1.73${OSD_SYMBOL.DIST_KM.marker}`)
+      }
+    },
+  },
+  [OSD_ELEMENT.TRIP_DIST]: {
+    name: 'Trip distance',
+    description: '',
+    format: ({ analog, settings }) => {
+      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+        return dot(`${OSD_SYMBOL.TRIP_DIST.marker}0.98${OSD_SYMBOL.DIST_MI.marker}`)
+      } else {
+        return dot(`${OSD_SYMBOL.TRIP_DIST.marker}1.73${OSD_SYMBOL.DIST_KM.marker}`)
+      }
+    },
+  },
+  [OSD_ELEMENT.GPS_HDOP]: {
+    name: 'GPS HDOP',
+    description: 'Shows the Horizontal Dilution Of Precision from the GPS. The lower, the more accurate the GPS fix is.',
+    format: ({ analog }) => dot(`${OSD_SYMBOL.GPS_HDP1.marker}${OSD_SYMBOL.GPS_HDP2.marker}1.8`)
+  },
+  [OSD_ELEMENT.WIND_SPEED_HORIZONTAL]: {
+    name: 'Horizontal wind speed',
+    description: 'Shows estimated horizontal wind speed and direction.',
+    format: ({ analog, settings }) => {
+      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+        return dot(`${OSD_SYMBOL.WIND_SPEED_HORIZONTAL.marker}${OSD_SYMBOL.DIRECTION1.marker}3.27${OSD_SYMBOL.MPH.marker}`)
+      } else {
+        return dot(`${OSD_SYMBOL.WIND_SPEED_HORIZONTAL.marker}${OSD_SYMBOL.DIRECTION1.marker}5.27${OSD_SYMBOL.KMH.marker}`)
+      }
+    },
+  },
+  [OSD_ELEMENT.WIND_SPEED_VERTICAL]: {
+    name: 'Vertical wind speed',
+    description: 'Shows estimated vertical wind speed and direction.',
+    format: ({ analog, settings }) => {
+      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+        return dot(`${OSD_SYMBOL.WIND_SPEED_VERTICAL.marker}${OSD_SYMBOL.AH_DECORATION_UP.marker}1.03${OSD_SYMBOL.MPH.marker}`)
+      } else {
+        return dot(`${OSD_SYMBOL.WIND_SPEED_VERTICAL.marker}${OSD_SYMBOL.AH_DECORATION_UP.marker}1.67${OSD_SYMBOL.KMH.marker}`)
+      }
+    },
+  },
+  [OSD_ELEMENT.CRUISE_HEADING_ERROR]: {
+    name: 'Cruise heading error',
+    description: '',
+    format: ({ analog }) => dot(`${OSD_SYMBOL.HEADING.marker}  5${OSD_SYMBOL.DEGREES.marker}`)
+  },
+  [OSD_ELEMENT.CRUISE_HEADING_ADJUSTMENT]: {
+    name: 'Cruise heading adjustment',
+    description: '',
+    format: ({ analog }) => dot(`${OSD_SYMBOL.HEADING.marker} -90${OSD_SYMBOL.DEGREES.marker}`)
+  },
   // [OSD_ELEMENT.]: {
   //   name: '',
   //   description: '',
