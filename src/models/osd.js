@@ -609,8 +609,169 @@ export const OSD_ITEM = {
   [OSD_ELEMENT.ESC_RPM]: {
     name: 'Motor RPM from ESC telemetry',
     description: '',
-    format: ({ analog }) => `${OSD_SYMBOL.RPM}983`,
+    format: ({ analog }) => `${OSD_SYMBOL.RPM.marker}983`,
   },
+  [OSD_ELEMENT.IMU_TEMPERATURE]: {
+    name: 'IMU Temperature',
+    description: 'Temperature of the IMU',
+    format: ({ analog, settings }) => {
+      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+        return dot(`${OSD_SYMBOL.IMU_TEMP.marker} 90${OSD_SYMBOL.TEMP_F.marker}`)
+      } else {
+        return dot(`${OSD_SYMBOL.IMU_TEMP.marker} 32${OSD_SYMBOL.TEMP_C.marker}`)
+      }
+    },
+  },
+  [OSD_ELEMENT.BARO_TEMPERATURE]: {
+    name: 'Baro Temperature',
+    description: 'Temperature of the barometer',
+    format: ({ analog, settings }) => {
+      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+        return dot(`${OSD_SYMBOL.IMU_TEMP.marker} 90${OSD_SYMBOL.TEMP_F.marker}`)
+      } else {
+        return dot(`${OSD_SYMBOL.IMU_TEMP.marker} 32${OSD_SYMBOL.TEMP_C.marker}`)
+      }
+    },
+  },
+  [OSD_ELEMENT.ESC_TEMPERATURE]: {
+    name: 'ESC Temperature',
+    description: 'Temperature of the ESC read from DSHOT telemetry',
+    format: ({ analog, settings }) => {
+      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+        return dot(`${OSD_SYMBOL.IMU_TEMP.marker} 98${OSD_SYMBOL.TEMP_F.marker}`)
+      } else {
+        return dot(`${OSD_SYMBOL.IMU_TEMP.marker} 37${OSD_SYMBOL.TEMP_C.marker}`)
+      }
+    },
+  },
+  [OSD_ELEMENT.SENSOR1_TEMPERATURE]: {
+    name: 'Temperature sensor 1',
+    description: '',
+    format: ({ analog, settings }) => {
+      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+        return dot(` 90${OSD_SYMBOL.TEMP_F.marker}`)
+      } else {
+        return dot(` 32${OSD_SYMBOL.TEMP_C.marker}`)
+      }
+    },
+  },
+  [OSD_ELEMENT.SENSOR2_TEMPERATURE]: {
+    name: 'Temperature sensor 2',
+    description: '',
+    format: ({ analog, settings }) => {
+      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+        return dot(` 90${OSD_SYMBOL.TEMP_F.marker}`)
+      } else {
+        return dot(` 32${OSD_SYMBOL.TEMP_C.marker}`)
+      }
+    },
+  },
+  [OSD_ELEMENT.SENSOR3_TEMPERATURE]: {
+    name: 'Temperature sensor 3',
+    description: '',
+    format: ({ analog, settings }) => {
+      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+        return dot(` 90${OSD_SYMBOL.TEMP_F.marker}`)
+      } else {
+        return dot(` 32${OSD_SYMBOL.TEMP_C.marker}`)
+      }
+    },
+  },
+  [OSD_ELEMENT.SENSOR4_TEMPERATURE]: {
+    name: 'Temperature sensor 4',
+    description: '',
+    format: ({ analog, settings }) => {
+      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+        return dot(` 90${OSD_SYMBOL.TEMP_F.marker}`)
+      } else {
+        return dot(` 32${OSD_SYMBOL.TEMP_C.marker}`)
+      }
+    },
+  },
+  [OSD_ELEMENT.SENSOR5_TEMPERATURE]: {
+    name: 'Temperature sensor 5',
+    description: '',
+    format: ({ analog, settings }) => {
+      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+        return dot(` 90${OSD_SYMBOL.TEMP_F.marker}`)
+      } else {
+        return dot(` 32${OSD_SYMBOL.TEMP_C.marker}`)
+      }
+    },
+  },
+  [OSD_ELEMENT.SENSOR6_TEMPERATURE]: {
+    name: 'Temperature sensor 6',
+    description: '',
+    format: ({ analog, settings }) => {
+      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+        return dot(` 90${OSD_SYMBOL.TEMP_F.marker}`)
+      } else {
+        return dot(` 32${OSD_SYMBOL.TEMP_C.marker}`)
+      }
+    },
+  },
+  [OSD_ELEMENT.SENSOR7_TEMPERATURE]: {
+    name: 'Temperature sensor 7',
+    description: '',
+    format: ({ analog, settings }) => {
+      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+        return dot(` 90${OSD_SYMBOL.TEMP_F.marker}`)
+      } else {
+        return dot(` 32${OSD_SYMBOL.TEMP_C.marker}`)
+      }
+    },
+  },
+  [OSD_ELEMENT.SENSOR8_TEMPERATURE]: {
+    name: 'Temperature sensor 8',
+    description: '',
+    format: ({ analog, settings }) => {
+      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+        return dot(` 90${OSD_SYMBOL.TEMP_F.marker}`)
+      } else {
+        return dot(` 32${OSD_SYMBOL.TEMP_C.marker}`)
+      }
+    },
+  },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
+  // [OSD_ELEMENT.]: {
+  //   name: '',
+  //   description: '',
+  //   format: ({ analog }) => '',
+  // },
   // [OSD_ELEMENT.]: {
   //   name: '',
   //   description: '',
