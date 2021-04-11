@@ -42,7 +42,7 @@
         <Panel title="Preview">
           <DragContainer ref="osd" class="osd-editor" width="360" height="288">
             <DragItem v-for="item in enabledItems" :key="item.index" v-model="item.position" :gridCellWidth="12" :gridCellHeight="18">
-              <Rssi v-if="item.index === 0" :value="5" />
+              <Rssi v-if="item.index === 0" :value="Math.round(analog.rssi)" />
               <img v-else class="osd-item" draggable="false" :src="font[56]" />
             </DragItem>
           </DragContainer>
@@ -86,6 +86,7 @@ import { useCommonCommands } from '../composables/common-commands'
 import { useFont } from '../composables/font'
 
 import { InavOsdLayoutsRequest } from '../command/v2/InavOsdLayouts'
+import { AnalogRequest } from '../command/v2/Analog'
 
 export default defineComponent({
   name: 'OsdPage',
@@ -122,6 +123,7 @@ export default defineComponent({
       draggedElement: null,
       dragOrigin: { x: 0, y: 0 },
       dragArea: {},
+      analog: {},
     }
   },
   computed: {
@@ -131,7 +133,15 @@ export default defineComponent({
   },
   async created() {
     await this.loadFonts()
+  },
+  async mounted() {
     await this.load()
+    this.analogRefreshTaskId = this.$scheduler.enqueue(50, new AnalogRequest(), response => {
+      this.analog = response
+    })
+  },
+  async beforeUnmount() {
+    this.$scheduler.dequeue(this.analogRefreshTaskId)
   },
   methods: {
     async load() {

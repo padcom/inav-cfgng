@@ -63,6 +63,6 @@ export class AnalogResponse extends Response {
   }
 
   get rssi() {
-    return this.getUint16(21, true)
+    return this.getUint16(22, true) / 10
   }
 }
