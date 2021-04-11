@@ -93,7 +93,8 @@ import { useFont } from '../composables/font'
 import { InavOsdLayoutsRequest } from '../command/v2/InavOsdLayouts'
 import { AnalogRequest } from '../command/v2/Analog'
 
-import { FONT, OSD_ITEM } from '../models/osd'
+import { FONT } from '../models/font'
+import { OSD_ITEM } from '../models/osd'
 
 export default defineComponent({
   name: 'OsdPage',

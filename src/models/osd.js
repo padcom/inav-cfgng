@@ -1,4 +1,4 @@
-export { FONT } from './font'
+import { OSD_SYMBOL } from './font'
 
 export const UNIT = {
   IMPERIAL: 0,
