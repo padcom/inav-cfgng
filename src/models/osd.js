@@ -752,26 +752,40 @@ export const OSD_ITEM = {
     description: '',
     format: ({ analog }) => dot(`${OSD_SYMBOL.HEADING.marker} -90${OSD_SYMBOL.DEGREES.marker}`)
   },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
-  // [OSD_ELEMENT.]: {
-  //   name: '',
-  //   description: '',
-  //   format: ({ analog }) => '',
-  // },
+  [OSD_ELEMENT.MAP_NORTH]: {
+    name: 'Map (Up is north)',
+    description: '',
+    position: { x: 15, y: 8 },
+    format: ({ analog }) => 'H',
+  },
+  [OSD_ELEMENT.MAP_TAKEOFF]: {
+    name: 'Map (Up is the takeoff direction)',
+    description: '',
+    position: { x: 15, y: 8 },
+    format: ({ analog }) => 'H',
+  },
+  [OSD_ELEMENT.RADAR]: {
+    name: 'Radar',
+    description: '',
+    position: { x: 15, y: 8 },
+    format: ({ analog }) => OSD_SYMBOL.DIR_TO_HOME,
+  },
+  [OSD_ELEMENT.MAP_SCALE]: {
+    name: 'Map Scale',
+    description: 'Scale of the currently shown map/radar.',
+    format: ({ analog, settings }) => {
+      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+        return dot(`${OSD_SYMBOL.SCALE.marker}0.10${OSD_SYMBOL.MI.marker}`)
+      } else {
+        return dot(`${OSD_SYMBOL.SCALE.marker}100${OSD_SYMBOL.M.marker}`)
+      }
+    },
+  },
+  [OSD_ELEMENT.MAP_REFERENCE]: {
+    name: 'Map Reference',
+    description: 'Reference (direction that points up) of the current map. N for North and T for takeoff direction.',
+    format: ({ analog }) => dot(`${OSD_SYMBOL.DIRECTION.marker}\nN`),
+  },
   // [OSD_ELEMENT.]: {
   //   name: '',
   //   description: '',
