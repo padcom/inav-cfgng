@@ -158,9 +158,6 @@ export default defineComponent({
     FONT() {
       return FONT
     },
-    OSD_ITEM() {
-      return OSD_ITEM
-    },
   },
   async created() {
     await this.loadFonts()
