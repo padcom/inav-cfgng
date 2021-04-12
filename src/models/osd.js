@@ -127,6 +127,197 @@ export const OSD_ELEMENT = {
   CONTROL_SMOOTHNESS               : 118,
 }
 
+export const OSD_GROUP = [
+  {
+    title: 'General',
+    items: [
+      OSD_ELEMENT.RSSI_VALUE,
+      OSD_ELEMENT.MAIN_BATT_VOLTAGE,
+      OSD_ELEMENT.SAG_COMP_MAIN_BATT_VOLTAGE,
+      OSD_ELEMENT.MAIN_BATT_CELL_VOLTAGE,
+      OSD_ELEMENT.SAG_COMP_MAIN_BATT_CELL_VOLTAGE,
+      OSD_ELEMENT.POWER_SUPPLY_IMPEDANCE,
+      OSD_ELEMENT.MAIN_BATT_REMAINING_PERCENTAGE,
+      OSD_ELEMENT.REMAINING_FLIGHT_TIME,
+      OSD_ELEMENT.REMAINING_FLIGHT_DISTANCE,
+      OSD_ELEMENT.THROTTLE_POSITION,
+      OSD_ELEMENT.THROTTLE_POSITION_AUTO_THR,
+      OSD_ELEMENT.CRAFT_NAME,
+      OSD_ELEMENT.FLYMODE,
+      OSD_ELEMENT.MESSAGES,
+      OSD_ELEMENT.HEADING,
+      OSD_ELEMENT.HEADING_GRAPH,
+      OSD_ELEMENT.AIR_SPEED,
+      OSD_ELEMENT.RTC_TIME,
+      OSD_ELEMENT.RC_SOURCE,
+      OSD_ELEMENT.ESC_RPM,
+    ]
+  },
+  {
+    title: 'Temperature',
+    items: [
+      OSD_ELEMENT.IMU_TEMPERATURE,
+      OSD_ELEMENT.BARO_TEMPERATURE,
+      OSD_ELEMENT.ESC_TEMPERATURE,
+      OSD_ELEMENT.SENSOR1_TEMPERATURE,
+      OSD_ELEMENT.SENSOR2_TEMPERATURE,
+      OSD_ELEMENT.SENSOR3_TEMPERATURE,
+      OSD_ELEMENT.SENSOR4_TEMPERATURE,
+      OSD_ELEMENT.SENSOR5_TEMPERATURE,
+      OSD_ELEMENT.SENSOR6_TEMPERATURE,
+      OSD_ELEMENT.SENSOR7_TEMPERATURE,
+      OSD_ELEMENT.SENSOR8_TEMPERATURE,
+    ]
+  },
+  {
+    title: 'Altitude',
+    items: [
+      OSD_ELEMENT.ALTITUDE,
+      OSD_ELEMENT.VARIO,
+      OSD_ELEMENT.VARIO_NUM,
+    ]
+  },
+  {
+    title: 'G-Force',
+    items: [
+      OSD_ELEMENT.G_FORCE,
+      OSD_ELEMENT.G_FORCE_X,
+      OSD_ELEMENT.G_FORCE_Y,
+      OSD_ELEMENT.G_FORCE_Z,
+    ]
+  },
+  {
+    title: 'Timers',
+    items: [
+      OSD_ELEMENT.ONTIME_FLYTIME,
+      OSD_ELEMENT.ONTIME,
+      OSD_ELEMENT.FLYTIME,
+    ]
+  },
+  {
+    title: 'Attitude',
+    items: [
+      OSD_ELEMENT.CROSSHAIRS,
+      OSD_ELEMENT.ARTIFICIAL_HORIZON,
+      OSD_ELEMENT.HORIZON_SIDEBARS,
+      OSD_ELEMENT.PITCH_ANGLE,
+      OSD_ELEMENT.ROLL_ANGLE,
+    ]
+  },
+  {
+    title: 'Current Meter',
+    items: [
+      OSD_ELEMENT.CURRENT_DRAW,
+      OSD_ELEMENT.MAH_DRAWN,
+      OSD_ELEMENT.WH_DRAWN,
+      OSD_ELEMENT.POWER,
+      OSD_ELEMENT.MAIN_BATT_REMAINING_CAPACITY,
+      OSD_ELEMENT.EFFICIENCY_MAH,
+      OSD_ELEMENT.EFFICIENCY_WH,
+    ]
+  },
+  {
+    title: 'GPS',
+    items: [
+      OSD_ELEMENT.GPS_SPEED,
+      OSD_ELEMENT.MSL_ALTITUDE,
+      OSD_ELEMENT['3D_SPEED'],
+      OSD_ELEMENT.GPS_SATS,
+      OSD_ELEMENT.LONGITUDE,
+      OSD_ELEMENT.LATITUDE,
+      OSD_ELEMENT.PLUS_CODE,
+      OSD_ELEMENT.DIRECTION_TO_HOME,
+      OSD_ELEMENT.HOME_HEADING_ERROR,
+      OSD_ELEMENT.AZIMUTH,
+      OSD_ELEMENT.DISTANCE_TO_HOME,
+      OSD_ELEMENT.TRIP_DIST,
+      OSD_ELEMENT.GPS_HDOP,
+      OSD_ELEMENT.WIND_SPEED_HORIZONTAL,
+      OSD_ELEMENT.WIND_SPEED_VERTICAL,
+      OSD_ELEMENT.CRUISE_HEADING_ERROR,
+      OSD_ELEMENT.CRUISE_HEADING_ADJUSTMENT,
+    ]
+  },
+  {
+    title: 'Maps and Radars',
+    items: [
+      OSD_ELEMENT.MAP_NORTH,
+      OSD_ELEMENT.MAP_TAKEOFF,
+      OSD_ELEMENT.RADAR,
+      OSD_ELEMENT.MAP_SCALE,
+      OSD_ELEMENT.MAP_REFERENCE,
+    ]
+  },
+  {
+    title: 'VTX',
+    items: [
+      OSD_ELEMENT.VTX_CHANNEL,
+      OSD_ELEMENT.VTX_POWER,
+    ]
+  },
+  {
+    title: 'Crossfire RX Statistics',
+    items: [
+      OSD_ELEMENT.CRSF_RSSI_DBM,
+      OSD_ELEMENT.CRSF_LQ,
+      OSD_ELEMENT.CRSF_SNR_DB,
+      OSD_ELEMENT.CRSF_TX_POWER,
+    ]
+  },
+  {
+    title: 'Global Variables',
+    items: [
+      OSD_ELEMENT.GVAR_0,
+      OSD_ELEMENT.GVAR_1,
+      OSD_ELEMENT.GVAR_2,
+      OSD_ELEMENT.GVAR_3,
+    ]
+  },
+  {
+    title: 'RC Adjustment Values',
+    items: [
+      OSD_ELEMENT.ROLL_PIDS,
+      OSD_ELEMENT.PITCH_PIDS,
+      OSD_ELEMENT.YAW_PIDS,
+      OSD_ELEMENT.LEVEL_PIDS,
+      OSD_ELEMENT.POS_XY_PIDS,
+      OSD_ELEMENT.POS_Z_PIDS,
+      OSD_ELEMENT.VEL_XY_PIDS,
+      OSD_ELEMENT.VEL_Z_PIDS,
+      OSD_ELEMENT.HEADING_P,
+      OSD_ELEMENT.BOARD_ALIGNMENT_ROLL,
+      OSD_ELEMENT.BOARD_ALIGNMENT_PITCH,
+      OSD_ELEMENT.THROTTLE_EXPO,
+      OSD_ELEMENT.STABILIZED_RC_EXPO,
+      OSD_ELEMENT.STABILIZED_RC_YAW_EXPO,
+      OSD_ELEMENT.STABILIZED_PITCH_RATE,
+      OSD_ELEMENT.STABILIZED_ROLL_RATE,
+      OSD_ELEMENT.STABILIZED_YAW_RATE,
+      OSD_ELEMENT.MANUAL_RC_EXPO,
+      OSD_ELEMENT.MANUAL_RC_YAW_EXPO,
+      OSD_ELEMENT.MANUAL_PITCH_RATE,
+      OSD_ELEMENT.MANUAL_ROLL_RATE,
+      OSD_ELEMENT.MANUAL_YAW_RATE,
+      OSD_ELEMENT.NAV_FW_CRUISE_THROTTLE,
+      OSD_ELEMENT.NAV_FW_PITCH_TO_THROTTLE,
+      OSD_ELEMENT.FW_MIN_THROTTLE_DOWN_PITCH_ANGLE,
+      OSD_ELEMENT.THRUST_PID_ATTENUATION,
+      OSD_ELEMENT.CONTROL_SMOOTHNESS,
+    ]
+  },
+  {
+    title: 'PID Controller Outputs',
+    items: [
+      OSD_ELEMENT.FW_ALT_PID_OUTPUTS,
+      OSD_ELEMENT.FW_POS_PID_OUTPUTS,
+      OSD_ELEMENT.MC_VEL_X_PID_OUTPUTS,
+      OSD_ELEMENT.MC_VEL_Y_PID_OUTPUTS,
+      OSD_ELEMENT.MC_VEL_Z_PID_OUTPUTS,
+      OSD_ELEMENT.MC_POS_XYZ_P_OUTPUTS,
+    ]
+  },
+]
+
 export const OSD_ITEM = {
   [OSD_ELEMENT.RSSI_VALUE]: {
     name: 'RSSI (Signal Strength)',
@@ -392,7 +583,7 @@ export const OSD_ITEM = {
     },
   },
   [OSD_ELEMENT.VARIO]: {
-    name: '',
+    name: 'Vario',
     description: '',
     format: ({ analog }) => [
       OSD_SYMBOL.VARIO_UP_2A.marker,
@@ -673,7 +864,7 @@ export const OSD_ITEM = {
     name: 'Radar',
     description: '',
     position: { x: 15, y: 8 },
-    format: ({ analog }) => OSD_SYMBOL.DIR_TO_HOME,
+    format: ({ analog }) => OSD_SYMBOL.DIR_TO_HOME.marker,
   },
   [OSD_ELEMENT.MAP_SCALE]: {
     name: 'Map Scale',
@@ -728,22 +919,22 @@ export const OSD_ITEM = {
     format: ({ analog }) => `  10${OSD_SYMBOL.MW.marker}`
   },
   [OSD_ELEMENT.GVAR_0]: {
-    name: '',
+    name: 'Global variable 0',
     description: '',
     format: ({ analog }) => 'G0:01337',
   },
   [OSD_ELEMENT.GVAR_1]: {
-    name: '',
+    name: 'Global variable 1',
     description: '',
     format: ({ analog }) => 'G1:31415',
   },
   [OSD_ELEMENT.GVAR_2]: {
-    name: '',
+    name: 'Global variable 2',
     description: '',
     format: ({ analog }) => 'G2:01611',
   },
   [OSD_ELEMENT.GVAR_3]: {
-    name: '',
+    name: 'Global variable 3',
     description: '',
     format: ({ analog }) => 'G3:30126',
   },

@@ -13,7 +13,7 @@ export default defineComponent({
     Switch
   },
   props: {
-    modelValue: { type: Number, default: 0, validator: value => [0, 1].indexOf(value) !== -1 }
+    modelValue: { type: [Number, Boolean], default: 0 }
   },
   emits: [
     'update:modelValue'
@@ -23,15 +23,19 @@ export default defineComponent({
       return uuid()
     },
     checked() {
-      return this.modelValue === 1
+      return typeof this.modelValue === 'boolean' ? this.modelValue : this.modelValue === 1
     }
   },
   methods: {
     update(value) {
-      if (value) {
-        this.$emit('update:modelValue', 1)
+      if (typeof this.modelValue === 'boolean') {
+        this.$emit('update:modelValue', value)
       } else {
-        this.$emit('update:modelValue', 0)
+        if (value) {
+          this.$emit('update:modelValue', 1)
+        } else {
+          this.$emit('update:modelValue', 0)
+        }
       }
     }
   },
