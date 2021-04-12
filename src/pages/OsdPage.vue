@@ -16,16 +16,36 @@
             v-model="item.isVisible"
             :label="item.name"
             :description="item.description"
+            :highlight="item.highlight"
+            @mouseenter="item.highlight = true"
+            @mouseleave="item.highlight = false"
           />
         </Panel>
       </Column>
       <Column width="382px" style="align-self: flex-start; position: sticky; top: 92px;">
         <Panel title="Preview">
           <DragContainer ref="osd" class="osd-editor" width="360" height="288">
-            <DragItem v-for="item in fixedItems" :key="item.index" v-model="item.position" :fixed="true" :gridCellWidth="12" :gridCellHeight="18" :title="JSON.stringify(item)">
+            <DragItem v-for="item in fixedItems" :key="item.index"
+              v-model="item.position"
+              :fixed="true"
+              :class="{ highlight: item.highlight }"
+              :gridCellWidth="12"
+              :gridCellHeight="18"
+              :title="JSON.stringify(item)"
+              @mouseenter="item.highlight = true"
+              @mouseleave="item.highlight = false"
+            >
               <String :value="getItemText(item.index)" />
             </DragItem>
-            <DragItem v-for="item in movableItems" :key="item.index" v-model="item.position" :gridCellWidth="12" :gridCellHeight="18" :title="JSON.stringify(item)">
+            <DragItem v-for="item in movableItems" :key="item.index"
+              v-model="item.position"
+              :class="{ highlight: item.highlight }"
+              :gridCellWidth="12"
+              :gridCellHeight="18"
+              :title="JSON.stringify(item)"
+              @mouseenter="item.highlight = true"
+              @mouseleave="item.highlight = false"
+            >
               <String :value="getItemText(item.index)" />
             </DragItem>
           </DragContainer>
@@ -168,6 +188,7 @@ export default defineComponent({
           position: !!OSD_ITEM[index]?.position
             ? OSD_ITEM[index].position
             : { x: item.column, y: item.line },
+          highlight: false,
         }))
         console.log('this.items', this.items)
       })
@@ -196,7 +217,7 @@ export default defineComponent({
 }
 
 .highlight {
-  background-color: rgba(255, 255, 255, 1);
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 </style>

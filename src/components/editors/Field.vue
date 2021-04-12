@@ -1,7 +1,10 @@
 <template>
-  <Row class="field">
+  <Row class="field"
+    @mouseenter="$emit('mouseenter', $event)"
+    @mouseleave="$emit('mouseleave', $event)"
+  >
     <slot />
-    <label class="label">{{ label }}</label>
+    <label class="label" :class="{ highlight: highlight }">{{ label }}</label>
     <img v-if="description" class="hint" src="./cf_icon_info_green.svg" width="16" :title="description" />
   </Row>
 </template>
@@ -19,6 +22,7 @@ export default defineComponent({
   props: {
     label: { type: String, default: '' },
     description: { type: String, default: null },
+    highlight: { type: Boolean, default: false },
   }
 })
 </script>
@@ -32,5 +36,10 @@ export default defineComponent({
 .hint {
   cursor: help;
   margin-left: auto;
+}
+
+.highlight {
+  font-weight: bold;
+  color: green;
 }
 </style>

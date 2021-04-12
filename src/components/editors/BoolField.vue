@@ -1,5 +1,11 @@
 <template>
-  <Field :label="label" :description="description">
+  <Field
+    :label="label"
+    :description="description"
+    :highlight="highlight"
+    @mouseenter="$emit('mouseenter', $event)"
+    @mouseleave="$emit('mouseleave', $event)"
+  >
     <slot />
     <BoolSwitch class="input" v-bind="$attrs" />
   </Field>
@@ -20,6 +26,7 @@ export default defineComponent({
   props: {
     label: { type: String, default: '' },
     description: { type: String, default: null },
+    highlight: { type: Boolean, default: false },
   },
 })
 </script>
