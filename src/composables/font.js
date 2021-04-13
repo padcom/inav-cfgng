@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { Logger } from '../logger'
-import { FONT } from '../models/font'
+import { OsdCharWriteRequest } from '../command/v1/OsdCharWrite'
+import { useSerialPort } from './serial-port'
 
 const font = ref([])
 const log  = Logger.getLogger('FONT')
@@ -54,6 +55,46 @@ async function loadFont(name) {
   log.info('Font', `"${name}"`, 'loaded')
 }
 
+async function uploadFont(name, progressCallback) {
+  const serial = useSerialPort()
+
+  const uploadCharacter = async (index, total, char) => {
+    progressCallback(index + 1, total)
+    const bytes = []
+    for (let i = 0; i < char.length; i+=4) {
+      bytes.push((char[i + 0] << 6) + (char[i + 1] << 4) + (char[i + 2] << 2) + (char[i + 3] << 0))
+    }
+    await serial.query(new OsdCharWriteRequest(index, bytes))
+  }
+
+  const data = await fetch(`images/font/${name}.mcm`)
+    .then(response => response.text())
+    .then(data => data.split('\n').map(line => line.trim()))
+  
+  if (data[0] !== 'MAX7456') {
+    log.error('Invalid font file', name)
+  }
+
+  let char = [], index = 0
+  for (let line = 1; line < data.length; line++) {
+    data[line]
+      .match(/.{1,2}/g)                       // split into 2-char strings (each pixel is 2 bits)
+      .map(bits => Number.parseInt(bits, 2))  // convert into number from 0-3
+      .forEach(pixel => { char.push(pixel) }) // push each pixel to the character
+
+    if (char.length == 256) {                 // each character is built from 256 pixels
+      await uploadCharacter(                  // upload character to flight controller
+        index++,
+        (data.length - 1) / 64,
+        char
+      )
+      char = []                               // empty character data
+    }
+  }
+
+  log.info('Font', `"${name}"`, 'uploaded to flight controller')
+}
+
 export function useFont() {
-  return { font, loadFont }
+  return { font, loadFont, uploadFont }
 }
