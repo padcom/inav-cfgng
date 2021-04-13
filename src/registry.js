@@ -23,6 +23,7 @@ import * as ModeRanges from './command/v1/ModeRanges'
 import * as SetModeRange from './command/v1/SetModeRange'
 import * as AdjustmentRanges from './command/v1/AdjustmentRanges'
 import * as SetAdjustmentRange from './command/v1/SetAdjustmentRange'
+import * as OsdCharWrite from './command/v1/OsdCharWrite'
 
 import * as CommonSerialConfig from './command/v2/CommonSerialConfig'
 import * as CommonSetSerialConfig from './command/v2/CommonSetSerialConfig'
@@ -64,6 +65,7 @@ registry.registerMSPv1Command(ModeRanges)
 registry.registerMSPv1Command(SetModeRange)
 registry.registerMSPv1Command(AdjustmentRanges)
 registry.registerMSPv1Command(SetAdjustmentRange)
+registry.registerMSPv1Command(OsdCharWrite)
 
 registry.registerMSPv2Command(CommonSerialConfig)
 registry.registerMSPv2Command(CommonSetSerialConfig)

@@ -112,7 +112,8 @@
         </Column>
       </Row>
     </template>
-    <button class="action" @click="manageFont">Upload current font to flight controller</button>
+    <button class="action" @click="reboot">Reboot</button>
+    <button class="action" @click="uploadCurrentFontToFC">Upload current font to flight controller</button>
     <button class="action" @click="save">Save</button>
   </Actions>
 </template>
@@ -145,6 +146,7 @@ import { useSettings } from '../composables/settings'
 import { InavOsdLayoutsRequest } from '../command/v2/InavOsdLayouts'
 import { InavOsdSetLayoutItemRequest } from '../command/v2/InavOsdSetLayoutItem'
 import { AnalogRequest } from '../command/v2/Analog'
+import { OsdCharWriteRequest } from '../command/v1/OsdCharWrite'
 
 import { OSD_GROUP, OSD_ITEM } from '../models/osd'
 
@@ -168,13 +170,14 @@ export default defineComponent({
     ProgressBar,
   },
   setup() {
-    const { work, saveSettingsToEeprom} = useCommonCommands()
+    const { work, saveSettingsToEeprom, reboot} = useCommonCommands()
     const { font, loadFont } = useFont()
     const { load: loadSettings, settings: configuration  } = useSettings()
 
     return {
       work,
       saveSettingsToEeprom,
+      reboot,
       loadSettings,
       configuration,
       font,
@@ -287,8 +290,43 @@ export default defineComponent({
         await this.loadFont(name)
       })
     },
-    async uploadFont(name) {
-      console.log('uploading font', name)
+    async uploadCurrentFontToFC() {
+      const uploadFont1 = async (name) => {
+        const uploadCharacter = async (index, char) => {
+          console.log('Uploading character', index)
+          for (let i = 0; i < char.length; i+=4) {
+            const data = char[i + 0] + (char[i + 1] << 2) + (char[i + 2] << 4) + (char[i + 3] << 6)
+            await this.$serial.query(new OsdCharWriteRequest(index, data))
+          }
+        }
+
+        const data = await fetch(`images/font/${name}.mcm`)
+          .then(response => response.text())
+          .then(data => data.split('\n').map(line => line.trim()))
+        
+        if (data[0] !== 'MAX7456') {
+          log.error('Invalid font file', name)
+        }
+
+        let char = [], index = 0
+        for (let line = 1; line < data.length; line++) {
+          data[line]
+            .match(/.{1,2}/g)                       // split into 2-char strings (each pixel is 2 bits)
+            .map(bits => Number.parseInt(bits, 2))  // convert into number from 0-3
+            .forEach(pixel => { char.push(pixel) }) // push each pixel to the character
+
+          if (char.length == 256) {                 // each character is built from 256 pixels
+            await uploadCharacter(index++, char)    // upload character to flight controller
+            char = []                               // empty character data
+          }
+        }
+
+        this.$log.info('Font', `"${name}"`, 'loaded')
+      }
+
+      this.work(async () => {
+        await uploadFont1(this.fontName)
+      })
     },
   }
 })
