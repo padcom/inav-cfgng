@@ -45,9 +45,9 @@ async function loadFont(name) {
       .map(bits => Number.parseInt(bits, 2))  // convert into number from 0-3
       .forEach(pixel => { char.push(pixel) }) // push each pixel to the character
 
-    if (char.length == 256) {
-      font.value.push(drawChar(char))
-      char = []
+    if (char.length == 256) {                 // each character is built from 256 pixels
+      font.value.push(drawChar(char))         // draw character and convert it to inline data for img src
+      char = []                               // empty character data
     }
   }
 

@@ -282,8 +282,10 @@ export default defineComponent({
         await this.$serial.query(request)
       })
     },
-    selectFont(name) {
-      this.loadFont(name)
+    async selectFont(name) {
+      await this.work(async () => {
+        await this.loadFont(name)
+      })
     },
     async uploadFont(name) {
       console.log('uploading font', name)
