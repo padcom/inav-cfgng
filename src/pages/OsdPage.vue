@@ -112,7 +112,6 @@
         </Column>
       </Row>
     </template>
-    <button class="action" @click="reboot">Reboot</button>
     <button class="action" @click="uploadCurrentFontToFC">Upload current font to flight controller</button>
     <button class="action" @click="save">Save</button>
   </Actions>
