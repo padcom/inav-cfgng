@@ -1,50 +1,59 @@
 import { ref } from 'vue'
+import { Logger } from '../logger'
 import { FONT } from '../models/font'
 
 const font = ref([])
+const log  = Logger.getLogger('FONT')
 
-async function loadImage(src) {
-  return new Promise(resolve => {
-    const result = document.createElement('img')
-    result.onload = () => resolve(result)
-    result.src = src
-  })
-}
+async function loadFont(name) {
+  const data = await fetch(`images/font/${name}.mcm`)
+    .then(response => response.text())
+    .then(data => data.split('\n').map(line => line.trim()))
+  
+  if (data[0] !== 'MAX7456') {
+    log.error('Invalid font file', name)
+  }
 
-async function loadFonts() {
+  font.value = []  
+
   const canvas = document.createElement('canvas')
   const context = canvas.getContext('2d')
+  canvas.width = 12
+  canvas.height = 18
 
-  const makeImageTransparent = img => {
-    canvas.width = img.width
-    canvas.height = img.height
-    context.drawImage(img, 0, 0)
-    try {
-      const imageData = context.getImageData(0, 0, img.width, img.height)  
-      for (let i = 0; i < imageData.data.length; i += 4) {
-        if (imageData.data[i] === 0x80 && imageData.data[i + 1] === 0x80 && imageData.data[i + 2] === 0x80) {
-          imageData.data[i + 3] = 0
-        } else if (imageData.data[i] === 0x7F && imageData.data[i + 1] === 0x7F && imageData.data[i + 2] === 0x7F) {
-          imageData.data[i + 3] = 0
-        }
+  const COLORS = {
+    0: 'rgba(0, 0, 0, 1)',
+    1: 'rgba(255, 255, 255, 0)',
+    2: 'rgba(255,255,255, 1)'
+  }
+
+  function drawChar(pixels) {
+    context.clearRect(0, 0, canvas.width, canvas.height)
+    for (let x = 0; x < 12; x++) {
+      for (let y = 0; y < 18; y++) {
+        context.fillStyle = COLORS[pixels[y * 12 + x]]
+        context.fillRect(x, y, 1, 1)
       }
-      context.clearRect(0, 0, img.width, img.height)
-      context.putImageData(imageData, 0, 0)
-      return canvas.toDataURL('image/png')
-    } catch (e) {
-      console.log('Error while converting image', img, e)
-      return ''
+    }
+    return canvas.toDataURL('image/png')
+  }
+
+  let char = []
+  for (let line = 1; line < data.length; line++) {
+    data[line]
+      .match(/.{1,2}/g)                       // split into 2-char strings (each pixel is 2 bits)
+      .map(bits => Number.parseInt(bits, 2))  // convert into number from 0-3
+      .forEach(pixel => { char.push(pixel) }) // push each pixel to the character
+
+    if (char.length == 256) {
+      font.value.push(drawChar(char))
+      char = []
     }
   }
 
-  for (let i = 0; i < FONT.length; i++) {
-    const file = FONT[i]
-    const char = file.split('-')[0]
-    const image = await loadImage(`./images/font/${file}.png`)
-    font.value[Number.parseInt(char)] = makeImageTransparent(image)
-  }
+  log.info('Font', `"${name}"`, 'loaded')
 }
 
 export function useFont() {
-  return { font, loadFonts }
+  return { font, loadFont }
 }

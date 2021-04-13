@@ -1,14 +1,6 @@
 <template>
   <Page>
     <PageHeader>OSD</PageHeader>
-    <Row style="margin-bottom: 16px;">
-      <Dropdown v-model="layout" :options="[
-        { label: 'Default', value: 0 },
-        { label: 'Alternative Layout #1', value: 1 },
-        { label: 'Alternative Layout #2', value: 2 },
-        { label: 'Alternative Layout #3', value: 3 },
-      ]" />
-    </Row>
     <Row>
       <Column>
         <Panel v-if="items.length > 0" v-for="group in settingGroups" :key="group.title" :title="group.title">
@@ -23,7 +15,7 @@
           />
         </Panel>
       </Column>
-      <Column width="382px" style="align-self: flex-start; position: sticky; top: 92px;">
+      <Column width="382px" style="align-self: flex-start; position: sticky; top: 56px;">
         <Panel title="Preview">
           <DragContainer ref="osd" class="osd-editor" :style="{
             width: '360px',
@@ -91,12 +83,36 @@
     </Row>
   </Page>
 
-  <div v-if="true">
-    <img v-for="char in FONT" :key="char" :src="`images/font/${char}.png`" :title="char" />
-  </div>
+  <dialog ref="uploadFontProgress" class="font-upload-progress-dialog">
+    <ProgressBar :value="44" :min="0" :max="100" style="width: 400px;" :showValue="true" />
+  </dialog>
 
   <Actions>
-    <button class="action" @click="manageFont">Font manager</button>
+    <template #left>
+      <Row style="margin-left: 24px; margin-top: 6px;">
+        <Column width="150px;">
+          <DropdownField v-model="layout" label="Layout" labelPosition="left" :options="[
+            { label: 'Default', value: 0 },
+            { label: 'Alternative Layout #1', value: 1 },
+            { label: 'Alternative Layout #2', value: 2 },
+            { label: 'Alternative Layout #3', value: 3 },
+          ]" />
+        </Column>
+        <Column width="250px;">
+          <DropdownField v-model="fontName" label="Font" labelPosition="left" :options="[
+            { label: 'Default', value: 'default' },
+            { label: 'Bold', value: 'bold' },
+            { label: 'Clarity', value: 'clarity' },
+            { label: 'Clarity Medium', value: 'clarity-medium' },
+            { label: 'Impact', value: 'impact' },
+            { label: 'Impact Mini', value: 'impact-mini' },
+            { label: 'Large', value: 'large' },
+            { label: 'Vision', value: 'vision' },
+          ]" />
+        </Column>
+      </Row>
+    </template>
+    <button class="action" @click="manageFont">Upload current font to flight controller</button>
     <button class="action" @click="save">Save</button>
   </Actions>
 </template>
@@ -109,13 +125,14 @@ import PageHeader from '../components/common/PageHeader.vue'
 
 import Row from '../components/common/Row.vue'
 import Column from '../components/common/Column.vue'
-import Dropdown from '../components/editors/Dropdown.vue'
 import Panel from '../components/common/Panel.vue'
 import Actions from '../components/Actions.vue'
 import DragContainer from '../components/common/DragContainer.vue'
 import DragItem from '../components/common/DragItem.vue'
 import String from './osd/String.vue'
 import BoolField from '../components/editors/BoolField.vue'
+import DropdownField from '../components/editors/DropdownField.vue'
+import ProgressBar from '../components/ProgressBar.vue'
 
 import DropdownSetting from '../components/editors/DropdownSetting.vue'
 import NumericSetting from '../components/editors/NumericSetting.vue'
@@ -129,7 +146,6 @@ import { InavOsdLayoutsRequest } from '../command/v2/InavOsdLayouts'
 import { InavOsdSetLayoutItemRequest } from '../command/v2/InavOsdSetLayoutItem'
 import { AnalogRequest } from '../command/v2/Analog'
 
-import { FONT } from '../models/font'
 import { OSD_GROUP, OSD_ITEM } from '../models/osd'
 
 export default defineComponent({
@@ -139,20 +155,21 @@ export default defineComponent({
     PageHeader,
     Row,
     Column,
-    Dropdown,
     Panel,
     Actions,
     DragContainer,
     DragItem,
     String,
+    DropdownField,
     BoolField,
     DropdownSetting,
     NumericSetting,
     BoolSetting,
+    ProgressBar,
   },
   setup() {
     const { work, saveSettingsToEeprom} = useCommonCommands()
-    const { font, loadFonts } = useFont()
+    const { font, loadFont } = useFont()
     const { load: loadSettings, settings: configuration  } = useSettings()
 
     return {
@@ -161,7 +178,7 @@ export default defineComponent({
       loadSettings,
       configuration,
       font,
-      loadFonts,
+      loadFont,
     }
   },
   data() {
@@ -171,11 +188,10 @@ export default defineComponent({
       chars: {},
       left: 10,
       top: 10,
-      draggedElement: null,
-      dragOrigin: { x: 0, y: 0 },
-      dragArea: {},
       analog: {},
       settings: [],
+      fontName: 'default',
+      fontUploadProgress: 0,
     }
   },
   computed: {
@@ -203,17 +219,17 @@ export default defineComponent({
     movableItems() {
       return this.items.filter(item => item.isVisible && !item.fixed)
     },
-    FONT() {
-      return FONT
-    },
   },
   watch: {
     layout() {
       this.loadOsdItems()  
+    },
+    fontName(name) {
+      this.selectFont(name)
     }
   },
   async created() {
-    await this.loadFonts()
+    await this.loadFont(this.fontName)
   },
   async mounted() {
     await this.load()
@@ -265,7 +281,13 @@ export default defineComponent({
         )
         await this.$serial.query(request)
       })
-    }
+    },
+    selectFont(name) {
+      this.loadFont(name)
+    },
+    async uploadFont(name) {
+      console.log('uploading font', name)
+    },
   }
 })
 </script>
@@ -280,4 +302,13 @@ export default defineComponent({
   background-color: rgba(255, 255, 255, 0.5);
 }
 
+.font-upload-progress-dialog {
+  z-index: 100;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
 </style>

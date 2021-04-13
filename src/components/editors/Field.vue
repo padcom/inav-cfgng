@@ -3,8 +3,9 @@
     @mouseenter="$emit('mouseenter', $event)"
     @mouseleave="$emit('mouseleave', $event)"
   >
+    <label v-if="labelPosition === 'left'" class="label" :class="{ highlight: highlight }">{{ label }}</label>
     <slot />
-    <label class="label" :class="{ highlight: highlight }">{{ label }}</label>
+    <label v-if="labelPosition === 'right'" class="label" :class="{ highlight: highlight }">{{ label }}</label>
     <img v-if="description" class="hint" src="./cf_icon_info_green.svg" width="16" :title="description" />
   </Row>
 </template>
@@ -21,6 +22,7 @@ export default defineComponent({
   },
   props: {
     label: { type: String, default: '' },
+    labelPosition: { type: String, default: 'right' },
     description: { type: String, default: null },
     highlight: { type: Boolean, default: false },
   }
