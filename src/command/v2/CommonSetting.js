@@ -51,11 +51,11 @@ export class CommonSettingResponse extends Response {
 
   get signedType() {
     if (this.payload.byteLength === 1) {
-      return DATA_TYPE.UINT8
+      return DATA_TYPE.INT8
     } else if (this.payload.byteLength === 2) {
-      return DATA_TYPE.UINT16
+      return DATA_TYPE.INT16
     } else if (this.payload.byteLength === 4) {
-      return DATA_TYPE.UINT32
+      return DATA_TYPE.INT32
     } else {
       return DATA_TYPE.UNKNOWN
     }
@@ -63,11 +63,11 @@ export class CommonSettingResponse extends Response {
 
   get signed() {
     if (this.payload.byteLength === 1) {
-      return this.getUint8(0)
+      return this.getInt8(0)
     } else if (this.payload.byteLength === 2) {
-      return this.getUint16(0, true)
+      return this.getInt16(0, true)
     } else if (this.payload.byteLength === 4) {
-      return this.getUint32(0, true)
+      return this.getInt32(0, true)
     } else {
       throw new Error('Unknown value length')
     }

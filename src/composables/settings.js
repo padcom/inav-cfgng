@@ -21,6 +21,7 @@ async function loadSettings(...items) {
     for (let i = 0; i < items.length; i++) {
       const setting = settings[items[i]]
       const response = await serial.query(new CommonSettingRequest(setting.name))
+
       if (setting.type === DATA_TYPE.LOOKUP) {
         setting.value = response.unsigned
       } else if (setting.type === DATA_TYPE.STRING) {

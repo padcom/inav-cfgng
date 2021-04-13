@@ -78,6 +78,15 @@ const SETTING_TYPES = {
   'inav_w_z_gps_v': { type: DATA_TYPE.FLOAT },
   'inav_w_xy_gps_p': { type: DATA_TYPE.FLOAT },
   'inav_w_xy_gps_v': { type: DATA_TYPE.FLOAT },
+  'osd_gforce_alarm': { type: DATA_TYPE.FLOAT },
+  'osd_gforce_axis_alarm_min': { type: DATA_TYPE.FLOAT },
+  'osd_gforce_axis_alarm_max': { type: DATA_TYPE.FLOAT },
+  'osd_imu_temp_alarm_min': { type: DATA_TYPE.INT16 },
+  'osd_imu_temp_alarm_max': { type: DATA_TYPE.INT16 },
+  'osd_esc_temp_alarm_min': { type: DATA_TYPE.INT16 },
+  'osd_esc_temp_alarm_max': { type: DATA_TYPE.INT16 },
+  'osd_baro_temp_alarm_min': { type: DATA_TYPE.INT16 },
+  'osd_baro_temp_alarm_max': { type: DATA_TYPE.INT16 },
 }
 
 yaml.groups.forEach(group => {

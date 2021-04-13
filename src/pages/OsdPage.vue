@@ -67,6 +67,23 @@
           <BoolSetting item="osd_sidebar_scroll_arrows" label="Sidebar Scroll Arrows" />
         </Panel>
         <Panel title="Alarms">
+          <NumericSetting item="osd_rssi_alarm" label="RSSI (%)" />
+          <NumericSetting item="osd_time_alarm" label="Fly Time (minutes)" />
+          <NumericSetting item="osd_alt_alarm" label="Altitude (meters)" />
+          <NumericSetting item="osd_neg_alt_alarm" label="Negative Altitude (meters)" />
+          <NumericSetting item="osd_dist_alarm" label="Distance (meters)" />
+          <NumericSetting item="osd_gforce_alarm" label="g force" />
+          <NumericSetting item="osd_gforce_axis_alarm_min" label="g force axis min" />
+          <NumericSetting item="osd_gforce_axis_alarm_max" label="g force axis max" />
+          <NumericSetting item="osd_current_alarm" label="Current (A)" />
+          <NumericSetting item="osd_imu_temp_alarm_min" :scale="10" label="Minimum IMU temperature" />
+          <NumericSetting item="osd_imu_temp_alarm_max" :scale="10" label="Maximum IMU temperature" />
+          <NumericSetting item="osd_baro_temp_alarm_min" :scale="10" label="Minimum baro temperature" />
+          <NumericSetting item="osd_baro_temp_alarm_max" :scale="10" label="Maximum baro temperature" />
+          <NumericSetting item="osd_esc_temp_alarm_min" :scale="10" label="Minimum ESC temperature" />
+          <NumericSetting item="osd_esc_temp_alarm_max" :scale="10" label="Maximum ESC temperature" />
+          <NumericSetting item="osd_snr_alarm" label="Crossfire SNR Alarm Level" />
+          <NumericSetting item="osd_link_quality_alarm" label="Crossfire Link Quality Alarm" />
         </Panel>
       </Column>
     </Row>
@@ -84,64 +101,6 @@
 </template>
 
 <script>
-// osd_video_system = AUTO
-// osd_row_shiftdown = 0
-// osd_units = METRIC
-// osd_stats_energy_unit = MAH
-// osd_rssi_alarm = 30
-// osd_time_alarm = 45
-// osd_alt_alarm = 300
-// osd_dist_alarm = 5000
-// osd_neg_alt_alarm = 5
-// osd_current_alarm = 5
-// osd_gforce_alarm =  5.000
-// osd_gforce_axis_alarm_min = -5.000
-// osd_gforce_axis_alarm_max =  5.000
-// osd_imu_temp_alarm_min = -200
-// osd_imu_temp_alarm_max = 600
-// osd_esc_temp_alarm_max = 900
-// osd_esc_temp_alarm_min = -200
-// osd_baro_temp_alarm_min = -200
-// osd_baro_temp_alarm_max = 600
-// osd_snr_alarm = 4
-// osd_link_quality_alarm = 70
-// osd_temp_label_align = LEFT
-// osd_artificial_horizon_reverse_roll = OFF
-// osd_artificial_horizon_max_pitch = 20
-// osd_crosshairs_style = DEFAULT
-// osd_crsf_lq_format = TYPE1
-// osd_horizon_offset = 0
-// osd_camera_uptilt = 0
-// osd_camera_fov_h = 135
-// osd_camera_fov_v = 85
-// osd_hud_margin_h = 3
-// osd_hud_margin_v = 2
-// osd_hud_homing = OFF
-// osd_hud_homepoint = OFF
-// osd_hud_radar_disp = 0
-// osd_hud_radar_range_min = 3
-// osd_hud_radar_range_max = 4000
-// osd_hud_radar_nearest = 0
-// osd_hud_wp_disp = 0
-// osd_left_sidebar_scroll = NONE
-// osd_right_sidebar_scroll = NONE
-// osd_sidebar_scroll_arrows = OFF
-// osd_main_voltage_decimals = 1
-// osd_coordinate_digits = 9
-// osd_estimations_wind_compensation = ON
-// osd_failsafe_switch_layout = OFF
-// osd_plus_code_digits = 11
-// osd_ahi_style = DEFAULT
-// osd_force_grid = OFF
-// osd_ahi_bordered = OFF
-// osd_ahi_width = 132
-// osd_ahi_height = 162
-// osd_ahi_vertical_offset = -18
-// osd_sidebar_horizontal_offset = 0
-// osd_left_sidebar_scroll_step = 0
-// osd_right_sidebar_scroll_step = 0
-// osd_home_position_arm_screen = ON
-
 import { defineComponent } from 'vue'
 
 import Page from '../components/common/Page.vue'
@@ -247,6 +206,11 @@ export default defineComponent({
       return FONT
     },
   },
+  watch: {
+    layout() {
+      this.loadOsdItems()  
+    }
+  },
   async created() {
     await this.loadFonts()
   },
@@ -260,8 +224,7 @@ export default defineComponent({
     this.$scheduler.dequeue(this.analogRefreshTaskId)
   },
   methods: {
-    async load() {
-      await this.loadSettings(...this.settings)
+    async loadOsdItems() {
       this.items = []
       await this.work(async () => {
         const response = await this.$serial.query(new InavOsdLayoutsRequest(this.layout))
@@ -271,12 +234,14 @@ export default defineComponent({
           name: OSD_ITEM[index]?.name,
           description: OSD_ITEM[index]?.description,
           fixed: !!OSD_ITEM[index]?.position,
-          position: !!OSD_ITEM[index]?.position
-            ? OSD_ITEM[index].position
-            : { x: item.column, y: item.line },
+          position: !!OSD_ITEM[index]?.position ? OSD_ITEM[index].position : { x: item.column, y: item.line },
           highlight: false,
         }))
       })
+    },
+    async load() {
+      await this.loadOsdItems()
+      await this.loadSettings(...this.settings)
     },
     async save() {
       await this.work(async () => {
