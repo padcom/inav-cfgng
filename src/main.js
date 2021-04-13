@@ -1,6 +1,10 @@
 import './main.scss'
 import './polyfills'
 
+window.onunhandledrejection = function(error) {
+  console.log('Unhandled error', error)
+}
+
 import { Logger, LogLevel } from './logger'
 Logger.getLogger('DEFAULT').level = LogLevel.info
 // Logger.getLogger('UTILS').level = LogLevel.trace

@@ -331,27 +331,29 @@ export const OSD_ITEM = {
     name: 'Battery Voltage',
     description: '',
     format: ({ analog, settings }) => {
-      const value = (Math.round(analog.batteryVoltage * 100) / 100).padLeftWith(' ', 5)
-      return `${value}${OSD_SYMBOL.VOLT.marker}`
+      const decimals = settings['osd_main_voltage_decimals']?.value || 2
+      const value = analog.batteryVoltage?.toFixed(decimals) || '    '
+      return `${OSD_SYMBOL.BATT.marker}${value}${OSD_SYMBOL.VOLT.marker}`
     },
   },
   [OSD_ELEMENT.SAG_COMP_MAIN_BATT_VOLTAGE]: {
     name: 'Sag Compensated Battery Voltage',
     description: 'Calculated voltage the battery should be at without load (simulates ideal battery)',
-    format: ({ analog }) => {
-      const value = (Math.round(analog.batteryVoltage * 100) / 100).padLeftWith(' ', 5)
-      return `${value}${OSD_SYMBOL.VOLT.marker}`
+    format: ({ analog, settings }) => {
+      const decimals = settings['osd_main_voltage_decimals']?.value || 2
+      const value = analog.batteryVoltage?.toFixed(decimals) || '    '
+      return `${OSD_SYMBOL.BATT.marker}${value}${OSD_SYMBOL.VOLT.marker}`
     },
   },
   [OSD_ELEMENT.MAIN_BATT_CELL_VOLTAGE]: {
     name: 'Battery Cell Voltage',
     description: 'Shows the average cell voltage from the main battery',
-    format: ({ analog }) => `${OSD_SYMBOL.BATT.marker}3.90${OSD_SYMBOL.VOLT.marker}`
+    format: () => `${OSD_SYMBOL.BATT.marker}3.90${OSD_SYMBOL.VOLT.marker}`
   },
   [OSD_ELEMENT.SAG_COMP_MAIN_BATT_CELL_VOLTAGE]: {
     name: 'Sag Compensated Battery Cell Voltage',
     description: 'Calculated average cell voltage the battery should be at without load (simulates ideal battery)',
-    format: ({ analog }) => `${OSD_SYMBOL.BATT.marker}4.18${OSD_SYMBOL.VOLT.marker}`
+    format: () => `${OSD_SYMBOL.BATT.marker}4.18${OSD_SYMBOL.VOLT.marker}`
   },
   [OSD_ELEMENT.POWER_SUPPLY_IMPEDANCE]: {
     name: 'Power supply impedance',
@@ -372,7 +374,7 @@ export const OSD_ITEM = {
     name: 'Remaining flight distance',
     description: 'Estimated remaining flight travel distance before the aircraft needs to go back home based on remaining battery energy, average power and distance to home (Fixed wing only, please read the documentation)',
     format: ({ analog, settings }) => {
-      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+      if (settings['osd_units']?.value === UNIT.IMPERIAL) {
         return `${OSD_SYMBOL.TRIP_DIST.marker}0.98${OSD_SYMBOL.DIST_MI.marker}`
       } else {
         return `${OSD_SYMBOL.TRIP_DIST.marker}1.73${OSD_SYMBOL.DIST_KM.marker}`
@@ -428,7 +430,7 @@ export const OSD_ITEM = {
     name: 'Air speed',
     description: '',
     format: ({ analog, settings }) => {
-      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+      if (settings['osd_units']?.value === UNIT.IMPERIAL) {
         return `${OSD_SYMBOL.AIR.marker} 35${OSD_SYMBOL.MPH.marker}`
       } else {
         return `${OSD_SYMBOL.AIR.marker} 55${OSD_SYMBOL.KMH.marker}`
@@ -454,7 +456,7 @@ export const OSD_ITEM = {
     name: 'IMU Temperature',
     description: 'Temperature of the IMU',
     format: ({ analog, settings }) => {
-      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+      if (settings['osd_units']?.value === UNIT.IMPERIAL) {
         return `${OSD_SYMBOL.IMU_TEMP.marker} 90${OSD_SYMBOL.TEMP_F.marker}`
       } else {
         return `${OSD_SYMBOL.IMU_TEMP.marker} 32${OSD_SYMBOL.TEMP_C.marker}`
@@ -465,7 +467,7 @@ export const OSD_ITEM = {
     name: 'Baro Temperature',
     description: 'Temperature of the barometer',
     format: ({ analog, settings }) => {
-      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+      if (settings['osd_units']?.value === UNIT.IMPERIAL) {
         return `${OSD_SYMBOL.IMU_TEMP.marker} 90${OSD_SYMBOL.TEMP_F.marker}`
       } else {
         return `${OSD_SYMBOL.IMU_TEMP.marker} 32${OSD_SYMBOL.TEMP_C.marker}`
@@ -476,7 +478,7 @@ export const OSD_ITEM = {
     name: 'ESC Temperature',
     description: 'Temperature of the ESC read from DSHOT telemetry',
     format: ({ analog, settings }) => {
-      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+      if (settings['osd_units']?.value === UNIT.IMPERIAL) {
         return `${OSD_SYMBOL.IMU_TEMP.marker} 98${OSD_SYMBOL.TEMP_F.marker}`
       } else {
         return `${OSD_SYMBOL.IMU_TEMP.marker} 37${OSD_SYMBOL.TEMP_C.marker}`
@@ -487,7 +489,7 @@ export const OSD_ITEM = {
     name: 'Temperature sensor 1',
     description: '',
     format: ({ analog, settings }) => {
-      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+      if (settings['osd_units']?.value === UNIT.IMPERIAL) {
         return ` 90${OSD_SYMBOL.TEMP_F.marker}`
       } else {
         return ` 32${OSD_SYMBOL.TEMP_C.marker}`
@@ -498,7 +500,7 @@ export const OSD_ITEM = {
     name: 'Temperature sensor 2',
     description: '',
     format: ({ analog, settings }) => {
-      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+      if (settings['osd_units']?.value === UNIT.IMPERIAL) {
         return ` 90${OSD_SYMBOL.TEMP_F.marker}`
       } else {
         return ` 32${OSD_SYMBOL.TEMP_C.marker}`
@@ -509,7 +511,7 @@ export const OSD_ITEM = {
     name: 'Temperature sensor 3',
     description: '',
     format: ({ analog, settings }) => {
-      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+      if (settings['osd_units']?.value === UNIT.IMPERIAL) {
         return ` 90${OSD_SYMBOL.TEMP_F.marker}`
       } else {
         return ` 32${OSD_SYMBOL.TEMP_C.marker}`
@@ -520,7 +522,7 @@ export const OSD_ITEM = {
     name: 'Temperature sensor 4',
     description: '',
     format: ({ analog, settings }) => {
-      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+      if (settings['osd_units']?.value === UNIT.IMPERIAL) {
         return ` 90${OSD_SYMBOL.TEMP_F.marker}`
       } else {
         return ` 32${OSD_SYMBOL.TEMP_C.marker}`
@@ -531,7 +533,7 @@ export const OSD_ITEM = {
     name: 'Temperature sensor 5',
     description: '',
     format: ({ analog, settings }) => {
-      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+      if (settings['osd_units']?.value === UNIT.IMPERIAL) {
         return ` 90${OSD_SYMBOL.TEMP_F.marker}`
       } else {
         return ` 32${OSD_SYMBOL.TEMP_C.marker}`
@@ -542,7 +544,7 @@ export const OSD_ITEM = {
     name: 'Temperature sensor 6',
     description: '',
     format: ({ analog, settings }) => {
-      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+      if (settings['osd_units']?.value === UNIT.IMPERIAL) {
         return ` 90${OSD_SYMBOL.TEMP_F.marker}`
       } else {
         return ` 32${OSD_SYMBOL.TEMP_C.marker}`
@@ -553,7 +555,7 @@ export const OSD_ITEM = {
     name: 'Temperature sensor 7',
     description: '',
     format: ({ analog, settings }) => {
-      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+      if (settings['osd_units']?.value === UNIT.IMPERIAL) {
         return ` 90${OSD_SYMBOL.TEMP_F.marker}`
       } else {
         return ` 32${OSD_SYMBOL.TEMP_C.marker}`
@@ -564,7 +566,7 @@ export const OSD_ITEM = {
     name: 'Temperature sensor 8',
     description: '',
     format: ({ analog, settings }) => {
-      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+      if (settings['osd_units']?.value === UNIT.IMPERIAL) {
         return ` 90${OSD_SYMBOL.TEMP_F.marker}`
       } else {
         return ` 32${OSD_SYMBOL.TEMP_C.marker}`
@@ -575,7 +577,7 @@ export const OSD_ITEM = {
     name: 'Altitude',
     description: '',
     format: ({ analog, settings }) => {
-      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+      if (settings['osd_units']?.value === UNIT.IMPERIAL) {
         return `118${OSD_SYMBOL.ALT_FT.marker}`
       } else {
         return `399${OSD_SYMBOL.ALT_M.marker}`
@@ -597,7 +599,7 @@ export const OSD_ITEM = {
     name: 'Numeric vario',
     description: 'Shows vertical speed using a number',
     format: ({ analog, settings }) => {
-      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+      if (settings['osd_units']?.value === UNIT.IMPERIAL) {
         return `-1.6${OSD_SYMBOL.FT_S.marker}`
       } else {
         return `-0.5${OSD_SYMBOL.M_S.marker}`
@@ -637,21 +639,19 @@ export const OSD_ITEM = {
   [OSD_ELEMENT.FLYTIME]: {
     name: 'Fly time',
     description: '',
-    format: ({ analog }) => `${OSD_SYMBOL.FLY_M.marker}04:11`
+    format: () => `${OSD_SYMBOL.FLY_M.marker}04:11`
   },
   [OSD_ELEMENT.CROSSHAIRS]: {
     name: 'Crosshair',
     description: '',
     position: { x: 13, y: 7 },
-    format: ({ analog, settings }) => {
-      switch (settings?.chrosshairStyle) {
+    format: ({ settings }) => {
+      switch (settings['osd_crosshairs_style']?.value) {
         case 1:
           return '#403#404#405'
         case 2:
-          return '#402#403#404'
-        case 3:
           return '#406#407#408'
-        case 4:
+        case 3:
           return '#409#410#411'
         case 4:
           return '#412#413#414'
@@ -666,13 +666,13 @@ export const OSD_ITEM = {
     name: 'Artificial horizon',
     description: '',
     position: { x: 10, y: 7 },
-    format: ({ analog }) => '#045#045#045   #045#045#045',
+    format: () => '#045#045#045   #045#045#045',
   },
   [OSD_ELEMENT.HORIZON_SIDEBARS]: {
     name: 'Horizon sidebars',
     description: '',
     position: { x: 7, y: 4 },
-    format: ({ analog, settings }) => [
+    format: () => [
       '#021               #021',
       '#021               #021',
       '#021               #021',
@@ -736,7 +736,7 @@ export const OSD_ITEM = {
     name: 'MSL Altitude',
     description: 'Altitude above Mean Sea Level',
     format: ({ analog, settings }) => {
-      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+      if (settings['osd_units']?.value === UNIT.IMPERIAL) {
         return `275${OSD_SYMBOL.ALT_FT.marker}`
       } else {
         return `477${OSD_SYMBOL.ALT_M.marker}`
@@ -747,7 +747,7 @@ export const OSD_ITEM = {
     name: '3D Speed',
     description: 'Shows 3D speed considering both horizontal and vertical speed.',
     format: ({ analog, settings }) => {
-      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+      if (settings['osd_units']?.value === UNIT.IMPERIAL) {
         return ` 30${OSD_SYMBOL.MPH_3D.marker}`
       } else {
         return ` 48${OSD_SYMBOL.KMH_3D.marker}`
@@ -762,38 +762,38 @@ export const OSD_ITEM = {
   [OSD_ELEMENT.LONGITUDE]: {
     name: 'Longitude',
     description: '',
-    format: ({ analog, settings }) => `${OSD_SYMBOL.LON.marker}${'-114.7652134'.substr(0, settings?.numberOfCoordinateDigits || 11)}`
+    format: ({ settings }) => `${OSD_SYMBOL.LON.marker}${'-114.7652134'.substr(0, settings?.numberOfCoordinateDigits || 11)}`
   },
   [OSD_ELEMENT.LATITUDE]: {
     name: 'Latitude',
     description: '',
-    format: ({ analog, settings }) => `${OSD_SYMBOL.LAT.marker}${'-114.7652134'.substr(0, settings?.numberOfCoordinateDigits || 11)}`
+    format: ({ settings }) => `${OSD_SYMBOL.LAT.marker}${'-114.7652134'.substr(0, settings?.numberOfCoordinateDigits || 11)}`
   },
   [OSD_ELEMENT.PLUS_CODE]: {
     name: 'Plus Code (latitude + longitude)',
     description: 'Plus codes encode both latitude and longitude on a single value that can be entered directly in Google Maps. It provides the same level of precision than latitude and longitude while using less screen space.',
-    format: ({ analog, settings }) => '9547X6PM+VWCCC'.substr(0, settings?.numberOfPlusCodeDigits || 11)
+    format: ({ settings }) => '9547X6PM+VWCCC'.substr(0, (settings['osd_plus_code_digits']?.value || 11) + 1)
   },
   [OSD_ELEMENT.DIRECTION_TO_HOME]: {
     name: 'Direction to home',
     description: '',
-    format: ({ analog }) => OSD_SYMBOL.DIR_TO_HOME.marker,
+    format: () => OSD_SYMBOL.DIR_TO_HOME.marker,
   },
   [OSD_ELEMENT.HOME_HEADING_ERROR]: {
     name: 'Home heading error',
     description: '',
-    format: ({ analog }) => `${OSD_SYMBOL.HOME.marker}${OSD_SYMBOL.HEADING.marker} -10${OSD_SYMBOL.DEGREES.marker}`,
+    format: () => `${OSD_SYMBOL.HOME.marker}${OSD_SYMBOL.HEADING.marker} -10${OSD_SYMBOL.DEGREES.marker}`,
   },
   [OSD_ELEMENT.AZIMUTH]: {
     name: 'Azimuth',
     description: 'Azimuth is the direction of the aircraft in relation to the home point. It\'s useful to keep the aircraft on the correct course or to keep the aircraft in front of a fixed directional antenna.',
-    format: ({ analog }) => `${OSD_SYMBOL.AZIMUTH.marker} 20`,
+    format: () => `${OSD_SYMBOL.AZIMUTH.marker} 20`,
   },
   [OSD_ELEMENT.DISTANCE_TO_HOME]: {
     name: 'Distance to home',
     description: '',
     format: ({ analog, settings }) => {
-      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+      if (settings['osd_units']?.value === UNIT.IMPERIAL) {
         return `${OSD_SYMBOL.HOME.marker}0.98${OSD_SYMBOL.DIST_MI.marker}`
       } else {
         return `${OSD_SYMBOL.HOME.marker}1.73${OSD_SYMBOL.DIST_KM.marker}`
@@ -804,7 +804,7 @@ export const OSD_ITEM = {
     name: 'Trip distance',
     description: '',
     format: ({ analog, settings }) => {
-      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+      if (settings['osd_units']?.value === UNIT.IMPERIAL) {
         return `${OSD_SYMBOL.TRIP_DIST.marker}0.98${OSD_SYMBOL.DIST_MI.marker}`
       } else {
         return `${OSD_SYMBOL.TRIP_DIST.marker}1.73${OSD_SYMBOL.DIST_KM.marker}`
@@ -820,7 +820,7 @@ export const OSD_ITEM = {
     name: 'Horizontal wind speed',
     description: 'Shows estimated horizontal wind speed and direction.',
     format: ({ analog, settings }) => {
-      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+      if (settings['osd_units']?.value === UNIT.IMPERIAL) {
         return `${OSD_SYMBOL.WIND_SPEED_HORIZONTAL.marker}${OSD_SYMBOL.DIRECTION1.marker}3.27${OSD_SYMBOL.MPH.marker}`
       } else {
         return `${OSD_SYMBOL.WIND_SPEED_HORIZONTAL.marker}${OSD_SYMBOL.DIRECTION1.marker}5.27${OSD_SYMBOL.KMH.marker}`
@@ -831,7 +831,7 @@ export const OSD_ITEM = {
     name: 'Vertical wind speed',
     description: 'Shows estimated vertical wind speed and direction.',
     format: ({ analog, settings }) => {
-      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+      if (settings['osd_units']?.value === UNIT.IMPERIAL) {
         return `${OSD_SYMBOL.WIND_SPEED_VERTICAL.marker}${OSD_SYMBOL.AH_DECORATION_UP.marker}1.03${OSD_SYMBOL.MPH.marker}`
       } else {
         return `${OSD_SYMBOL.WIND_SPEED_VERTICAL.marker}${OSD_SYMBOL.AH_DECORATION_UP.marker}1.67${OSD_SYMBOL.KMH.marker}`
@@ -870,7 +870,7 @@ export const OSD_ITEM = {
     name: 'Map Scale',
     description: 'Scale of the currently shown map/radar.',
     format: ({ analog, settings }) => {
-      if (settings?.units === UNIT.IMPERIAL || settings?.units === UNIT.UK) {
+      if (settings['osd_units']?.value === UNIT.IMPERIAL) {
         return `${OSD_SYMBOL.SCALE.marker}0.10${OSD_SYMBOL.MI.marker}`
       } else {
         return `${OSD_SYMBOL.SCALE.marker}100${OSD_SYMBOL.M.marker}`
@@ -901,7 +901,7 @@ export const OSD_ITEM = {
     name: 'RX Link Quality %',
     description: 'Use Crossfire LQ Format setting to select format type.',
     format: ({ analog, settings }) => {
-      if (settings?.crsfLqFormat === 1) {
+      if (settings['osd_crsf_lq_format'].value === 1) {
         return '2:100%'
       } else {
         return '  300%'

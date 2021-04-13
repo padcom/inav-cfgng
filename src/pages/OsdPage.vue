@@ -55,10 +55,16 @@
         </Panel>
       </Column>
       <Column>
-        <Panel title="Video Format">
-          <DropdownSetting item="osd_video_system" />
-        </Panel>
         <Panel title="Settings">
+          <DropdownSetting item="osd_video_system" label="Video Format" />
+          <DropdownSetting item="osd_units" label="Units" />
+          <NumericSetting item="osd_main_voltage_decimals" label="Voltage Decimals" />
+          <NumericSetting item="osd_plus_code_digits" label="Plus Code Digits" />
+          <DropdownSetting item="osd_crosshairs_style" label="Crosshair Style" />
+          <DropdownSetting item="osd_left_sidebar_scroll" label="Left Sidebar Scroll" />
+          <DropdownSetting item="osd_right_sidebar_scroll" label="Right Sidebar Scroll" />
+          <DropdownSetting item="osd_crsf_lq_format" label="Crossfire LQ Format" />
+          <BoolSetting item="osd_sidebar_scroll_arrows" label="Sidebar Scroll Arrows" />
         </Panel>
         <Panel title="Alarms">
         </Panel>
@@ -78,6 +84,64 @@
 </template>
 
 <script>
+// osd_video_system = AUTO
+// osd_row_shiftdown = 0
+// osd_units = METRIC
+// osd_stats_energy_unit = MAH
+// osd_rssi_alarm = 30
+// osd_time_alarm = 45
+// osd_alt_alarm = 300
+// osd_dist_alarm = 5000
+// osd_neg_alt_alarm = 5
+// osd_current_alarm = 5
+// osd_gforce_alarm =  5.000
+// osd_gforce_axis_alarm_min = -5.000
+// osd_gforce_axis_alarm_max =  5.000
+// osd_imu_temp_alarm_min = -200
+// osd_imu_temp_alarm_max = 600
+// osd_esc_temp_alarm_max = 900
+// osd_esc_temp_alarm_min = -200
+// osd_baro_temp_alarm_min = -200
+// osd_baro_temp_alarm_max = 600
+// osd_snr_alarm = 4
+// osd_link_quality_alarm = 70
+// osd_temp_label_align = LEFT
+// osd_artificial_horizon_reverse_roll = OFF
+// osd_artificial_horizon_max_pitch = 20
+// osd_crosshairs_style = DEFAULT
+// osd_crsf_lq_format = TYPE1
+// osd_horizon_offset = 0
+// osd_camera_uptilt = 0
+// osd_camera_fov_h = 135
+// osd_camera_fov_v = 85
+// osd_hud_margin_h = 3
+// osd_hud_margin_v = 2
+// osd_hud_homing = OFF
+// osd_hud_homepoint = OFF
+// osd_hud_radar_disp = 0
+// osd_hud_radar_range_min = 3
+// osd_hud_radar_range_max = 4000
+// osd_hud_radar_nearest = 0
+// osd_hud_wp_disp = 0
+// osd_left_sidebar_scroll = NONE
+// osd_right_sidebar_scroll = NONE
+// osd_sidebar_scroll_arrows = OFF
+// osd_main_voltage_decimals = 1
+// osd_coordinate_digits = 9
+// osd_estimations_wind_compensation = ON
+// osd_failsafe_switch_layout = OFF
+// osd_plus_code_digits = 11
+// osd_ahi_style = DEFAULT
+// osd_force_grid = OFF
+// osd_ahi_bordered = OFF
+// osd_ahi_width = 132
+// osd_ahi_height = 162
+// osd_ahi_vertical_offset = -18
+// osd_sidebar_horizontal_offset = 0
+// osd_left_sidebar_scroll_step = 0
+// osd_right_sidebar_scroll_step = 0
+// osd_home_position_arm_screen = ON
+
 import { defineComponent } from 'vue'
 
 import Page from '../components/common/Page.vue'
@@ -94,6 +158,8 @@ import String from './osd/String.vue'
 import BoolField from '../components/editors/BoolField.vue'
 
 import DropdownSetting from '../components/editors/DropdownSetting.vue'
+import NumericSetting from '../components/editors/NumericSetting.vue'
+import BoolSetting from '../components/editors/BoolSetting.vue'
 
 import { useCommonCommands } from '../composables/common-commands'
 import { useFont } from '../composables/font'
@@ -120,6 +186,8 @@ export default defineComponent({
     String,
     BoolField,
     DropdownSetting,
+    NumericSetting,
+    BoolSetting,
   },
   setup() {
     const { work, saveSettingsToEeprom} = useCommonCommands()
@@ -193,7 +261,7 @@ export default defineComponent({
   },
   methods: {
     async load() {
-      await this.loadSettings(this.settings)
+      await this.loadSettings(...this.settings)
       this.items = []
       await this.work(async () => {
         const response = await this.$serial.query(new InavOsdLayoutsRequest(this.layout))
@@ -212,74 +280,17 @@ export default defineComponent({
     },
     async save() {
       await this.work(async () => {
-        // await this.saveSettings(this.settings)
+        // await this.saveSettings(...this.settings)
         await this.saveSettingsToEeprom()
         this.$log.info('OSD settings saved.')
       })
     },
     getItemText(index) {
       const item = OSD_ITEM[index] || { format: () => `FIXME${index}` }
-      return item.format({ analog: this.analog })
+      return item.format({ analog: this.analog, settings: this.configuration })
     }
   }
 })
-// osd_video_system = AUTO
-// osd_row_shiftdown = 0
-// osd_units = METRIC
-// osd_stats_energy_unit = MAH
-// osd_rssi_alarm = 30
-// osd_time_alarm = 45
-// osd_alt_alarm = 300
-// osd_dist_alarm = 5000
-// osd_neg_alt_alarm = 5
-// osd_current_alarm = 5
-// osd_gforce_alarm =  5.000
-// osd_gforce_axis_alarm_min = -5.000
-// osd_gforce_axis_alarm_max =  5.000
-// osd_imu_temp_alarm_min = -200
-// osd_imu_temp_alarm_max = 600
-// osd_esc_temp_alarm_max = 900
-// osd_esc_temp_alarm_min = -200
-// osd_baro_temp_alarm_min = -200
-// osd_baro_temp_alarm_max = 600
-// osd_snr_alarm = 4
-// osd_link_quality_alarm = 70
-// osd_temp_label_align = LEFT
-// osd_artificial_horizon_reverse_roll = OFF
-// osd_artificial_horizon_max_pitch = 20
-// osd_crosshairs_style = DEFAULT
-// osd_crsf_lq_format = TYPE1
-// osd_horizon_offset = 0
-// osd_camera_uptilt = 0
-// osd_camera_fov_h = 135
-// osd_camera_fov_v = 85
-// osd_hud_margin_h = 3
-// osd_hud_margin_v = 2
-// osd_hud_homing = OFF
-// osd_hud_homepoint = OFF
-// osd_hud_radar_disp = 0
-// osd_hud_radar_range_min = 3
-// osd_hud_radar_range_max = 4000
-// osd_hud_radar_nearest = 0
-// osd_hud_wp_disp = 0
-// osd_left_sidebar_scroll = NONE
-// osd_right_sidebar_scroll = NONE
-// osd_sidebar_scroll_arrows = OFF
-// osd_main_voltage_decimals = 1
-// osd_coordinate_digits = 9
-// osd_estimations_wind_compensation = ON
-// osd_failsafe_switch_layout = OFF
-// osd_plus_code_digits = 11
-// osd_ahi_style = DEFAULT
-// osd_force_grid = OFF
-// osd_ahi_bordered = OFF
-// osd_ahi_width = 132
-// osd_ahi_height = 162
-// osd_ahi_vertical_offset = -18
-// osd_sidebar_horizontal_offset = 0
-// osd_left_sidebar_scroll_step = 0
-// osd_right_sidebar_scroll_step = 0
-// osd_home_position_arm_screen = ON
 </script>
 
 <style lang="scss" scoped>
