@@ -24,7 +24,10 @@
       </Column>
       <Column width="382px" style="align-self: flex-start; position: sticky; top: 92px;">
         <Panel title="Preview">
-          <DragContainer ref="osd" class="osd-editor" width="360" height="288">
+          <DragContainer ref="osd" class="osd-editor" :style="{
+            width: '352px',
+            height: `${osdEditorHeight}px`,
+          }">
             <DragItem v-for="item in fixedItems" :key="item.index"
               v-model="item.position"
               :fixed="true"
@@ -53,6 +56,7 @@
       </Column>
       <Column>
         <Panel title="Video Format">
+          <DropdownSetting item="osd_video_system" />
         </Panel>
         <Panel title="Settings">
         </Panel>
@@ -89,8 +93,11 @@ import DragItem from '../components/common/DragItem.vue'
 import String from './osd/String.vue'
 import BoolField from '../components/editors/BoolField.vue'
 
+import DropdownSetting from '../components/editors/DropdownSetting.vue'
+
 import { useCommonCommands } from '../composables/common-commands'
 import { useFont } from '../composables/font'
+import { useSettings } from '../composables/settings'
 
 import { InavOsdLayoutsRequest } from '../command/v2/InavOsdLayouts'
 import { AnalogRequest } from '../command/v2/Analog'
@@ -112,16 +119,21 @@ export default defineComponent({
     DragItem,
     String,
     BoolField,
+    DropdownSetting,
   },
   setup() {
     const { work, saveSettingsToEeprom} = useCommonCommands()
     const { font, loadFonts } = useFont()
+    const { load: loadSettings, save: saveSettings, settings: configuration  } = useSettings()
 
     return {
       work,
       saveSettingsToEeprom,
       font,
       loadFonts,
+      configuration,
+      loadSettings,
+      saveSettings,
     }
   },
   data() {
@@ -135,9 +147,17 @@ export default defineComponent({
       dragOrigin: { x: 0, y: 0 },
       dragArea: {},
       analog: {},
+      settings: [],
     }
   },
   computed: {
+    osdEditorHeight() {
+      if (this.configuration['osd_video_system']?.value === 2) {
+        return 234
+      } else {
+        return 288
+      }
+    },
     settingGroups() {
       const result = OSD_GROUP.map(group => ({
         ...group,
@@ -173,6 +193,7 @@ export default defineComponent({
   },
   methods: {
     async load() {
+      await this.loadSettings(this.settings)
       this.items = []
       await this.work(async () => {
         const response = await this.$serial.query(new InavOsdLayoutsRequest(this.layout))
@@ -187,11 +208,11 @@ export default defineComponent({
             : { x: item.column, y: item.line },
           highlight: false,
         }))
-        console.log('this.items', this.items)
       })
     },
     async save() {
       await this.work(async () => {
+        // await this.saveSettings(this.settings)
         await this.saveSettingsToEeprom()
         this.$log.info('OSD settings saved.')
       })
@@ -202,13 +223,68 @@ export default defineComponent({
     }
   }
 })
+// osd_video_system = AUTO
+// osd_row_shiftdown = 0
+// osd_units = METRIC
+// osd_stats_energy_unit = MAH
+// osd_rssi_alarm = 30
+// osd_time_alarm = 45
+// osd_alt_alarm = 300
+// osd_dist_alarm = 5000
+// osd_neg_alt_alarm = 5
+// osd_current_alarm = 5
+// osd_gforce_alarm =  5.000
+// osd_gforce_axis_alarm_min = -5.000
+// osd_gforce_axis_alarm_max =  5.000
+// osd_imu_temp_alarm_min = -200
+// osd_imu_temp_alarm_max = 600
+// osd_esc_temp_alarm_max = 900
+// osd_esc_temp_alarm_min = -200
+// osd_baro_temp_alarm_min = -200
+// osd_baro_temp_alarm_max = 600
+// osd_snr_alarm = 4
+// osd_link_quality_alarm = 70
+// osd_temp_label_align = LEFT
+// osd_artificial_horizon_reverse_roll = OFF
+// osd_artificial_horizon_max_pitch = 20
+// osd_crosshairs_style = DEFAULT
+// osd_crsf_lq_format = TYPE1
+// osd_horizon_offset = 0
+// osd_camera_uptilt = 0
+// osd_camera_fov_h = 135
+// osd_camera_fov_v = 85
+// osd_hud_margin_h = 3
+// osd_hud_margin_v = 2
+// osd_hud_homing = OFF
+// osd_hud_homepoint = OFF
+// osd_hud_radar_disp = 0
+// osd_hud_radar_range_min = 3
+// osd_hud_radar_range_max = 4000
+// osd_hud_radar_nearest = 0
+// osd_hud_wp_disp = 0
+// osd_left_sidebar_scroll = NONE
+// osd_right_sidebar_scroll = NONE
+// osd_sidebar_scroll_arrows = OFF
+// osd_main_voltage_decimals = 1
+// osd_coordinate_digits = 9
+// osd_estimations_wind_compensation = ON
+// osd_failsafe_switch_layout = OFF
+// osd_plus_code_digits = 11
+// osd_ahi_style = DEFAULT
+// osd_force_grid = OFF
+// osd_ahi_bordered = OFF
+// osd_ahi_width = 132
+// osd_ahi_height = 162
+// osd_ahi_vertical_offset = -18
+// osd_sidebar_horizontal_offset = 0
+// osd_left_sidebar_scroll_step = 0
+// osd_right_sidebar_scroll_step = 0
+// osd_home_position_arm_screen = ON
 </script>
 
 <style lang="scss" scoped>
 .osd-editor {
   width: 360px;
-  height: 288px;
-  // aspect-ratio: calc(4/3);
   background: url(./osd/osd-bg-1.jpg) no-repeat;
   background-size: 100%;
 }
@@ -218,3 +294,4 @@ export default defineComponent({
 }
 
 </style>
+

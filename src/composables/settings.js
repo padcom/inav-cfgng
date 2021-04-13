@@ -72,6 +72,6 @@ export function useSettings() {
   return {
     settings: container,
     load: loadSettings,
-    save: saveSettings
+    save: saveSettings,
   }
 }

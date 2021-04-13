@@ -8,5 +8,6 @@
 .drag-container {
   position: relative;
   user-select: none;
+  overflow:hidden;
 }
 </style>
