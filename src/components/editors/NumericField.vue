@@ -20,6 +20,12 @@ export default defineComponent({
   props: {
     label: { type: String, default: '' },
     description: { type: String, default: null },
+  },
+  methods: {
+    update() {
+      console.log('NumericField.update', ...arguments)
+      this.$emit('update:modelValue', ...arguments)
+    }
   }
 })
 </script>

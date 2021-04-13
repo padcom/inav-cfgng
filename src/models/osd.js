@@ -644,21 +644,23 @@ export const OSD_ITEM = {
   [OSD_ELEMENT.CROSSHAIRS]: {
     name: 'Crosshair',
     description: '',
-    position: { x: 13, y: 7 },
+    position: { x: 14, y: 7 },
     format: ({ settings }) => {
       switch (settings['osd_crosshairs_style']?.value) {
         case 1:
-          return '#403#404#405'
+          return '#219#220#221'
         case 2:
-          return '#406#407#408'
-        case 3:
-          return '#409#410#411'
-        case 4:
-          return '#412#413#414'
-        case 5:
-          return '#415#416#417'
-        default:
           return '#400#401#402'
+        case 3:
+          return '#403#404#405'
+        case 4:
+          return '#406#407#408'
+        case 5:
+          return '#409#410#411'
+        case 6:
+          return '#412#413#414'
+        default:
+          return '#038#126#039'
       }
     },
   },
@@ -666,7 +668,7 @@ export const OSD_ITEM = {
     name: 'Artificial horizon',
     description: '',
     position: { x: 10, y: 7 },
-    format: () => '#045#045#045   #045#045#045',
+    format: () => '#045#045#045#045   #045#045#045#045',
   },
   [OSD_ELEMENT.HORIZON_SIDEBARS]: {
     name: 'Horizon sidebars',

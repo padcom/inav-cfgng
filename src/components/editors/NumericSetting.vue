@@ -6,6 +6,7 @@
     :max="settings[item].max"
     :title="settings[item].description"
     :description="settings[item].description"
+    @update:modelValue="save"
   >
     <slot />
   </NumericField>
@@ -26,14 +27,23 @@ export default defineComponent({
   },
   props: {
     item: { type: String, required: true },
+    autosave: { type: Boolean, default: false },
   },
   setup() {
-    const { settings } = useSettings()
+    const { settings, saveSetting } = useSettings()
     const page = useCurrentPage()
-    return { settings, page }
+    return { settings, saveSetting, page }
   },
   created() {
     this.page?.data?.settings.push(this.item)
-  }
+  },
+  methods: {
+    save() {
+      console.log('NumericSetting.update', ...arguments)
+      if (this.autosave) {
+        this.saveSetting(this.item)
+      }
+    }
+  },
 })
 </script>

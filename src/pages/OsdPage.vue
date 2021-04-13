@@ -19,13 +19,14 @@
             :highlight="item.highlight"
             @mouseenter="item.highlight = true"
             @mouseleave="item.highlight = false"
+            @update:modelValue="saveItem(item)"
           />
         </Panel>
       </Column>
       <Column width="382px" style="align-self: flex-start; position: sticky; top: 92px;">
         <Panel title="Preview">
           <DragContainer ref="osd" class="osd-editor" :style="{
-            width: '352px',
+            width: '360px',
             height: `${osdEditorHeight}px`,
           }">
             <DragItem v-for="item in fixedItems" :key="item.index"
@@ -48,6 +49,7 @@
               :title="JSON.stringify(item)"
               @mouseenter="item.highlight = true"
               @mouseleave="item.highlight = false"
+              @update:modelValue="saveItem(item)"
             >
               <String :value="getItemText(item.index)" />
             </DragItem>
@@ -56,46 +58,45 @@
       </Column>
       <Column>
         <Panel title="Settings">
-          <DropdownSetting item="osd_video_system" label="Video Format" />
-          <DropdownSetting item="osd_units" label="Units" />
-          <NumericSetting item="osd_main_voltage_decimals" label="Voltage Decimals" />
-          <NumericSetting item="osd_plus_code_digits" label="Plus Code Digits" />
-          <DropdownSetting item="osd_crosshairs_style" label="Crosshair Style" />
-          <DropdownSetting item="osd_left_sidebar_scroll" label="Left Sidebar Scroll" />
-          <DropdownSetting item="osd_right_sidebar_scroll" label="Right Sidebar Scroll" />
-          <DropdownSetting item="osd_crsf_lq_format" label="Crossfire LQ Format" />
-          <BoolSetting item="osd_sidebar_scroll_arrows" label="Sidebar Scroll Arrows" />
+          <DropdownSetting item="osd_video_system" label="Video Format" :autosave="true" />
+          <DropdownSetting item="osd_units" label="Units" :autosave="true" />
+          <NumericSetting item="osd_main_voltage_decimals" label="Voltage Decimals" :autosave="true" />
+          <NumericSetting item="osd_plus_code_digits" label="Plus Code Digits" :autosave="true" />
+          <DropdownSetting item="osd_crosshairs_style" label="Crosshair Style" :autosave="true" />
+          <DropdownSetting item="osd_left_sidebar_scroll" label="Left Sidebar Scroll" :autosave="true" />
+          <DropdownSetting item="osd_right_sidebar_scroll" label="Right Sidebar Scroll" :autosave="true" />
+          <DropdownSetting item="osd_crsf_lq_format" label="Crossfire LQ Format" :autosave="true" />
+          <BoolSetting item="osd_sidebar_scroll_arrows" label="Sidebar Scroll Arrows" :autosave="true" />
         </Panel>
         <Panel title="Alarms">
-          <NumericSetting item="osd_rssi_alarm" label="RSSI (%)" />
-          <NumericSetting item="osd_time_alarm" label="Fly Time (minutes)" />
-          <NumericSetting item="osd_alt_alarm" label="Altitude (meters)" />
-          <NumericSetting item="osd_neg_alt_alarm" label="Negative Altitude (meters)" />
-          <NumericSetting item="osd_dist_alarm" label="Distance (meters)" />
-          <NumericSetting item="osd_gforce_alarm" label="g force" />
-          <NumericSetting item="osd_gforce_axis_alarm_min" label="g force axis min" />
-          <NumericSetting item="osd_gforce_axis_alarm_max" label="g force axis max" />
-          <NumericSetting item="osd_current_alarm" label="Current (A)" />
-          <NumericSetting item="osd_imu_temp_alarm_min" :scale="10" label="Minimum IMU temperature" />
-          <NumericSetting item="osd_imu_temp_alarm_max" :scale="10" label="Maximum IMU temperature" />
-          <NumericSetting item="osd_baro_temp_alarm_min" :scale="10" label="Minimum baro temperature" />
-          <NumericSetting item="osd_baro_temp_alarm_max" :scale="10" label="Maximum baro temperature" />
-          <NumericSetting item="osd_esc_temp_alarm_min" :scale="10" label="Minimum ESC temperature" />
-          <NumericSetting item="osd_esc_temp_alarm_max" :scale="10" label="Maximum ESC temperature" />
-          <NumericSetting item="osd_snr_alarm" label="Crossfire SNR Alarm Level" />
-          <NumericSetting item="osd_link_quality_alarm" label="Crossfire Link Quality Alarm" />
+          <NumericSetting item="osd_rssi_alarm" label="RSSI (%)" :autosave="true" />
+          <NumericSetting item="osd_time_alarm" label="Fly Time (minutes)" :autosave="true" />
+          <NumericSetting item="osd_alt_alarm" label="Altitude (meters)" :autosave="true" />
+          <NumericSetting item="osd_neg_alt_alarm" label="Negative Altitude (meters)" :autosave="true" />
+          <NumericSetting item="osd_dist_alarm" label="Distance (meters)" :autosave="true" />
+          <NumericSetting item="osd_gforce_alarm" label="g force" :autosave="true" />
+          <NumericSetting item="osd_gforce_axis_alarm_min" label="g force axis min" :autosave="true" />
+          <NumericSetting item="osd_gforce_axis_alarm_max" label="g force axis max" :autosave="true" />
+          <NumericSetting item="osd_current_alarm" label="Current (A)" :autosave="true" />
+          <NumericSetting item="osd_imu_temp_alarm_min" :scale="10" label="Minimum IMU temperature" :autosave="true" />
+          <NumericSetting item="osd_imu_temp_alarm_max" :scale="10" label="Maximum IMU temperature" :autosave="true" />
+          <NumericSetting item="osd_baro_temp_alarm_min" :scale="10" label="Minimum baro temperature" :autosave="true" />
+          <NumericSetting item="osd_baro_temp_alarm_max" :scale="10" label="Maximum baro temperature" :autosave="true" />
+          <NumericSetting item="osd_esc_temp_alarm_min" :scale="10" label="Minimum ESC temperature" :autosave="true" />
+          <NumericSetting item="osd_esc_temp_alarm_max" :scale="10" label="Maximum ESC temperature" :autosave="true" />
+          <NumericSetting item="osd_snr_alarm" label="Crossfire SNR Alarm Level" :autosave="true" />
+          <NumericSetting item="osd_link_quality_alarm" label="Crossfire Link Quality Alarm" :autosave="true" />
         </Panel>
       </Column>
     </Row>
   </Page>
 
-  <div v-if="false">
+  <div v-if="true">
     <img v-for="char in FONT" :key="char" :src="`images/font/${char}.png`" :title="char" />
   </div>
 
   <Actions>
     <button class="action" @click="manageFont">Font manager</button>
-    <button class="action" @click="load">Reload</button>
     <button class="action" @click="save">Save</button>
   </Actions>
 </template>
@@ -125,6 +126,7 @@ import { useFont } from '../composables/font'
 import { useSettings } from '../composables/settings'
 
 import { InavOsdLayoutsRequest } from '../command/v2/InavOsdLayouts'
+import { InavOsdSetLayoutItemRequest } from '../command/v2/InavOsdSetLayoutItem'
 import { AnalogRequest } from '../command/v2/Analog'
 
 import { FONT } from '../models/font'
@@ -151,16 +153,15 @@ export default defineComponent({
   setup() {
     const { work, saveSettingsToEeprom} = useCommonCommands()
     const { font, loadFonts } = useFont()
-    const { load: loadSettings, save: saveSettings, settings: configuration  } = useSettings()
+    const { load: loadSettings, settings: configuration  } = useSettings()
 
     return {
       work,
       saveSettingsToEeprom,
+      loadSettings,
+      configuration,
       font,
       loadFonts,
-      configuration,
-      loadSettings,
-      saveSettings,
     }
   },
   data() {
@@ -245,7 +246,6 @@ export default defineComponent({
     },
     async save() {
       await this.work(async () => {
-        // await this.saveSettings(...this.settings)
         await this.saveSettingsToEeprom()
         this.$log.info('OSD settings saved.')
       })
@@ -253,6 +253,18 @@ export default defineComponent({
     getItemText(index) {
       const item = OSD_ITEM[index] || { format: () => `FIXME${index}` }
       return item.format({ analog: this.analog, settings: this.configuration })
+    },
+    saveItem(item) {
+      this.work(async () => {
+        const request = new InavOsdSetLayoutItemRequest(
+          this.layout,
+          item.index,
+          item.isVisible,
+          item.position.x,
+          item.position.y,
+        )
+        await this.$serial.query(request)
+      })
     }
   }
 })
@@ -260,7 +272,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .osd-editor {
-  width: 360px;
   background: url(./osd/osd-bg-1.jpg) no-repeat;
   background-size: 100%;
 }
@@ -270,4 +281,3 @@ export default defineComponent({
 }
 
 </style>
-

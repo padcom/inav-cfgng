@@ -4,6 +4,7 @@
     v-model.number="settings[item].value"
     :options="options || settings[item].values"
     :description="settings[item].description"
+    @update:modelValue="save"
   >
     <slot />
   </DropdownField>
@@ -24,14 +25,22 @@ export default defineComponent({
   props: {
     item: { type: String, required: true },
     options: { type: Array, default: null },
+    autosave: { type: Boolean, default: false },
   },
   setup() {
-    const { settings } = useSettings()
+    const { settings, saveSetting } = useSettings()
     const page = useCurrentPage()
-    return { settings, page }
+    return { settings, saveSetting, page }
   },
   created() {
     this.page?.data?.settings.push(this.item)
-  }
+  },
+  methods: {
+    save() {
+      if (this.autosave) {
+        this.saveSetting(this.item)
+      }
+    }
+  },
 })
 </script>

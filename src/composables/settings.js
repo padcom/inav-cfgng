@@ -48,6 +48,25 @@ async function loadSettings(...items) {
   }
 }
 
+async function saveSetting(item) {
+  log.info('Saving setting', item)
+  const scheduler = useTaskScheduler()
+  const serial = useSerialPort()
+  const settings = container.value
+
+  try {
+    await scheduler.pause()
+    const setting = settings[item]
+    await serial.query(new CommonSetSettingRequest(setting.name, setting.type, setting.value))
+    log.info('Setting', item, 'saved.')
+  } catch (e) {
+    log.error('Error while saving settings', e)
+    throw e
+  } finally {
+    await scheduler.resume()
+  }
+}
+
 async function saveSettings(...items) {
   log.info('Saving settings', items.join(', '))
   const scheduler = useTaskScheduler()
@@ -74,5 +93,6 @@ export function useSettings() {
     settings: container,
     load: loadSettings,
     save: saveSettings,
+    saveSetting,
   }
 }
