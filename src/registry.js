@@ -37,6 +37,7 @@ import * as LogicConditionsStatus from './command/v2/LogicConditionsStatus'
 import * as AnalogV2 from './command/v2/Analog'
 import * as InavOsdLayouts from './command/v2/InavOsdLayouts'
 import * as InavOsdSetLayoutItem from './command/v2/InavOsdSetLayoutItem'
+import * as InavMixer from './command/v2/InavMixer'
 
 
 export const registry = new Registry()
@@ -79,3 +80,4 @@ registry.registerMSPv2Command(LogicConditionsStatus)
 registry.registerMSPv2Command(AnalogV2)
 registry.registerMSPv2Command(InavOsdLayouts)
 registry.registerMSPv2Command(InavOsdSetLayoutItem)
+registry.registerMSPv2Command(InavMixer)
