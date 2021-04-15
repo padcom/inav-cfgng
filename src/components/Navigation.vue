@@ -1,10 +1,17 @@
 <template>
   <div class="navigation">
     <ul>
-      <li class="navitem">
+      <li v-if="!isSerialReady" class="navitem">
         <router-link to="/">
           <img class="icon" src="./navigation/cf_icon_welcome_white.svg">
           <div class="title">Welcome</div>
+        </router-link>
+      </li>
+
+      <li v-if="isSerialReady" class="navitem">
+        <router-link to="/outputs">
+          <img class="icon" src="./navigation/cf_icon_motor_white.svg">
+          <div class="title">Outputs</div>
         </router-link>
       </li>
 

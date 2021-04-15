@@ -54,6 +54,8 @@ export default defineComponent({
     if (fcVariant !== 'INAV' || fcVersion !== this.version) {
       this.$serial.close()
       this.$refs.wrongVersionDialog.showModal()
+    } else {
+      this.$router.push('/outputs')
     }
   },
   async onSerialClose() {
