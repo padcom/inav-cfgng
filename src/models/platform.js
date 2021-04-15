@@ -1,44 +1,47 @@
-export const PLATFORM = [
-  {
-    id: 0,
+export const PLATFORM_TYPE = {
+  MULTIROTOR: 0,
+  AIRPLANE  : 1,
+  HELICOPTER: 2,
+  TRICOPTER : 3,
+  ROVER     : 4,
+  BOAT      : 5,
+  OTHER     : 6,
+}
+
+export const PLATFORM = {
+  [PLATFORM_TYPE.MULTIROTOR]: {
     name: 'Multirotor',
     enabled: true,
     flapsPossible: false
   },
-  {
-    id: 1,
+  [PLATFORM_TYPE.AIRPLANE]: {
     name: 'Airplane',
     enabled: true,
     flapsPossible: true
   },
-  {
-    id: 2,
+  [PLATFORM_TYPE.HELICOPTER]: {
     name: 'Helicopter',
     enabled: false,
     flapsPossible: false
   },
-  {
-    id: 3,
+  [PLATFORM_TYPE.TRICOPTER]: {
     name: 'Tricopter',
     enabled: true,
     flapsPossible: false
   },
-  {
-    id: 4,
+  [PLATFORM_TYPE.ROVER]: {
     name: 'Rover',
     enabled: true,
     flapsPossible: false
   },
-  {
-    id: 5,
+  [PLATFORM_TYPE.BOAT]: {
     name: 'Boat',
     enabled: true,
     flapsPossible: false
   },
-  {
-    id: 6,
+  [PLATFORM_TYPE.OTHER]: {
     name: 'Other',
     enabled: true,
     flapsPossible: false
   }
-]
+}

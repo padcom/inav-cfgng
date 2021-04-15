@@ -24,6 +24,7 @@ import * as SetModeRange from './command/v1/SetModeRange'
 import * as AdjustmentRanges from './command/v1/AdjustmentRanges'
 import * as SetAdjustmentRange from './command/v1/SetAdjustmentRange'
 import * as OsdCharWrite from './command/v1/OsdCharWrite'
+import * as ServoConfigurations from './command/v1/ServoConfigurations'
 
 import * as CommonSerialConfig from './command/v2/CommonSerialConfig'
 import * as CommonSetSerialConfig from './command/v2/CommonSetSerialConfig'
@@ -38,6 +39,8 @@ import * as AnalogV2 from './command/v2/Analog'
 import * as InavOsdLayouts from './command/v2/InavOsdLayouts'
 import * as InavOsdSetLayoutItem from './command/v2/InavOsdSetLayoutItem'
 import * as InavMixer from './command/v2/InavMixer'
+import * as CommonMotorMixer from './command/v2/CommonMotorMixer'
+import * as CommonServoMixer from './command/v2/InavServoMixer'
 
 
 export const registry = new Registry()
@@ -67,6 +70,7 @@ registry.registerMSPv1Command(SetModeRange)
 registry.registerMSPv1Command(AdjustmentRanges)
 registry.registerMSPv1Command(SetAdjustmentRange)
 registry.registerMSPv1Command(OsdCharWrite)
+registry.registerMSPv1Command(ServoConfigurations)
 
 registry.registerMSPv2Command(CommonSerialConfig)
 registry.registerMSPv2Command(CommonSetSerialConfig)
@@ -81,3 +85,5 @@ registry.registerMSPv2Command(AnalogV2)
 registry.registerMSPv2Command(InavOsdLayouts)
 registry.registerMSPv2Command(InavOsdSetLayoutItem)
 registry.registerMSPv2Command(InavMixer)
+registry.registerMSPv2Command(CommonMotorMixer)
+registry.registerMSPv2Command(CommonServoMixer)
