@@ -56,6 +56,7 @@ export default defineComponent({
   overflow-x: auto;
   overflow-y: scroll;
   color: #989898;
+  box-shadow: inset 0 0 15px #000000;
 }
 .log {
   display: flex;

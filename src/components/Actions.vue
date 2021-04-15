@@ -28,6 +28,7 @@ export default defineComponent({
   margin-top: auto;
   background-color: #EFEFEF;
   border-top: solid 1px lightgray;
+  box-shadow: rgba(0, 0, 0, 0.10) 0 -3px 8px;
 }
 
 .left {

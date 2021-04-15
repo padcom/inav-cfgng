@@ -1,13 +1,12 @@
 <template>
   <Page>
-    <PageHeader>Outputs</PageHeader>
+    <PageHeader>Mixers</PageHeader>
     <Row>
     </Row>
   </Page>
 
   <Actions>
     <button class="action" @click="saveAndReboot">Save and reboot</button>
-    <button class="action" @click="save">Save</button>
   </Actions>
 </template>
 
@@ -23,7 +22,7 @@ import Actions from '../components/Actions.vue'
 import { useCommonCommands } from '../composables/common-commands'
 
 export default defineComponent({
-  name: 'OutputsPage',
+  name: 'MixersPage',
   components: {
     Page,
     PageHeader,

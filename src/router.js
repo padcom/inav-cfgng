@@ -9,6 +9,7 @@ import ModesPage from './pages/ModesPage.vue'
 import AdjustmentsPage from './pages/AdjustmentsPage.vue'
 import ProgrammingPage from './pages/ProgrammingPage.vue'
 import OsdPage from './pages/OsdPage.vue'
+import MixerPage from './pages/MixerPage.vue'
 import OutputsPage from './pages/OutputsPage.vue'
 
 export const router = createRouter({
@@ -23,6 +24,7 @@ export const router = createRouter({
     { path: '/adjustments', component: AdjustmentsPage },
     { path: '/programming', component: ProgrammingPage },
     { path: '/osd', component: OsdPage },
+    { path: '/mixer', component: MixerPage },
     { path: '/outputs', component: OutputsPage },
   ]
 })

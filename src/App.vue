@@ -55,7 +55,7 @@ export default defineComponent({
       this.$serial.close()
       this.$refs.wrongVersionDialog.showModal()
     } else {
-      this.$router.push('/outputs')
+      this.$router.push('/mixer')
     }
   },
   async onSerialClose() {

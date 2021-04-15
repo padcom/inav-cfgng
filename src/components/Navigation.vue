@@ -9,6 +9,15 @@
       </li>
 
       <li v-if="isSerialReady" class="navitem">
+        <router-link to="/mixer">
+          <img class="icon" src="./navigation/cf_icon_mixer_white.svg">
+          <div class="title">Mixer</div>
+        </router-link>
+      </li>
+
+      <div class="divider" />
+
+      <li v-if="isSerialReady" class="navitem">
         <router-link to="/outputs">
           <img class="icon" src="./navigation/cf_icon_motor_white.svg">
           <div class="title">Outputs</div>
