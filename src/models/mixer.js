@@ -9,7 +9,7 @@ export class MotorMixRule {
   }
 
   get isUsed() {
-    return this.throttle !== 0
+    return this.throttle != 0
   }
 }
 
@@ -23,7 +23,7 @@ export class ServoMixRule {
   }
 
   get isUsed() {
-    return this.rate !== 0
+    return this.rate != 0
   }
 }
 

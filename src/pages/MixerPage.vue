@@ -25,23 +25,69 @@
         <table class="outputs">
           <tr>
             <th>Output</th>
-            <td v-for="output in outputs">{{ output.name }}</td>
+            <td v-for="output in outputs" :key="output.name">
+              {{ output.name }}
+            </td>
           </tr>
           <tr>
             <th>Function</th>
-            <td v-for="output in outputs">{{ output.function }}</td>
+            <td v-for="output in outputs" :key="output.name">
+              {{ output.function }}
+            </td>
           </tr>
         </table>
       </Panel>
     </Row>
     <Row>
       <Panel title="Motor Mixer">
-        {{ motorMixers }}
+        <table class="mixers">
+          <thead>
+            <tr>
+              <th style="width: 70px;">Motor</th>
+              <th>Throttle [T]</th>
+              <th>Roll [A]</th>
+              <th>Pitch [E]</th>
+              <th>Yaw [R]</th>
+              <th style="width: 70px;" />
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(mixer, index) in motorMixers" :key="mixer.id">
+              <td style="text-align: center;">{{ index + 1 }}</td>
+              <td>{{ mixer.throttle }}</td>
+              <td>{{ mixer.roll }}</td>
+              <td>{{ mixer.pitch }}</td>
+              <td>{{ mixer.yaw }}</td>
+              <td><button @click="deleteMotorMixer(index, mixer)">Delete</button></td>
+            </tr>
+          </tbody>
+        </table>
       </Panel>
     </Row>
     <Row>
       <Panel title="Servo mixer">
-        {{ servoMixers }}
+        <table class="mixers">
+          <thead>
+            <tr>
+              <th style="width: 70px">Servo</th>
+              <th>Input</th>
+              <th>Weight (%)</th>
+              <th>Speed (10µs/s)</th>
+              <th>Active</th>
+              <th style="width: 70px">Servo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="mixer in servoMixers" :key="mixer.id">
+              <td>{{ mixer.target }}</td>
+              <td>{{ mixer.input }}</td>
+              <td>{{ mixer.rate }}</td>
+              <td>{{ mixer.speed }}</td>
+              <td>{{ mixer.condition }}</td>
+              <td><button @click="deleteServoMixer(index, mixer)">Delete</button></td>
+            </tr>
+          </tbody>
+        </table>
       </Panel>
     </Row>
   </Page>
@@ -52,6 +98,7 @@
 </template>
 
 <script>
+import { v4 as uuid } from 'uuid'
 import { defineComponent } from 'vue'
 
 import Page from '../components/common/Page.vue'
@@ -201,7 +248,10 @@ export default defineComponent({
       await this.work(async () => {
         const response = await this.$serial.query(new CommonMotorMixerRequest())
         console.log(response)
-        this.motorMixers = response.mixers
+        this.motorMixers = response.mixers.map(mixer => ({
+          id: uuid(),
+          ...mixer,
+        }))
       })
     },
     async loadServoMixers() {
@@ -271,6 +321,28 @@ table.outputs {
   th, td {
     border: solid 1px #F9F9F9;
     font-weight: bold;
+  }
+}
+
+table.mixers {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+
+  tr {
+    background-color: #F9F9F9;
+  }
+  tr:nth-of-type(even) {
+    background-color: #EBE7E7;
+  }
+
+  th {
+    background-color: #828885;
+    color: white;
+  }
+  td, th {
+    padding: 10px 12px;
+    border-left: solid 1px #F9F9F9;
   }
 }
 </style>

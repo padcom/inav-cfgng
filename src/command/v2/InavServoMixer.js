@@ -20,11 +20,11 @@ export class InavServoMixerResponse extends Response {
     const result = []
     for (let i = 0; i < this.count; i++) {
       result.push(new ServoMixRule(
-        this.getInt8(i),
-        this.getInt8(i + 1),
-        this.getInt16(i + 2, true),
-        this.getInt8(i + 4),
-        this.getInt8(i + 5)
+        this.getInt8(i * 6),
+        this.getInt8(i * 6 + 1),
+        this.getInt16(i * 6 + 2, true),
+        this.getInt8(i * 6 + 4),
+        this.getInt8(i * 6 + 5)
       ))
     }
 

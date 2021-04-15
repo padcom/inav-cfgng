@@ -20,10 +20,10 @@ export class CommonMotorMixerResponse extends Response {
     const result = []
     for (let i = 0; i < this.count; i++) {
       result.push(new MotorMixRule(
-        this.getUint16(i, true) / 1000,
-        (this.getUint16(i + 2, true) / 1000) - 2,
-        (this.getUint16(i + 4, true) / 1000) - 2,
-        (this.getUint16(i + 6, true) / 1000) - 2
+        (this.getUint16(i * 8, true) / 1000),
+        (this.getUint16(i * 8 + 2, true) / 1000) - 2,
+        (this.getUint16(i * 8 + 4, true) / 1000) - 2,
+        (this.getUint16(i * 8 + 6, true) / 1000) - 2
       ))
     }
 
