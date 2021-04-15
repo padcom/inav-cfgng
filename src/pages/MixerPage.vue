@@ -13,7 +13,7 @@
             <img :src="`images/mixers/${mixerImage}.svg`" height="150" />
             <Dropdown class="mixer-type" v-model.number="mixerType" :options="mixerTypes" />
           </Row>
-          <Row class="mixer-actions">
+          <Row class="panel-actions">
             <button class="action" @click="loadAndApplyMixerTemplate">Load and apply</button>
             <button class="action" @click="loadMixerTemplate">Load mixer</button>
           </Row>
@@ -22,14 +22,26 @@
     </Row>
     <Row>
       <Panel title="Output Mapping">
+        <table class="outputs">
+          <tr>
+            <th>Output</th>
+            <td v-for="output in outputs">{{ output.name }}</td>
+          </tr>
+          <tr>
+            <th>Function</th>
+            <td v-for="output in outputs">{{ output.function }}</td>
+          </tr>
+        </table>
       </Panel>
     </Row>
     <Row>
       <Panel title="Motor Mixer">
+        {{ motorMixers }}
       </Panel>
     </Row>
     <Row>
       <Panel title="Servo mixer">
+        {{ servoMixers }}
       </Panel>
     </Row>
   </Page>
@@ -59,6 +71,7 @@ import { PLATFORM } from '../models/platform'
 import { MIXER } from '../models/mixer'
 
 import { InavMixerRequest } from '../command/v2/InavMixer'
+import { InavOutputMappingRequest, OUTPUT_TYPE_FLAG } from '../command/v2/InavOutputMapping'
 import { CommonMotorMixerRequest } from '../command/v2/CommonMotorMixer'
 import { InavServoMixerRequest } from '../command/v2/InavServoMixer'
 
@@ -84,10 +97,13 @@ export default defineComponent({
   data() {
     return {
       platformType: 0,
+      savedPlatformType: 0,
       mixerType: 0,
       numberOfMotors: 0,
       numberOfServos: 0,
       outputMappings: [],
+      mrTimerMap: [],
+      fwTimerMap: [],
       motorMixers: [],
       servoMixers: [],
     }
@@ -104,6 +120,9 @@ export default defineComponent({
     platform() {
       return PLATFORM[this.platformType]
     },
+    savedPlatform() {
+      return PLATFORM[this.savedPlatformType]
+    },
     mixers() {
       return MIXER
         .filter(mixer => mixer.platform === this.platformType)
@@ -117,6 +136,26 @@ export default defineComponent({
     },
     mixerImage() {
       return this.mixer?.image || 'custom'
+    },
+    timerMap() {
+      return this.savedPlatform.isMultirotor ? this.mrTimerMap : this.fwTimerMap
+    },
+    outputs() {
+      const result = []
+      const servos = this.servoMixers.map(mixer => mixer.target + 1).uniq()
+      const motors = this.motorMixers.map((mixer, index) => index + 1)
+      for (let i = 0; i < this.timerMap.length; i++) {
+        if ((this.timerMap[i] & OUTPUT_TYPE_FLAG.SERVO) && (servos.length > 0)) {
+          result.push({ name: `S${i + 1}`, function: 'Servo ' + servos[0] })
+          servos.shift()
+        } else if ((this.timerMap[i] & OUTPUT_TYPE_FLAG.MOTOR) && (motors.length > 0)) {
+          result.push({ name: `S${i + 1}`, function: 'Motor ' + motors[0] })
+          motors.shift()
+        } else {
+          result.push({ name: `S${i + 1}`, function: '-' })
+        }
+      }
+      return result
     }
   },
   watch: {
@@ -136,10 +175,26 @@ export default defineComponent({
     async loadMainSettings() {
       await this.work(async () => {
         const response = await this.$serial.query(new InavMixerRequest())
+        console.log(response.toString())
         this.platformType = response.platformType
-        this.mixerType = response.appliedMixerPreset
+        this.savedPlatformType = response.platformType
         this.numberOfMotors = response.numberOfMotors
         this.numberOfServos = response.numberOfServos
+        // this is due to synchronization of this.platformType and this.mixerType
+        this.$nextTick(() => {
+          this.$nextTick(() => {
+            this.mixerType = response.appliedMixerPreset
+          })
+        })
+      })
+    },
+    async loadOutputMapping() {
+      await this.work(async () => {
+        const response = await this.$serial.query(new InavOutputMappingRequest())
+        console.log(response)
+        this.outputMappings = response.mappings
+        this.mrTimerMap = response.mrTimerMap
+        this.fwTimerMap = response.fwTimerMap
       })
     },
     async loadMotorMixers() {
@@ -157,6 +212,7 @@ export default defineComponent({
       })
     },
     async load() {
+      await this.loadOutputMapping()
       await this.loadMainSettings()
       await this.loadMotorMixers()
       await this.loadServoMixers()
@@ -192,8 +248,29 @@ export default defineComponent({
   margin-left: 24px;
 }
 
-.mixer-actions {
+.panel-actions {
   flex-direction: row;
   justify-content: flex-end;
+}
+
+table.outputs {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+
+  th {
+    text-align: left;
+    background-color: gray;
+    color: white;
+    padding: 6px 12px;
+  }
+  td {
+    text-align: center;
+    background-color: #EBE7E7;
+  }
+  th, td {
+    border: solid 1px #F9F9F9;
+    font-weight: bold;
+  }
 }
 </style>

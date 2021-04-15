@@ -7,6 +7,10 @@ export class MotorMixRule {
     this.pitch = pitch
     this.yaw = yaw
   }
+
+  get isUsed() {
+    return this.throttle !== 0
+  }
 }
 
 export class ServoMixRule {
@@ -16,6 +20,10 @@ export class ServoMixRule {
     this.rate = rate
     this.speed = speed
     this.condition = condition
+  }
+
+  get isUsed() {
+    return this.rate !== 0
   }
 }
 
@@ -64,9 +72,9 @@ export const MIXER = [
     legacy: true,
     platform: PLATFORM_TYPE.TRICOPTER,
     motorMixer: [
-      new MotorMixRule(1.0, 0.0, 1.333333, 0.0),     // REAR
-      new MotorMixRule(1.0, -1.0, -0.666667, 0.0),   // RIGHT
-      new MotorMixRule(1.0, 1.0, -0.666667, 0.0),    // LEFT
+      new MotorMixRule(1.0, 0.0, 1.333333, 0.0),        // REAR
+      new MotorMixRule(1.0, -1.0, -0.666667, 0.0),      // RIGHT
+      new MotorMixRule(1.0, 1.0, -0.666667, 0.0),       // LEFT
     ],
     servoMixer: [
       new ServoMixRule(SERVO.RUDDER, INPUT.STABILIZED_YAW, 100, 0),
@@ -81,10 +89,10 @@ export const MIXER = [
     legacy: true,
     platform: PLATFORM_TYPE.MULTIROTOR,
     motorMixer: [
-      new MotorMixRule(1.0, -1.0, 1.0, -1.0),          // REAR_R
-      new MotorMixRule(1.0, -1.0, -1.0, 1.0),          // FRONT_R
-      new MotorMixRule(1.0, 1.0, 1.0, 1.0),            // REAR_L
-      new MotorMixRule(1.0, 1.0, -1.0, -1.0),          // FRONT_L
+      new MotorMixRule(1.0, -1.0, 1.0, -1.0),           // REAR_R
+      new MotorMixRule(1.0, -1.0, -1.0, 1.0),           // FRONT_R
+      new MotorMixRule(1.0, 1.0, 1.0, 1.0),             // REAR_L
+      new MotorMixRule(1.0, 1.0, -1.0, -1.0),           // FRONT_L
     ],
     servoMixer: []
   },
@@ -97,10 +105,10 @@ export const MIXER = [
     legacy: true,
     platform: PLATFORM_TYPE.MULTIROTOR,
     motorMixer: [
-      new MotorMixRule(1.0, 0.0, 1.0, -1.0),          // REAR
-      new MotorMixRule(1.0, -1.0, 0.0, 1.0),          // RIGHT
-      new MotorMixRule(1.0, 1.0, 0.0, 1.0),           // LEFT
-      new MotorMixRule(1.0, 0.0, -1.0, -1.0),         // FRONT
+      new MotorMixRule(1.0, 0.0, 1.0, -1.0),            // REAR
+      new MotorMixRule(1.0, -1.0, 0.0, 1.0),            // RIGHT
+      new MotorMixRule(1.0, 1.0, 0.0, 1.0),             // LEFT
+      new MotorMixRule(1.0, 0.0, -1.0, -1.0),           // FRONT
     ],
     servoMixer: []
   },
@@ -135,12 +143,12 @@ export const MIXER = [
     legacy: true,
     platform: PLATFORM_TYPE.MULTIROTOR,
     motorMixer: [
-      new MotorMixRule(1.0, 0.0, 1.333333, 1.0),      // REAR
-      new MotorMixRule(1.0, -1.0, -0.666667, -1.0),   // RIGHT
-      new MotorMixRule(1.0, 1.0, -0.666667, -1.0),    // LEFT
-      new MotorMixRule(1.0, 0.0, 1.333333, -1.0),     // UNDER_REAR
-      new MotorMixRule(1.0, -1.0, -0.666667, 1.0),    // UNDER_RIGHT
-      new MotorMixRule(1.0, 1.0, -0.666667, 1.0),     // UNDER_LEFT
+      new MotorMixRule(1.0, 0.0, 1.333333, 1.0),        // REAR
+      new MotorMixRule(1.0, -1.0, -0.666667, -1.0),     // RIGHT
+      new MotorMixRule(1.0, 1.0, -0.666667, -1.0),      // LEFT
+      new MotorMixRule(1.0, 0.0, 1.333333, -1.0),       // UNDER_REAR
+      new MotorMixRule(1.0, -1.0, -0.666667, 1.0),      // UNDER_RIGHT
+      new MotorMixRule(1.0, 1.0, -0.666667, 1.0),       // UNDER_LEFT
     ],
     servoMixer: []
   },
@@ -153,12 +161,12 @@ export const MIXER = [
     legacy: true,
     platform: PLATFORM_TYPE.MULTIROTOR,
     motorMixer: [
-      new MotorMixRule(1.0, -0.866025, 0.5, 1.0),     // REAR_R
-      new MotorMixRule(1.0, -0.866025, -0.5, -1.0),   // FRONT_R
-      new MotorMixRule(1.0, 0.866025, 0.5, 1.0),      // REAR_L
-      new MotorMixRule(1.0, 0.866025, -0.5, -1.0),    // FRONT_L
-      new MotorMixRule(1.0, 0.0, -1.0, 1.0),          // FRONT
-      new MotorMixRule(1.0, 0.0, 1.0, -1.0),          // REAR
+      new MotorMixRule(1.0, -0.866025, 0.5, 1.0),       // REAR_R
+      new MotorMixRule(1.0, -0.866025, -0.5, -1.0),     // FRONT_R
+      new MotorMixRule(1.0, 0.866025, 0.5, 1.0),        // REAR_L
+      new MotorMixRule(1.0, 0.866025, -0.5, -1.0),      // FRONT_L
+      new MotorMixRule(1.0, 0.0, -1.0, 1.0),            // FRONT
+      new MotorMixRule(1.0, 0.0, 1.0, -1.0),            // REAR
     ],
     servoMixer: []
   },
@@ -209,10 +217,10 @@ export const MIXER = [
     legacy: true,
     platform: PLATFORM_TYPE.MULTIROTOR,
     motorMixer: [
-      new MotorMixRule(1.0, 0.0, 1.0, -1.0),          // REAR_TOP CW
-      new MotorMixRule(1.0, -1.0, -1.0, 0.0),          // FRONT_R CCW
-      new MotorMixRule(1.0, 0.0, 1.0, 1.0),          // REAR_BOTTOM CCW
-      new MotorMixRule(1.0, 1.0, -1.0, 0.0),          // FRONT_L CW
+      new MotorMixRule(1.0, 0.0, 1.0, -1.0),            // REAR_TOP CW
+      new MotorMixRule(1.0, -1.0, -1.0, 0.0),           // FRONT_R CCW
+      new MotorMixRule(1.0, 0.0, 1.0, 1.0),             // REAR_BOTTOM CCW
+      new MotorMixRule(1.0, 1.0, -1.0, 0.0),            // FRONT_L CW
     ],
     servoMixer: []
   },
@@ -225,12 +233,12 @@ export const MIXER = [
     legacy: true,
     platform: PLATFORM_TYPE.MULTIROTOR,
     motorMixer: [
-      new MotorMixRule(1.0, -0.5, 0.866025, 1.0),     // REAR_R
-      new MotorMixRule(1.0, -0.5, -0.866025, 1.0),     // FRONT_R
-      new MotorMixRule(1.0, 0.5, 0.866025, -1.0),     // REAR_L
-      new MotorMixRule(1.0, 0.5, -0.866025, -1.0),     // FRONT_L
-      new MotorMixRule(1.0, -1.0, 0.0, -1.0),     // RIGHT
-      new MotorMixRule(1.0, 1.0, 0.0, 1.0),     // LEFT
+      new MotorMixRule(1.0, -0.5, 0.866025, 1.0),       // REAR_R
+      new MotorMixRule(1.0, -0.5, -0.866025, 1.0),      // FRONT_R
+      new MotorMixRule(1.0, 0.5, 0.866025, -1.0),       // REAR_L
+      new MotorMixRule(1.0, 0.5, -0.866025, -1.0),      // FRONT_L
+      new MotorMixRule(1.0, -1.0, 0.0, -1.0),           // RIGHT
+      new MotorMixRule(1.0, 1.0, 0.0, 1.0),             // LEFT
     ],
     servoMixer: []
   },
@@ -243,14 +251,14 @@ export const MIXER = [
     legacy: true,
     platform: PLATFORM_TYPE.MULTIROTOR,
     motorMixer: [
-      new MotorMixRule(1.0, -1.0, 1.0, -1.0),          // REAR_R
-      new MotorMixRule(1.0, -1.0, -1.0, 1.0),          // FRONT_R
-      new MotorMixRule(1.0, 1.0, 1.0, 1.0),          // REAR_L
-      new MotorMixRule(1.0, 1.0, -1.0, -1.0),          // FRONT_L
-      new MotorMixRule(1.0, -1.0, 1.0, 1.0),          // UNDER_REAR_R
+      new MotorMixRule(1.0, -1.0, 1.0, -1.0),           // REAR_R
+      new MotorMixRule(1.0, -1.0, -1.0, 1.0),           // FRONT_R
+      new MotorMixRule(1.0, 1.0, 1.0, 1.0),             // REAR_L
+      new MotorMixRule(1.0, 1.0, -1.0, -1.0),           // FRONT_L
+      new MotorMixRule(1.0, -1.0, 1.0, 1.0),            // UNDER_REAR_R
       new MotorMixRule(1.0, -1.0, -1.0, -1.0),          // UNDER_FRONT_R
-      new MotorMixRule(1.0, 1.0, 1.0, -1.0),          // UNDER_REAR_L
-      new MotorMixRule(1.0, 1.0, -1.0, 1.0),          // UNDER_FRONT_L
+      new MotorMixRule(1.0, 1.0, 1.0, -1.0),            // UNDER_REAR_L
+      new MotorMixRule(1.0, 1.0, -1.0, 1.0),            // UNDER_FRONT_L
     ],
     servoMixer: []
   },
@@ -263,14 +271,14 @@ export const MIXER = [
     legacy: true,
     platform: PLATFORM_TYPE.MULTIROTOR,
     motorMixer: [
-      new MotorMixRule(1.0, 0.707107, -0.707107, 1.0),    // FRONT_L
-      new MotorMixRule(1.0, -0.707107, -0.707107, 1.0),    // FRONT_R
-      new MotorMixRule(1.0, -0.707107, 0.707107, 1.0),    // REAR_R
-      new MotorMixRule(1.0, 0.707107, 0.707107, 1.0),    // REAR_L
-      new MotorMixRule(1.0, 0.0, -1.0, -1.0),              // FRONT
-      new MotorMixRule(1.0, -1.0, 0.0, -1.0),              // RIGHT
-      new MotorMixRule(1.0, 0.0, 1.0, -1.0),              // REAR
-      new MotorMixRule(1.0, 1.0, 0.0, -1.0),              // LEFT
+      new MotorMixRule(1.0, 0.707107, -0.707107, 1.0),  // FRONT_L
+      new MotorMixRule(1.0, -0.707107, -0.707107, 1.0), // FRONT_R
+      new MotorMixRule(1.0, -0.707107, 0.707107, 1.0),  // REAR_R
+      new MotorMixRule(1.0, 0.707107, 0.707107, 1.0),   // REAR_L
+      new MotorMixRule(1.0, 0.0, -1.0, -1.0),           // FRONT
+      new MotorMixRule(1.0, -1.0, 0.0, -1.0),           // RIGHT
+      new MotorMixRule(1.0, 0.0, 1.0, -1.0),            // REAR
+      new MotorMixRule(1.0, 1.0, 0.0, -1.0),            // LEFT
     ],
     servoMixer: []
   },
@@ -283,14 +291,14 @@ export const MIXER = [
     legacy: true,
     platform: PLATFORM_TYPE.MULTIROTOR,
     motorMixer: [
-      new MotorMixRule(1.0, 1.0, -0.414178, 1.0),      // MIDFRONT_L
+      new MotorMixRule(1.0, 1.0, -0.414178, 1.0),       // MIDFRONT_L
       new MotorMixRule(1.0, -0.414178, -1.0, 1.0),      // FRONT_R
-      new MotorMixRule(1.0, -1.0, 0.414178, 1.0),      // MIDREAR_R
-      new MotorMixRule(1.0, 0.414178, 1.0, 1.0),      // REAR_L
+      new MotorMixRule(1.0, -1.0, 0.414178, 1.0),       // MIDREAR_R
+      new MotorMixRule(1.0, 0.414178, 1.0, 1.0),        // REAR_L
       new MotorMixRule(1.0, 0.414178, -1.0, -1.0),      // FRONT_L
-      new MotorMixRule(1.0, -1.0, -0.414178, -1.0),      // MIDFRONT_R
+      new MotorMixRule(1.0, -1.0, -0.414178, -1.0),     // MIDFRONT_R
       new MotorMixRule(1.0, -0.414178, 1.0, -1.0),      // REAR_R
-      new MotorMixRule(1.0, 1.0, 0.414178, -1.0),      // MIDREAR_L
+      new MotorMixRule(1.0, 1.0, 0.414178, -1.0),       // MIDREAR_L
     ],
     servoMixer: []
   },
@@ -346,10 +354,10 @@ export const MIXER = [
     legacy: true,
     platform: PLATFORM_TYPE.MULTIROTOR,
     motorMixer: [
-      new MotorMixRule(1.0, -0.58, 0.58, 1.0),        // REAR_R
-      new MotorMixRule(1.0, -0.46, -0.39, -0.5),       // FRONT_R
-      new MotorMixRule(1.0, 0.58, 0.58, -1.0),        // REAR_L
-      new MotorMixRule(1.0, 0.46, -0.39, 0.5),         // FRONT_L
+      new MotorMixRule(1.0, -0.58, 0.58, 1.0),          // REAR_R
+      new MotorMixRule(1.0, -0.46, -0.39, -0.5),        // FRONT_R
+      new MotorMixRule(1.0, 0.58, 0.58, -1.0),          // REAR_L
+      new MotorMixRule(1.0, 0.46, -0.39, 0.5),          // FRONT_L
     ],
     servoMixer: []
   },
@@ -362,12 +370,12 @@ export const MIXER = [
     legacy: true,
     platform: PLATFORM_TYPE.MULTIROTOR,
     motorMixer: [
-      new MotorMixRule(1.0, -1.0, 1.0, -1.0),     // REAR_R
-      new MotorMixRule(1.0, -1.0, -1.0, 1.0),     // FRONT_R
-      new MotorMixRule(1.0, 1.0, 1.0, 1.0),     // REAR_L
-      new MotorMixRule(1.0, 1.0, -1.0, -1.0),     // FRONT_L
-      new MotorMixRule(1.0, 0.0, 0.0, 0.0),     // RIGHT
-      new MotorMixRule(1.0, 0.0, 0.0, 0.0),     // LEFT
+      new MotorMixRule(1.0, -1.0, 1.0, -1.0),           // REAR_R
+      new MotorMixRule(1.0, -1.0, -1.0, 1.0),           // FRONT_R
+      new MotorMixRule(1.0, 1.0, 1.0, 1.0),             // REAR_L
+      new MotorMixRule(1.0, 1.0, -1.0, -1.0),           // FRONT_L
+      new MotorMixRule(1.0, 0.0, 0.0, 0.0),             // RIGHT
+      new MotorMixRule(1.0, 0.0, 0.0, 0.0),             // LEFT
     ],
     servoMixer: []
   },
@@ -413,10 +421,10 @@ export const MIXER = [
     legacy: true,
     platform: PLATFORM_TYPE.MULTIROTOR,
     motorMixer: [
-      new MotorMixRule(1.0, 0.0, 1.0, 1.0),          // REAR_R
-      new MotorMixRule(1.0, -1.0, -1.0, 0.0),        // FRONT_R
-      new MotorMixRule(1.0, 0.0, 1.0, -1.0),         // REAR_L
-      new MotorMixRule(1.0, 1.0, -1.0, -0.0),        // FRONT_L
+      new MotorMixRule(1.0, 0.0, 1.0, 1.0),             // REAR_R
+      new MotorMixRule(1.0, -1.0, -1.0, 0.0),           // FRONT_R
+      new MotorMixRule(1.0, 0.0, 1.0, -1.0),            // REAR_L
+      new MotorMixRule(1.0, 1.0, -1.0, -0.0),           // FRONT_L
     ],
     servoMixer: []
   },

@@ -40,7 +40,8 @@ import * as InavOsdLayouts from './command/v2/InavOsdLayouts'
 import * as InavOsdSetLayoutItem from './command/v2/InavOsdSetLayoutItem'
 import * as InavMixer from './command/v2/InavMixer'
 import * as CommonMotorMixer from './command/v2/CommonMotorMixer'
-import * as CommonServoMixer from './command/v2/InavServoMixer'
+import * as InavServoMixer from './command/v2/InavServoMixer'
+import * as InavOutputMapping from './command/v2/InavOutputMapping'
 
 
 export const registry = new Registry()
@@ -86,4 +87,5 @@ registry.registerMSPv2Command(InavOsdLayouts)
 registry.registerMSPv2Command(InavOsdSetLayoutItem)
 registry.registerMSPv2Command(InavMixer)
 registry.registerMSPv2Command(CommonMotorMixer)
-registry.registerMSPv2Command(CommonServoMixer)
+registry.registerMSPv2Command(InavServoMixer)
+registry.registerMSPv2Command(InavOutputMapping)

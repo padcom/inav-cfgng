@@ -52,6 +52,7 @@
     "@vitejs/plugin-vue": "^1.2.0",
     "@vue/compiler-sfc": "^3.0.9",
     "acorn-private-methods": "^1.0.0",
+    "array-prototype-functions": "^2.11.0",
     "buffer": "^5.7.1",
     "concurrently": "^6.0.0",
     "date-fns": "^2.19.0",

@@ -28,6 +28,6 @@ export class InavServoMixerResponse extends Response {
       ))
     }
 
-    return result
+    return result.filter(rule => rule.isUsed)
   }
 }

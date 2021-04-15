@@ -1,3 +1,4 @@
+import 'array-prototype-functions/uniq'
 import { Buffer } from 'buffer'
 window.Buffer = Buffer
 
