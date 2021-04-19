@@ -11,6 +11,10 @@ export class MotorMixRule {
   get isUsed() {
     return this.throttle != 0
   }
+
+  clone() {
+    return new MotorMixRule(this.throttle, this.roll, this.pitch, this.yaw)
+  }
 }
 
 export class ServoMixRule {
@@ -24,6 +28,10 @@ export class ServoMixRule {
 
   get isUsed() {
     return this.rate != 0
+  }
+
+  clone() {
+    return new ServoMixRule(this.target, this.input, this.rate, this.speed, this.condition)
   }
 }
 

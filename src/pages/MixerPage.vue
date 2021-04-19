@@ -62,6 +62,9 @@
             </tr>
           </tbody>
         </table>
+        <Row class="panel-actions">
+          <button class="action" @click="addMotorMixer">Add new mixer rule</button>
+        </Row>
       </Panel>
     </Row>
     <Row>
@@ -79,7 +82,7 @@
           </thead>
           <tbody>
             <tr v-for="mixer in servoMixers" :key="mixer.id">
-              <td>{{ mixer.target }}</td>
+              <td style="text-align: center;">{{ mixer.target }}</td>
               <td>{{ mixer.input }}</td>
               <td>{{ mixer.rate }}</td>
               <td>{{ mixer.speed }}</td>
@@ -88,6 +91,9 @@
             </tr>
           </tbody>
         </table>
+        <Row class="panel-actions">
+          <button class="action" @click="addServoMixer">Add new mixer rule</button>
+        </Row>
       </Panel>
     </Row>
   </Page>
@@ -115,7 +121,7 @@ import Dropdown from '../components/editors/Dropdown.vue'
 import { useCommonCommands } from '../composables/common-commands'
 
 import { PLATFORM } from '../models/platform'
-import { MIXER } from '../models/mixer'
+import { MIXER, MotorMixRule, ServoMixRule } from '../models/mixer'
 
 import { InavMixerRequest } from '../command/v2/InavMixer'
 import { InavOutputMappingRequest, OUTPUT_TYPE_FLAG } from '../command/v2/InavOutputMapping'
@@ -189,7 +195,7 @@ export default defineComponent({
     },
     outputs() {
       const result = []
-      const servos = this.servoMixers.map(mixer => mixer.target + 1).uniq()
+      const servos = this.servoMixers.map(mixer => mixer.target).uniq()
       const motors = this.motorMixers.map((mixer, index) => index + 1)
       for (let i = 0; i < this.timerMap.length; i++) {
         if ((this.timerMap[i] & OUTPUT_TYPE_FLAG.SERVO) && (servos.length > 0)) {
@@ -222,7 +228,6 @@ export default defineComponent({
     async loadMainSettings() {
       await this.work(async () => {
         const response = await this.$serial.query(new InavMixerRequest())
-        console.log(response.toString())
         this.platformType = response.platformType
         this.savedPlatformType = response.platformType
         this.numberOfMotors = response.numberOfMotors
@@ -238,7 +243,6 @@ export default defineComponent({
     async loadOutputMapping() {
       await this.work(async () => {
         const response = await this.$serial.query(new InavOutputMappingRequest())
-        console.log(response)
         this.outputMappings = response.mappings
         this.mrTimerMap = response.mrTimerMap
         this.fwTimerMap = response.fwTimerMap
@@ -247,7 +251,6 @@ export default defineComponent({
     async loadMotorMixers() {
       await this.work(async () => {
         const response = await this.$serial.query(new CommonMotorMixerRequest())
-        console.log(response)
         this.motorMixers = response.mixers.map(mixer => ({
           id: uuid(),
           ...mixer,
@@ -257,7 +260,6 @@ export default defineComponent({
     async loadServoMixers() {
       await this.work(async () => {
         const response = await this.$serial.query(new InavServoMixerRequest())
-        console.log(response)
         this.servoMixers = response.mixers
       })
     },
@@ -280,13 +282,28 @@ export default defineComponent({
     },
     async loadMixerTemplate() {
       await this.work(async () => {
-        
+        const template = MIXER.find(mixer => mixer.id === this.mixerType)
+        this.motorMixers = template.motorMixer.map(mixer => mixer.clone())
+        this.servoMixers = template.servoMixer.map(mixer => mixer.clone())
+        this.savedPlatformType = this.platformType
       })
     },
     async loadAndApplyMixerTemplate() {
       await this.loadMixer()
       await this.saveAndReboot()
-    }
+    },
+    addMotorMixer() {
+      this.motorMixers.push(new MotorMixRule(1, 0, 0, 0))
+    },
+    deleteMotorMixer(index, mixer) {
+      this.motorMixers = this.motorMixers.filter(entry => mixer !== entry)
+    },
+    addServoMixer() {
+      this.servoMixers.push(new ServoMixRule(1, 1, 1, 1, 0))
+    },
+    deleteServoMixer(index, mixer) {
+      this.servoMixers = this.servoMixers.filter(entry => mixer !== entry)
+    },
   }
 })
 </script>
@@ -328,6 +345,7 @@ table.mixers {
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
+  margin-bottom: 24px;
 
   tr {
     background-color: #F9F9F9;
