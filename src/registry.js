@@ -39,8 +39,11 @@ import * as AnalogV2 from './command/v2/Analog'
 import * as InavOsdLayouts from './command/v2/InavOsdLayouts'
 import * as InavOsdSetLayoutItem from './command/v2/InavOsdSetLayoutItem'
 import * as InavMixer from './command/v2/InavMixer'
+import * as InavSetMixer from './command/v2/InavSetMixer'
 import * as CommonMotorMixer from './command/v2/CommonMotorMixer'
+import * as CommonSetMotorMixer from './command/v2/CommonSetMotorMixer'
 import * as InavServoMixer from './command/v2/InavServoMixer'
+import * as InavSetServoMixer from './command/v2/InavSetServoMixer'
 import * as InavOutputMapping from './command/v2/InavOutputMapping'
 
 
@@ -86,6 +89,9 @@ registry.registerMSPv2Command(AnalogV2)
 registry.registerMSPv2Command(InavOsdLayouts)
 registry.registerMSPv2Command(InavOsdSetLayoutItem)
 registry.registerMSPv2Command(InavMixer)
+registry.registerMSPv2Command(InavSetMixer)
 registry.registerMSPv2Command(CommonMotorMixer)
+registry.registerMSPv2Command(CommonSetMotorMixer)
 registry.registerMSPv2Command(InavServoMixer)
+registry.registerMSPv2Command(InavSetServoMixer)
 registry.registerMSPv2Command(InavOutputMapping)

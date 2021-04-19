@@ -5,6 +5,7 @@
       <Column>
         <Panel title="Platform Configuration">
           <DropdownField label="Platform type" v-model.number="platformType" :options="platformTypes" />
+          <BoolField v-show="platformType == 1" label="Has flaps" v-model.number="hasFlaps" />
         </Panel>
       </Column>
       <Column>
@@ -54,11 +55,21 @@
           <tbody>
             <tr v-for="(mixer, index) in motorMixers" :key="mixer.id">
               <td style="text-align: center;">{{ index + 1 }}</td>
-              <td>{{ mixer.throttle }}</td>
-              <td>{{ mixer.roll }}</td>
-              <td>{{ mixer.pitch }}</td>
-              <td>{{ mixer.yaw }}</td>
-              <td><button @click="deleteMotorMixer(index, mixer)">Delete</button></td>
+              <td>
+                <input type="number" v-model.number="mixer.throttle" min="0" max="1" step="0.001" style="width: 100%;" />
+              </td>
+              <td>
+                <input type="number" v-model.number="mixer.roll" min="-2" max="2" step="0.001" style="width: 100%;" />
+              </td>
+              <td>
+                <input type="number" v-model.number="mixer.pitch" min="-2" max="2" step="0.001" style="width: 100%;" />
+              </td>
+              <td>
+                <input type="number" v-model.number="mixer.yaw" min="-2" max="2" step="0.001" style="width: 100%;" />
+              </td>
+              <td>
+                <button @click="deleteMotorMixer(index, mixer)">Delete</button>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -82,12 +93,97 @@
           </thead>
           <tbody>
             <tr v-for="mixer in servoMixers" :key="mixer.id">
-              <td style="text-align: center;">{{ mixer.target }}</td>
-              <td>{{ mixer.input }}</td>
-              <td>{{ mixer.rate }}</td>
-              <td>{{ mixer.speed }}</td>
-              <td>{{ mixer.condition }}</td>
-              <td><button @click="deleteServoMixer(index, mixer)">Delete</button></td>
+              <td style="text-align: center;">
+                <input type="number" v-model.number="mixer.target" style="width: 100%;" />
+              </td>
+              <td style="text-align: center;">
+                <Dropdown v-model.number="mixer.input" :options="[
+                  { value: 0, label: 'Stabilized Roll' },
+                  { value: 1, label: 'Stabilized Pitch' },
+                  { value: 2, label: 'Stabilized Yaw' },
+                  { value: 3, label: 'Stabilized Throttle' },
+                  { value: 4, label: 'RC Roll' },
+                  { value: 5, label: 'RC Pitch' },
+                  { value: 6, label: 'RC Yaw' },
+                  { value: 7, label: 'RC Throttle' },
+                  { value: 8, label: 'RC Channel 5' },
+                  { value: 9, label: 'RC Channel 6' },
+                  { value: 10, label: 'RC Channel 7' },
+                  { value: 11, label: 'RC Channel 8' },
+                  { value: 12, label: 'Gimbal Pitch' },
+                  { value: 13, label: 'Gimbal Roll' },
+                  { value: 14, label: 'Flaps' },
+                  { value: 15, label: 'RC Channel 9' },
+                  { value: 16, label: 'RC Channel 10' },
+                  { value: 17, label: 'RC Channel 11' },
+                  { value: 18, label: 'RC Channel 12' },
+                  { value: 19, label: 'RC Channel 13' },
+                  { value: 20, label: 'RC Channel 14' },
+                  { value: 21, label: 'RC Channel 15' },
+                  { value: 22, label: 'RC Channel 16' },
+                  { value: 23, label: 'Stabilized Roll+' },
+                  { value: 24, label: 'Stabilized Roll-' },
+                  { value: 25, label: 'Stabilized Pitch+' },
+                  { value: 26, label: 'Stabilized Pitch-' },
+                  { value: 27, label: 'Stabilized Yaw+' },
+                  { value: 28, label: 'Stabilized Yaw-' },
+                  { value: 29, label: 'MAX' },
+                  { value: 30, label: 'GVAR 0' },
+                  { value: 31, label: 'GVAR 1' },
+                  { value: 32, label: 'GVAR 2' },
+                  { value: 33, label: 'GVAR 3' },
+                  { value: 34, label: 'GVAR 4' },
+                  { value: 35, label: 'GVAR 5' },
+                  { value: 36, label: 'GVAR 6' },
+                  { value: 37, label: 'GVAR 7' },
+                ]" />
+              </td>
+              <td>
+                <input type="number" v-model.number="mixer.rate" min="-1000" max="1000" style="width: 100%;" />
+              </td>
+              <td>
+                <input type="number" v-model.number="mixer.rate" min="0" max="255" style="width: 100%;" />
+              </td>
+              <td style="text-align: center;">
+                <Dropdown v-model.number="mixer.condition" :options="[
+                  { value: -1, label: 'Always' },
+                  { value: 0, label: 'Logic condition 0' },
+                  { value: 1, label: 'Logic condition 1' },
+                  { value: 2, label: 'Logic condition 2' },
+                  { value: 3, label: 'Logic condition 3' },
+                  { value: 4, label: 'Logic condition 4' },
+                  { value: 5, label: 'Logic condition 5' },
+                  { value: 6, label: 'Logic condition 6' },
+                  { value: 7, label: 'Logic condition 7' },
+                  { value: 8, label: 'Logic condition 8' },
+                  { value: 9, label: 'Logic condition 9' },
+                  { value: 10, label: 'Logic condition 10' },
+                  { value: 11, label: 'Logic condition 11' },
+                  { value: 12, label: 'Logic condition 12' },
+                  { value: 13, label: 'Logic condition 13' },
+                  { value: 14, label: 'Logic condition 14' },
+                  { value: 15, label: 'Logic condition 15' },
+                  { value: 16, label: 'Logic condition 16' },
+                  { value: 17, label: 'Logic condition 17' },
+                  { value: 18, label: 'Logic condition 18' },
+                  { value: 19, label: 'Logic condition 19' },
+                  { value: 20, label: 'Logic condition 20' },
+                  { value: 21, label: 'Logic condition 21' },
+                  { value: 22, label: 'Logic condition 22' },
+                  { value: 23, label: 'Logic condition 23' },
+                  { value: 24, label: 'Logic condition 24' },
+                  { value: 25, label: 'Logic condition 25' },
+                  { value: 26, label: 'Logic condition 26' },
+                  { value: 27, label: 'Logic condition 27' },
+                  { value: 28, label: 'Logic condition 28' },
+                  { value: 29, label: 'Logic condition 29' },
+                  { value: 30, label: 'Logic condition 30' },
+                  { value: 31, label: 'Logic condition 31' },
+                ]" />
+              </td>
+              <td>
+                <button @click="deleteServoMixer(index, mixer)">Delete</button>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -116,6 +212,7 @@ import Panel from '../components/common/Panel.vue'
 import Actions from '../components/Actions.vue'
 
 import DropdownField from '../components/editors/DropdownField.vue'
+import BoolField from '../components/editors/BoolField.vue'
 import Dropdown from '../components/editors/Dropdown.vue'
 
 import { useCommonCommands } from '../composables/common-commands'
@@ -124,9 +221,12 @@ import { PLATFORM } from '../models/platform'
 import { MIXER, MotorMixRule, ServoMixRule } from '../models/mixer'
 
 import { InavMixerRequest } from '../command/v2/InavMixer'
+import { InavSetMixerRequest } from '../command/v2/InavSetMixer'
 import { InavOutputMappingRequest, OUTPUT_TYPE_FLAG } from '../command/v2/InavOutputMapping'
 import { CommonMotorMixerRequest } from '../command/v2/CommonMotorMixer'
+import { CommonSetMotorMixerRequest } from '../command/v2/CommonSetMotorMixer'
 import { InavServoMixerRequest } from '../command/v2/InavServoMixer'
+import { InavSetServoMixerRequest } from '../command/v2/InavSetServoMixer'
 
 export default defineComponent({
   name: 'MixersPage',
@@ -139,6 +239,7 @@ export default defineComponent({
     Actions,
     DropdownField,
     Dropdown,
+    BoolField,
   },
   setup() {
     const { saveSettingsToEeprom, work, reboot } = useCommonCommands()
@@ -151,6 +252,7 @@ export default defineComponent({
     return {
       platformType: 0,
       savedPlatformType: 0,
+      hasFlaps: 0,
       mixerType: 0,
       numberOfMotors: 0,
       numberOfServos: 0,
@@ -195,7 +297,7 @@ export default defineComponent({
     },
     outputs() {
       const result = []
-      const servos = this.servoMixers.map(mixer => mixer.target).uniq()
+      const servos = this.servoMixers.map(mixer => mixer.target).uniq().sort()
       const motors = this.motorMixers.map((mixer, index) => index + 1)
       for (let i = 0; i < this.timerMap.length; i++) {
         if ((this.timerMap[i] & OUTPUT_TYPE_FLAG.SERVO) && (servos.length > 0)) {
@@ -230,6 +332,9 @@ export default defineComponent({
         const response = await this.$serial.query(new InavMixerRequest())
         this.platformType = response.platformType
         this.savedPlatformType = response.platformType
+        this.yawMotorDirection = response.yawMotorDirection
+        this.yawJumpPreventionLimit = response.yawJumpPreventionLimit
+        this.hasFlaps = response.hasFlaps
         this.numberOfMotors = response.numberOfMotors
         this.numberOfServos = response.numberOfServos
         // this is due to synchronization of this.platformType and this.mixerType
@@ -251,10 +356,7 @@ export default defineComponent({
     async loadMotorMixers() {
       await this.work(async () => {
         const response = await this.$serial.query(new CommonMotorMixerRequest())
-        this.motorMixers = response.mixers.map(mixer => ({
-          id: uuid(),
-          ...mixer,
-        }))
+        this.motorMixers = response.mixers
       })
     },
     async loadServoMixers() {
@@ -269,16 +371,40 @@ export default defineComponent({
       await this.loadMotorMixers()
       await this.loadServoMixers()
     },
+    async saveMainSettings() {
+      await this.$serial.query(new InavSetMixerRequest(
+        this.yawMotorDirection,
+        this.yawJumpPreventionLimit,
+        this.savedPlatformType,
+        this.hasFlaps,
+        this.mixerType
+      ), 1000)
+    },
+    async saveMotorMixers() {
+      for (let i = 0; i < 12; i++) {
+        const mixer = this.motorMixers.length > i ? this.motorMixers[i] : MotorMixRule.empty()
+        await this.$serial.query(new CommonSetMotorMixerRequest(i, mixer))
+      }
+    },
+    async saveServoMixers() {
+      for (let i = 0; i < 16; i++) {
+        const mixer = this.servoMixers.length > i ? this.servoMixers[i] : ServoMixRule.empty()
+        await this.$serial.query(new InavSetServoMixerRequest(i, mixer))
+      }
+    },
     async save() {
-      await this.work(async () => {
-        await this.saveSettingsToEeprom()
-        this.$log.info('Settings saved')
-      })
+      await this.saveMainSettings()
+      await this.saveMotorMixers()
+      await this.saveServoMixers()
+      await this.saveSettingsToEeprom()
+      this.$log.info('Settings saved')
     },
     async saveAndReboot() {
-      await this.save()
-      await this.reboot()
-      this.$router.push('/outputs')
+      await this.work(async () => {
+        await this.save()
+        await this.reboot()
+      })
+      this.$router.push('/mixer')
     },
     async loadMixerTemplate() {
       await this.work(async () => {
@@ -311,7 +437,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 .mixer-type {
   height: 20px;
-  // margin-top: 10px;
   margin-left: 24px;
 }
 

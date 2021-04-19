@@ -1,7 +1,9 @@
+import { v4 as uuid } from 'uuid'
 import { PLATFORM_TYPE } from './platform'
 
 export class MotorMixRule {
   constructor(throttle, roll, pitch, yaw) {
+    this.id = uuid()
     this.throttle = throttle
     this.roll = roll
     this.pitch = pitch
@@ -15,10 +17,15 @@ export class MotorMixRule {
   clone() {
     return new MotorMixRule(this.throttle, this.roll, this.pitch, this.yaw)
   }
+  
+  static empty() {
+    return new MotorMixRule(0, 0, 0, 0)
+  }
 }
 
 export class ServoMixRule {
   constructor(target, input, rate, speed, condition) {
+    this.id = uuid()
     this.target = target
     this.input = input
     this.rate = rate
@@ -32,6 +39,10 @@ export class ServoMixRule {
 
   clone() {
     return new ServoMixRule(this.target, this.input, this.rate, this.speed, this.condition)
+  }
+  
+  static empty() {
+    return new ServoMixRule(0, 0, 0, 0, 0)
   }
 }
 
@@ -85,7 +96,7 @@ export const MIXER = [
       new MotorMixRule(1.0, 1.0, -0.666667, 0.0),       // LEFT
     ],
     servoMixer: [
-      new ServoMixRule(SERVO.RUDDER, INPUT.STABILIZED_YAW, 100, 0),
+      new ServoMixRule(SERVO.RUDDER, INPUT.STABILIZED_YAW, 100, 0, -1),
     ]
   },
   {
@@ -191,10 +202,10 @@ export const MIXER = [
       new MotorMixRule(1.0, 0.0, 0.0, 0.0),
     ],
     servoMixer: [
-      new ServoMixRule(SERVO.FLAPPERON_1, INPUT.STABILIZED_ROLL,  50, 0),
-      new ServoMixRule(SERVO.FLAPPERON_1, INPUT.STABILIZED_PITCH, 50, 0),
-      new ServoMixRule(SERVO.FLAPPERON_2, INPUT.STABILIZED_ROLL, -50, 0),
-      new ServoMixRule(SERVO.FLAPPERON_2, INPUT.STABILIZED_PITCH, 50, 0),
+      new ServoMixRule(SERVO.FLAPPERON_1, INPUT.STABILIZED_ROLL,  50, 0, -1),
+      new ServoMixRule(SERVO.FLAPPERON_1, INPUT.STABILIZED_PITCH, 50, 0, -1),
+      new ServoMixRule(SERVO.FLAPPERON_2, INPUT.STABILIZED_ROLL, -50, 0, -1),
+      new ServoMixRule(SERVO.FLAPPERON_2, INPUT.STABILIZED_PITCH, 50, 0, -1),
     ]
   },
   {
@@ -210,10 +221,10 @@ export const MIXER = [
       new MotorMixRule(1.0, 0.0, 0.0, -0.1)
     ],
     servoMixer: [
-      new ServoMixRule(SERVO.FLAPPERON_1, INPUT.STABILIZED_ROLL,  50, 0),
-      new ServoMixRule(SERVO.FLAPPERON_1, INPUT.STABILIZED_PITCH, 50, 0),
-      new ServoMixRule(SERVO.FLAPPERON_2, INPUT.STABILIZED_ROLL, -50, 0),
-      new ServoMixRule(SERVO.FLAPPERON_2, INPUT.STABILIZED_PITCH, 50, 0),
+      new ServoMixRule(SERVO.FLAPPERON_1, INPUT.STABILIZED_ROLL,  50, 0, -1),
+      new ServoMixRule(SERVO.FLAPPERON_1, INPUT.STABILIZED_PITCH, 50, 0, -1),
+      new ServoMixRule(SERVO.FLAPPERON_2, INPUT.STABILIZED_ROLL, -50, 0, -1),
+      new ServoMixRule(SERVO.FLAPPERON_2, INPUT.STABILIZED_PITCH, 50, 0, -1),
     ]
   },
   {
@@ -323,12 +334,12 @@ export const MIXER = [
       new MotorMixRule(1.0, 0.0, 0.0, 0.0),
     ],
     servoMixer: [
-      new ServoMixRule(SERVO.ELEVATOR,    INPUT.STABILIZED_PITCH, 100, 0),
-      new ServoMixRule(SERVO.FLAPPERON_1, INPUT.STABILIZED_ROLL,  100, 0),
-      new ServoMixRule(SERVO.FLAPPERON_1, INPUT.FEATURE_FLAPS,    100, 0),
-      new ServoMixRule(SERVO.FLAPPERON_2, INPUT.STABILIZED_ROLL,  100, 0),
-      new ServoMixRule(SERVO.FLAPPERON_2, INPUT.FEATURE_FLAPS,   -100, 0),
-      new ServoMixRule(SERVO.RUDDER,      INPUT.STABILIZED_YAW,   100, 0),
+      new ServoMixRule(SERVO.ELEVATOR,    INPUT.STABILIZED_PITCH, 100, 0, -1),
+      new ServoMixRule(SERVO.FLAPPERON_1, INPUT.STABILIZED_ROLL,  100, 0, -1),
+      new ServoMixRule(SERVO.FLAPPERON_1, INPUT.FEATURE_FLAPS,    100, 0, -1),
+      new ServoMixRule(SERVO.FLAPPERON_2, INPUT.STABILIZED_ROLL,  100, 0, -1),
+      new ServoMixRule(SERVO.FLAPPERON_2, INPUT.FEATURE_FLAPS,   -100, 0, -1),
+      new ServoMixRule(SERVO.RUDDER,      INPUT.STABILIZED_YAW,   100, 0, -1),
     ]
   },
   {
@@ -482,12 +493,12 @@ export const MIXER = [
       new MotorMixRule(1.0, 0.0, 0.0, -0.3)
     ],
     servoMixer: [
-      new ServoMixRule(SERVO.ELEVATOR,    INPUT.STABILIZED_PITCH, 100, 0),
-      new ServoMixRule(SERVO.FLAPPERON_1, INPUT.STABILIZED_ROLL,  100, 0),
-      new ServoMixRule(SERVO.FLAPPERON_1, INPUT.FEATURE_FLAPS,    100, 0),
-      new ServoMixRule(SERVO.FLAPPERON_2, INPUT.STABILIZED_ROLL,  100, 0),
-      new ServoMixRule(SERVO.FLAPPERON_2, INPUT.FEATURE_FLAPS,   -100, 0),
-      new ServoMixRule(SERVO.RUDDER,      INPUT.STABILIZED_YAW,   100, 0),
+      new ServoMixRule(SERVO.ELEVATOR,    INPUT.STABILIZED_PITCH, 100, 0, -1),
+      new ServoMixRule(SERVO.FLAPPERON_1, INPUT.STABILIZED_ROLL,  100, 0, -1),
+      new ServoMixRule(SERVO.FLAPPERON_1, INPUT.FEATURE_FLAPS,    100, 0, -1),
+      new ServoMixRule(SERVO.FLAPPERON_2, INPUT.STABILIZED_ROLL,  100, 0, -1),
+      new ServoMixRule(SERVO.FLAPPERON_2, INPUT.FEATURE_FLAPS,   -100, 0, -1),
+      new ServoMixRule(SERVO.RUDDER,      INPUT.STABILIZED_YAW,   100, 0, -1),
     ]
   },
   {
@@ -502,12 +513,12 @@ export const MIXER = [
       new MotorMixRule(1.0, 0.0, 0.0, 0.0),
     ],
     servoMixer: [
-      new ServoMixRule(2, INPUT.STABILIZED_ROLL,  100, 0),
-      new ServoMixRule(3, INPUT.STABILIZED_ROLL,  100, 0),
-      new ServoMixRule(4, INPUT.STABILIZED_PITCH, 50, 0),
-      new ServoMixRule(4, INPUT.STABILIZED_YAW,   -50, 0),
-      new ServoMixRule(5, INPUT.STABILIZED_PITCH, -50, 0),
-      new ServoMixRule(5, INPUT.STABILIZED_YAW,   -50, 0)
+      new ServoMixRule(2, INPUT.STABILIZED_ROLL,  100, 0, -1),
+      new ServoMixRule(3, INPUT.STABILIZED_ROLL,  100, 0, -1),
+      new ServoMixRule(4, INPUT.STABILIZED_PITCH, 50, 0, -1),
+      new ServoMixRule(4, INPUT.STABILIZED_YAW,   -50, 0, -1),
+      new ServoMixRule(5, INPUT.STABILIZED_PITCH, -50, 0, -1),
+      new ServoMixRule(5, INPUT.STABILIZED_YAW,   -50, 0, -1)
     ]
   },
   {
@@ -522,11 +533,11 @@ export const MIXER = [
       new MotorMixRule(1.0, 0.0, 0.0, 0.0),
     ],
     servoMixer: [
-      new ServoMixRule(2, INPUT.STABILIZED_ROLL,  100, 0),
-      new ServoMixRule(3, INPUT.STABILIZED_PITCH, 50, 0),
-      new ServoMixRule(3, INPUT.STABILIZED_YAW,   -50, 0),
-      new ServoMixRule(4, INPUT.STABILIZED_PITCH, -50, 0),
-      new ServoMixRule(4, INPUT.STABILIZED_YAW,   -50, 0),
+      new ServoMixRule(2, INPUT.STABILIZED_ROLL,  100, 0, -1),
+      new ServoMixRule(3, INPUT.STABILIZED_PITCH, 50, 0, -1),
+      new ServoMixRule(3, INPUT.STABILIZED_YAW,   -50, 0, -1),
+      new ServoMixRule(4, INPUT.STABILIZED_PITCH, -50, 0, -1),
+      new ServoMixRule(4, INPUT.STABILIZED_YAW,   -50, 0, -1),
     ]
   },
   {
@@ -541,9 +552,9 @@ export const MIXER = [
       new MotorMixRule(1.0, 0.0, 0.0, 0.0),
     ],
     servoMixer: [
-      new ServoMixRule(SERVO.ELEVATOR,    INPUT.STABILIZED_PITCH, 100, 0),
-      new ServoMixRule(SERVO.FLAPPERON_1, INPUT.STABILIZED_ROLL,  100, 0),
-      new ServoMixRule(SERVO.FLAPPERON_2, INPUT.STABILIZED_ROLL,  100, 0),
+      new ServoMixRule(SERVO.ELEVATOR,    INPUT.STABILIZED_PITCH, 100, 0, -1),
+      new ServoMixRule(SERVO.FLAPPERON_1, INPUT.STABILIZED_ROLL,  100, 0, -1),
+      new ServoMixRule(SERVO.FLAPPERON_2, INPUT.STABILIZED_ROLL,  100, 0, -1),
     ]
   },
   {
@@ -558,7 +569,7 @@ export const MIXER = [
       new MotorMixRule(1.0, 0.0, 0.0, 0.0),
     ],
     servoMixer: [
-      new ServoMixRule(3, INPUT.STABILIZED_YAW,  100, 0),
+      new ServoMixRule(3, INPUT.STABILIZED_YAW,  100, 0, -1),
     ]
   },
   {
@@ -573,7 +584,7 @@ export const MIXER = [
       new MotorMixRule(1.0, 0.0, 0.0, 0.0),
     ],
     servoMixer: [
-      new ServoMixRule(3, INPUT.STABILIZED_YAW,  100, 0),
+      new ServoMixRule(3, INPUT.STABILIZED_YAW,  100, 0, -1),
     ]
   },
   {
@@ -588,7 +599,7 @@ export const MIXER = [
       new MotorMixRule(1.0, 0.0, 0.0, 0.0),
     ],
     servoMixer: [
-      new ServoMixRule(3, INPUT.STABILIZED_YAW,  100, 0),
+      new ServoMixRule(3, INPUT.STABILIZED_YAW,  100, 0, -1),
     ]
   }                 
 ]
